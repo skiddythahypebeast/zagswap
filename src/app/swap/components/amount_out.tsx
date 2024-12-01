@@ -1,0 +1,116 @@
+"use client"
+
+import { useCurrency, useTrimSuffix } from "../hooks";
+import { chainColors, type GetCurrencyResponse } from "../models";
+import { InputContainer } from "./input_container";
+import Image from "next/image";
+import { TokenSearch } from "./token_search";
+import { Receiver } from "./receiver";
+
+interface AmountOutProps {
+    outputCurrency: string,
+    loadingRate: boolean,
+    amount: number,
+    amountIn: number | undefined,
+    showList: boolean,
+    items: GetCurrencyResponse[] | undefined,
+    onReceiverChanged: (address: string) => void,
+    onSelect: (symbol: string) => void,
+    onToggleList: (toggle: boolean) => void,
+}
+export const AmountOut = ({ outputCurrency, onReceiverChanged, amountIn, loadingRate, onSelect: select, amount, onToggleList, showList, items }: AmountOutProps) =>  {
+    const { state: currency } = useCurrency(outputCurrency, items);
+
+    const onSelect = (item: string) => select(item);
+    const onOpen = () => onToggleList(true);
+    const onClose = () => onToggleList(false);
+    const trim = useTrimSuffix();
+
+    return (
+        <div className="flex flex-col w-full gap-2">
+            <div className="relative h-14 w-full">
+                <TokenInput
+                    item={currency.response}
+                    loadingRate={loadingRate} 
+                    loadingCurrency={currency.loading} 
+                    showList={onOpen}
+                    amountIn={amountIn}
+                    amount={amount} 
+                />
+                {showList && <div className="absolute inset-0 z-10">
+                    <TokenSearch
+                        current={trim(currency?.response?.symbol)}
+                        close={onClose} 
+                        items={items}
+                        onSelect={onSelect} 
+                    />
+                </div>}
+            </div>
+            <Receiver 
+                currency={currency}
+                loadingRate={loadingRate} 
+                onChange={onReceiverChanged}/>
+        </div>
+    )
+}
+
+interface TokenInputProps {
+    item: GetCurrencyResponse | undefined,
+    amount: number,
+    loadingRate: boolean,
+    amountIn: number | undefined,
+    loadingCurrency: boolean,
+    showList: () => void,
+}
+export const TokenInput = ({ item, loadingCurrency, loadingRate, amount, amountIn, showList }: TokenInputProps) => {
+    const trim = useTrimSuffix();
+    return (
+        <InputContainer position="center">
+            <div className="flex-1 h-full relative group flex flex-row items-center xl:px-5 lg:px-5 md:px-5 px-3 xl:gap-5 lg:gap-5 gap-2 opacity-80">
+                <p className="text-sm font-semibold opacity-50">receive</p>
+                <input 
+                    type="number" 
+                    value={amount > 0 ? amount : ""}
+                    disabled
+                    readOnly
+                    className={`font-mono h-full w-full text-black outline-none xl:text-xl lg:text-xl md:text-xl text-lg py-2 bg-transparent rounded-md`}
+                    placeholder={"0.0"}
+                    min="0.0"
+                    pattern="\d\.\d{2}"
+                    step="0.01"
+                />
+                {amountIn && amountIn > 0 && loadingRate && <div className="absolute opacity-50 right-5 h-full flex items-center justify-center">
+                    <Image src="/icons/spinner.svg" className="animate-spin" alt="" height={20} width={20} />
+                </div>}
+            </div>
+
+            {!loadingCurrency && item && <button type="button" className="xl:flex lg:flex md:flex hidden flex-row h-full gap-2 items-center justify-between py-2 px-5 rounded-r-lg xl:max-w-52 lg:max-w-52 md:max-w-52 w-1/2 bg-slate-100" onClick={showList}>
+                <Image src={item.image} alt="" height={20} width={20} />
+                <p className="font-bold">{trim(item.symbol)?.toUpperCase()}</p>
+                    <div className="rounded-full flex items-center justify-center" style={{ 
+                            backgroundColor: chainColors[item.network], 
+                            color: chainColors[item.network] 
+                    }}>
+                    <p className="text-xs text-white px-2 font-bold">{item.network.toUpperCase()}</p>
+                </div>
+                <Image src="/icons/chevron-down.svg" alt="" height={15} width={15} />
+            </button>}
+
+            {!loadingCurrency && item && <button type="button" className="xl:hidden lg:hidden md:hidden flex flex-row h-full gap-1 items-center justify-between py-2 px-5 rounded-r-lg xl:max-w-52 lg:max-w-52 md:max-w-52 w-1/2 bg-slate-100" onClick={showList}>
+                <Image src={item.image} alt="" height={15} width={15} />
+                <p className="font-bold text-sm">{trim(item.symbol)?.toUpperCase()}</p>
+                    <div className="rounded-full flex items-center justify-center" style={{ 
+                            backgroundColor: chainColors[item.network], 
+                            color: chainColors[item.network] 
+                    }}>
+                    <p className="text-xs text-white px-2 font-bold">{item.network.toUpperCase()}</p>
+                </div>
+                <Image src="/icons/chevron-down.svg" alt="" height={10} width={10} />
+            </button>}
+
+            {loadingCurrency && <button type="button" className="flex flex-row h-full gap-2 justify-center items-center py-2 px-5 rounded-r-lg xl:max-w-52 lg:max-w-52 md:max-w-52 w-1/2 bg-slate-100">
+                <Image src="/icons/spinner.svg" className="animate-spin opacity-50" alt="" height={20} width={20} />
+            </button>}
+        </InputContainer>
+    )
+}

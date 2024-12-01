@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.gradient-loader {
+    background: repeating-linear-gradient(to right, transparent, #00000020, transparent);
+    background-size: 200% auto;
+    background-position: 0 100%;
+    animation: gradient 2s infinite;
+    animation-fill-mode: forwards;
+    animation-timing-function: linear;
+  }
+  
+  @keyframes gradient { 
+    0%   { background-position: 0 0; }
+    100% { background-position: -200% 0; }
+  }
+
+/* .gradient-loader {
+    background: linear-gradient(90deg, transparent, #00000020, transparent);
+    background-size: 200%;
+    animation: gradient 1s linear infinite;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0%;
+    }
+    100% {
+        background-position: 100%;
+    }
+} */
+
+.fade-in {
+    animation: fade_in 0.5s; 
+}
+
+@keyframes fade_in {
+    from { opacity: 0 }
+    to { opacity: 100 }
+}

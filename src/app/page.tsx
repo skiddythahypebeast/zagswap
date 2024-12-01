@@ -1,0 +1,22 @@
+import Link from "next/link";
+
+export default function HomePage() {
+  return (
+    <main className="flex min-h-screen flex-col gap-5 items-center justify-center bg-gradient-to-b text-stone-800">
+      <h1 className="xl:text-5xl lg:text-5xl md:text-4xl text-3xl font-bold text-center">Private Swap Dex</h1>
+      <div className="grid xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-2 grid-cols-1 gap-5 xl:w-1/3 lg:w-1/2 md:w-1/2 w-[95vw]">
+        <Card href="/swap" title="SWAP" info="Swap 1000's of tokens across 300 different chains"/>
+        <Card href="/order/1iqzcjxcy17hg18e" title="ORDERS" info="Track and fulfil pending orders"/>
+      </div>
+    </main>
+  );
+}
+
+const Card = ({ title, href, info }: { title: string, href: string, info: string }) => {
+  return (
+    <Link href={href} className="bg-blue-400 shadow-sm shadow-[#00000050] grid-item rounded-lg p-5 text-white">
+      <h2 className="font-bold">{title}</h2>
+      <p className="text-sm opacity-80">{info}</p>
+    </Link>
+  )
+}
