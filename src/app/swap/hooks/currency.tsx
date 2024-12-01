@@ -26,8 +26,6 @@ export const useRange = (currentPair: CurrentPairState, fixed: boolean) => {
 
     useEffect(() => {
         setState({ loading: true, error: undefined, response: undefined });
-        console.log("LOADING RANGE");
-        console.log(currentPair.loading, currentPair.isActive);
 
         if (!currentPair.loading && currentPair.isActive) {
             void (async () => {
@@ -42,7 +40,6 @@ export const useRange = (currentPair: CurrentPairState, fixed: boolean) => {
                         console.error(response);
                         setState(prev => ({ ...prev, error: response, loading: false }));
                     } else {
-                        console.info(response);
                         setState(prev => ({ ...prev, response, loading: false }));
                     }
                 })
@@ -140,7 +137,6 @@ export const useAllCurrencies = () => {
                     chains.push(result.network);
                 }
             }
-            console.log(chains);
         }
     }, [state.response]);
 

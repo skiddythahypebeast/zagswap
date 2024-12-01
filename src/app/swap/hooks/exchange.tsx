@@ -29,7 +29,6 @@ export const useExchange = (amountIn: number | undefined, range: UseRangeState, 
                 console.error(response);
                 setState(prev => ({ ...prev, error: response, loading: false }));
             } else {
-                console.info(response)
                 setState(prev => ({ 
                     ...prev, 
                     response, 

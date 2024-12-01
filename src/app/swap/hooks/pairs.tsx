@@ -24,7 +24,6 @@ export const useAllPairs = (fixed: boolean) => {
                     console.error(response);
                     setState(prev => ({ ...prev, error: response as RequestError, loading: false }));
                 } else {
-                    console.info(response);
                     setState(prev => ({ ...prev, response, loading: false }));
                 }
             })
@@ -124,7 +123,6 @@ export const usePairs = (tokenA: string, allPairs: GetPairsResponse | undefined,
                     console.error(response);
                     setState(prev => ({ ...prev, error: response, loading: false }));
                 } else {
-                    console.info(response);
                     setState(prev => ({ ...prev, response, loading: false }));
                 }
             })
