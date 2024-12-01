@@ -6,7 +6,7 @@ import type { RequestError, GetCurrencyResponse, UseCurrencyState, UseRangeState
 import { RequestType } from "../models/request";
 
 export const useTrimSuffix = () => {
-    return (symbol: string | undefined) => {
+    return useCallback((symbol: string | undefined) => {
         let updated_name = symbol;
         for (const suffix of chain_suffixes) {
             if (updated_name !== suffix && updated_name?.endsWith(suffix)) {
@@ -14,7 +14,7 @@ export const useTrimSuffix = () => {
             }
         }
         return updated_name
-    };
+    }, []);
 }
 
 export const useRange = (currentPair: CurrentPairState, fixed: boolean) => {
