@@ -15,7 +15,7 @@ export const Modal = ({ children }: { children: ReactNode }) => {
                     <Image src="/icons/x-mark.svg" alt="" height={15} width={15} />
                 </button>
             </nav>
-            <div className="z-30 absolute w-full bottom-0 xl:h-full lg:h-full top-0 h-screen backdrop-blur-sm flex flex-row justify-end">
+            <div className="z-30 absolute w-full bottom-0 xl:h-full lg:h-full top-0 backdrop-blur-sm flex flex-row justify-end">
                 <div className="bg-white py-10 shadow-2xl shadow-[#00000050] flex items-center justify-center xl:w-[600px] lg:w-[600px] md:w-[600px] w-full">
                     {children}
                 </div>

@@ -21,7 +21,7 @@ export const SwapForm = ({ outputCurrency, inputCurrency }: { outputCurrency: st
     const { form, exchange, handleAmountInChange, handleReceiverChange, submit } = useSimpleSwapForm(currentPair, range, fixed, itemB.response?.validation_address);
 
     return (
-        <form onSubmit={submit} className="flex flex-col items-center justify-start gap-1">
+        <form onSubmit={submit} className="w-full flex flex-col items-center justify-start gap-1">
           <AmountIn
             range={range}
             pair={currentPair}

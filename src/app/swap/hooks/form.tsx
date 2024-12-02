@@ -87,6 +87,7 @@ export const useSimpleSwapForm = (currentPair: CurrentPairState, range: UseRange
                 currency_from: currentPair.inputCurrency,
                 currency_to: currentPair.outputCurrency,
                 extra_id_to: "",
+                // TODO - use system refund addresses
                 user_refund_address: "",
                 user_refund_extra_id: ""
             }

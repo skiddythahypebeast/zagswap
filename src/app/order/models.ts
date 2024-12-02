@@ -1,11 +1,13 @@
 import { type GetCurrencyResponse } from "../swap/models";
 
+export type OrderStatus = "confirming" | "exchanging" | "expired" | "finished" | "sending" | "refunded" | "verifying" | "confirmed" | "failed" | "pending" | "waiting";
+
 export interface GetOrderResponse {
     id: string;
-    type: "fixed" | "variable";
+    type: "fixed" | "floating";
     timestamp: string;
     updated_at: string;
-    valid_until: string;
+    valid_until: string | null;
     currency_from: string;
     currency_to: string;
     amount_from: string;
@@ -13,13 +15,14 @@ export interface GetOrderResponse {
     amount_to: string;
     address_from: string;
     address_to: string;
-    extra_id_from?: string;
-    extra_id_to?: string;
-    user_refund_address?: string;
-    user_refund_extra_id?: string;
-    tx_from?: string;
-    tx_to?: string;
-    status: "confirming" | "confirmed" | "failed" | "pending";
-    redirect_url: string;
-    currencies: Record<string, GetCurrencyResponse>
+    extra_id_from: string | null;
+    extra_id_to: string | null;
+    user_refund_address: string | null;
+    user_refund_extra_id: string | null;
+    tx_from: string | null;
+    tx_to: string | null;
+    status: OrderStatus;
+    redirect_url: string | null;
+    currencies: Record<string, GetCurrencyResponse>,
+    trace_id: string
 }

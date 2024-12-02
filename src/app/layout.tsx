@@ -17,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${GeistSans.variable}`}>
       <body>
-        <header className="fixed w-full px-10 h-16 p-2 flex flex-row justify-between items-center">
+        <header className="fixed w-full px-10 h-12 p-2 flex flex-row justify-between items-center bg-white">
           <Link href="/">
             <Image src="/icons/qr.svg" alt="" height={25} width={25} />
           </Link>
@@ -28,7 +28,9 @@ export default function RootLayout({
             </Link>
           </nav>
         </header>
-        {children}
+        <main className="min-h-screen w-full text-stone-800">
+          {children}
+        </main>
       </body>
     </html>
   );
