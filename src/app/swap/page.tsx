@@ -58,3 +58,5 @@ export default async function Swap(props: { searchParams: Promise<{ inputCurrenc
     throw new Error("Internal server error");
   }
 }
+
+export const dynamic = "force-dynamic";
