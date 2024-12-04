@@ -1,11 +1,10 @@
 import { type ChangeEvent, type FormEvent, useCallback, useEffect, useState } from "react";
 import { RequestType } from "../models";
-import type { CreateExchangePayload, CreateExchangeResponse, CurrentPairState, RequestError, SimpleSwapFormState, UseRangeState } from "../models";
-import { useExchange } from "./exchange";
+import type { CreateExchangePayload, CreateExchangeResponse, GetCurrencyResponse, GetRangeResponse, RequestError, SimpleSwapFormState } from "../models";
 import { useRouter } from "next/navigation";
 import { type ValidatedString } from "./input";
 
-export const useSimpleSwapForm = (currentPair: CurrentPairState, range: UseRangeState, fixed: boolean, hasExtraId: boolean | undefined) => {
+export const useSimpleSwapForm = (inputCurrency: GetCurrencyResponse, outputCurrency: GetCurrencyResponse, range: GetRangeResponse, fixed: boolean, isActivePair: boolean) => {
     const [state, setState] = useState<SimpleSwapFormState>({
         amountIn: undefined,
         receiver: { valid: true, value: '' },
@@ -15,7 +14,6 @@ export const useSimpleSwapForm = (currentPair: CurrentPairState, range: UseRange
     });
 
     const router = useRouter();
-    const { exchange } = useExchange(state.amountIn, range, currentPair, fixed);
 
     useEffect(() => {
         if (state.amountIn === undefined) {
@@ -26,36 +24,28 @@ export const useSimpleSwapForm = (currentPair: CurrentPairState, range: UseRange
             setState(prev => ({ ...prev, valid: false }));
             return;
         }
-        if (hasExtraId && !state.extraId?.valid) {
+        if (outputCurrency.has_extra_id && !state.extraId?.valid) {
             setState(prev => ({ ...prev, valid: false }));
             return;
         }
-        if (!hasExtraId && state.extraId) {
+        if (!outputCurrency.has_extra_id && state.extraId) {
             setState(prev => ({ ...prev, valid: false }));
             return;
         }
-        if (range.loading || !range.response) {
+        if (!isActivePair) {
             setState(prev => ({ ...prev, valid: false }));
             return;
         }
-        if (currentPair.loading || !currentPair.isActive) {
+        if (range.min != null && state.amountIn < range.min) {
             setState(prev => ({ ...prev, valid: false }));
             return;
         }
-        if (exchange.loading || !exchange.response) {
-            setState(prev => ({ ...prev, valid: false }));
-            return;
-        }
-        if (range.response.min != null && state.amountIn < range.response.min) {
-            setState(prev => ({ ...prev, valid: false }));
-            return;
-        }
-        if (range.response.max != null && state.amountIn > range.response.max) {
+        if (range.max != null && state.amountIn > range.max) {
             setState(prev => ({ ...prev, valid: false }));
             return;
         }
         setState(prev => ({ ...prev, valid: true }));
-    }, [state.amountIn, state.receiver, state.submitting, hasExtraId, range, currentPair, state.extraId, exchange]);
+    }, [state.amountIn, state.receiver, state.submitting, range, state.extraId, isActivePair, outputCurrency.has_extra_id]);
 
     const handleAmountInChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
@@ -90,8 +80,8 @@ export const useSimpleSwapForm = (currentPair: CurrentPairState, range: UseRange
                 fixed,
                 address_to: state.receiver.value,
                 amount: state.amountIn,
-                currency_from: currentPair.inputCurrency,
-                currency_to: currentPair.outputCurrency,
+                currency_from: inputCurrency.symbol,
+                currency_to: outputCurrency.symbol,
                 extra_id_to: state.extraId?.value ?? "",
                 // TODO - use system refund addresses
                 user_refund_address: "",
@@ -116,5 +106,5 @@ export const useSimpleSwapForm = (currentPair: CurrentPairState, range: UseRange
         }
     };
 
-    return { form: state, exchange, handleAmountInChange, handleExtraIdChange, handleReceiverChange, submit }
+    return { form: state, handleAmountInChange, handleExtraIdChange, handleReceiverChange, submit }
 }

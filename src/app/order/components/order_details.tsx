@@ -67,7 +67,7 @@ export const OrderDetails = ({ order_details, currency_from, currency_to, order_
                 from={orderDetails.address_from} />}
             {currency_from.has_extra_id && orderDetails.extra_id_from && statusIndex < 4 && <CopyButton 
                 value={orderDetails.extra_id_from} 
-                className="flex flex-row rounded-lg items-center justify-between px-5 bg-amber-500 bg-opacity-50 border-b-2 border-b-amber-500 py-2">
+                className="flex flex-row rounded-lg items-center justify-between px-5 bg-amber-500 bg-opacity-30 border-b-2 border-b-amber-500 py-2">
                     <p className="text-sm font-bold">{currency_from.extra_id}:</p>
                     <div className="flex flex-row items-center gap-5">
                         <p className="text-sm font-medium">{orderDetails.extra_id_from}</p>

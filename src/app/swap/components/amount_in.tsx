@@ -1,44 +1,43 @@
 import Image from "next/image";
 import { InputContainer } from "./input_container";
-import { type ChangeEvent, useMemo } from "react";
+import { type ChangeEvent, useEffect, useMemo, useState } from "react";
 import { useTrimSuffix } from "../hooks";
-import { chainColors, type CurrentPairState, type GetCurrencyResponse, type UseCurrencyState, type UseRangeState } from "../models";
+import { chainColors, type GetRangeResponse, type GetCurrencyResponse } from "../models";
 import { TokenSearch } from "./token_search";
 
 interface AmountInProps {
     onSelect: (symbol: string) => void,
     onToggleList: (toggle: boolean) => void,
     onAmountChanged: (event: ChangeEvent<HTMLInputElement>) => void,
-    range: UseRangeState,
-    item: UseCurrencyState,
+    range: GetRangeResponse,
+    inputCurrency: GetCurrencyResponse,
+    isActivePair: boolean,
     amountIn: number | undefined,
-    pair: CurrentPairState,
     showList: boolean,
     items: GetCurrencyResponse[] | undefined
 }
-export const AmountIn = ({ onSelect, item, range, pair, amountIn, onToggleList, onAmountChanged, showList, items }: AmountInProps) =>  {
+export const AmountIn = ({ onSelect, inputCurrency, range, isActivePair, amountIn, onToggleList, onAmountChanged, showList, items }: AmountInProps) =>  {
+    const [loading, setLoading] = useState(false);
     const trim = useTrimSuffix();
+
+    useEffect(() => {
+        setLoading(false);
+    }, [inputCurrency]);
 
     const onOpen = () => onToggleList(true);
     const onClose = () => onToggleList(false);
 
     const valid = useMemo(() => {
-        if (!item.loading && !item.response) {
-            return ["Failed to load token data", ""] as const;
-        } 
-        if (!range.loading && !range.response) {
-            return ["Failed to load token range", ""] as const;
-        }
-        if (!pair.loading && !pair.isActive) {
+        if (!isActivePair) {
             return ["Invalid pair", ""] as const;
         }
-        if (amountIn !== undefined && range.response?.min !== undefined && range.response?.min !== null && amountIn <= range.response.min) {
-            return ["Min amount", range.response.min] as const;
+        if (amountIn !== undefined && range?.min !== undefined && range?.min !== null && amountIn <= range.min) {
+            return ["Min amount", range.min] as const;
         } 
-        if (amountIn !== undefined && range.response?.max !== undefined && range.response.max !== null && amountIn >= range.response.max) {
-            return ["Max amount", range.response.max] as const;
+        if (amountIn !== undefined && range?.max !== undefined && range.max !== null && amountIn >= range.max) {
+            return ["Max amount", range.max] as const;
         }
-    }, [amountIn, item, range, pair]);
+    }, [amountIn, range, isActivePair]);
 
     return (
         <div className="flex flex-col gap-2 w-full">
@@ -52,18 +51,21 @@ export const AmountIn = ({ onSelect, item, range, pair, amountIn, onToggleList, 
             </div>
             <div className="relative h-14 w-full">
                 <TokenInput
-                    range={range}
-                    item={item}
+                    item={inputCurrency}
                     showList={onOpen} 
                     onAmountChanged={onAmountChanged}
+                    loading={loading}
                     amountIn={amountIn} 
                 />
                 {showList && <div className="absolute inset-0 z-10">
                     <TokenSearch
-                        current={trim(item?.response?.symbol)} 
+                        current={trim(inputCurrency.symbol)} 
                         close={onClose}
                         items={items}
-                        onSelect={onSelect} 
+                        onSelect={(item) => {
+                            setLoading(true);
+                            onSelect(item);
+                        }} 
                     />
                 </div>}
             </div>
@@ -72,13 +74,13 @@ export const AmountIn = ({ onSelect, item, range, pair, amountIn, onToggleList, 
 }
 
 interface TokenInputProps {
-    item: UseCurrencyState,
+    item: GetCurrencyResponse,
     onAmountChanged: (event: ChangeEvent<HTMLInputElement>) => void,
     amountIn: number | undefined,
-    range: UseRangeState,
+    loading: boolean,
     showList: () => void,
 }
-export const TokenInput = ({ item, amountIn, range, showList, onAmountChanged }: TokenInputProps) => {
+export const TokenInput = ({ item, loading, amountIn, showList, onAmountChanged }: TokenInputProps) => {
     const trim = useTrimSuffix();
     return (
         <InputContainer position="center">
@@ -89,44 +91,36 @@ export const TokenInput = ({ item, amountIn, range, showList, onAmountChanged }:
                     onChange={onAmountChanged}
                     value={amountIn === 0 ? amountIn : amountIn ?? ""}
                     className={`text-stone-800 font-mono h-full lg:text-xl md:text-xl text-lg w-full outline-none py-2 bg-transparent rounded-md`}
-                    placeholder={range.loading || !item.response || item.loading ? "Loading" : "Enter amount"}
-                    disabled={range.loading || !item.response || item.loading} 
+                    placeholder={"Enter amount"} 
                     aria-label="Enter amount"
                 />
             </div>
 
-            {!item.loading && item.response && <button type="button" className="xl:flex lg:flex md:flex hidden flex-row h-full gap-2 items-center justify-between py-2 px-5 rounded-r-lg xl:max-w-52 lg:max-w-52 md:max-w-52 w-1/2 bg-slate-100" onClick={showList}>
-                <Image src={item.response.image} alt="" height={20} width={20} />
-                <p className="font-bold">{trim(item.response.symbol)?.toUpperCase()}</p>
-                <div className="rounded-full flex items-center justify-center" style={{ 
-                    backgroundColor: chainColors[item.response.network], 
-                    color: chainColors[item.response.network] 
-                }}>
-                    <p className="text-xs text-white px-2 font-bold">{item.response.network.toUpperCase()}</p>
+            <button type="button" className="xl:flex lg:flex md:flex hidden flex-row h-full gap-2 items-center justify-between py-2 px-5 rounded-r-lg xl:max-w-52 lg:max-w-52 md:max-w-52 w-1/2 bg-slate-100" onClick={showList}>
+                {!loading && <><Image src={item.image} alt="" height={20} width={20} />
+                <p className="font-bold">{trim(item.symbol)?.toUpperCase()}</p>
+                    <div className="rounded-full flex items-center justify-center" style={{ 
+                            backgroundColor: chainColors[item.network], 
+                            color: chainColors[item.network] 
+                    }}>
+                    <p className="text-xs text-white px-2 font-bold">{item.network.toUpperCase()}</p>
                 </div>
-                <Image src="/icons/chevron-down.svg" alt="" height={15} width={15} />
-            </button>}
+                <Image src="/icons/chevron-down.svg" alt="" height={15} width={15} /></>}
+                {loading && <Image src="/icons/spinner.svg" className="animate-spin opacity-50" alt="" height={20} width={20} />}
+            </button>
 
-            {!item.loading && item.response && <button type="button" className="xl:hidden lg:hidden md:hidden flex flex-row h-full gap-1 items-center justify-between py-2 px-5 rounded-r-lg xl:max-w-52 lg:max-w-52 md:max-w-52 w-1/2 bg-slate-100" onClick={showList}>
-                <Image src={item.response.image} alt="" height={15} width={15} />
-                <p className="font-bold text-sm">{trim(item.response.symbol)?.toUpperCase()}</p>
+            <button type="button" className="xl:hidden lg:hidden md:hidden flex flex-row h-full gap-1 items-center justify-between py-2 px-5 rounded-r-lg xl:max-w-52 lg:max-w-52 md:max-w-52 w-1/2 bg-slate-100" onClick={showList}>
+                {<><Image src={item.image} alt="" height={15} width={15} />
+                <p className="font-bold text-sm">{trim(item.symbol)?.toUpperCase()}</p>
                 <div className="rounded-full flex items-center justify-center" style={{ 
-                    backgroundColor: chainColors[item.response.network], 
-                    color: chainColors[item.response.network] 
+                    backgroundColor: chainColors[item.network], 
+                    color: chainColors[item.network] 
                 }}>
-                    <p className="text-xs text-white px-2 font-bold">{item.response.network.toUpperCase()}</p>
+                    <p className="text-xs text-white px-2 font-bold">{item.network.toUpperCase()}</p>
                 </div>
-                <Image src="/icons/chevron-down.svg" alt="" height={10} width={10} />
-            </button>}
-
-            {item.loading && !item.response && <button type="button" className="flex flex-row h-full gap-2 justify-center items-center py-2 px-5 rounded-r-lg xl:max-w-52 lg:max-w-52 md:max-w-52 w-1/2 bg-slate-100">
-                <Image src="/icons/spinner.svg" className="animate-spin opacity-50" alt="" height={20} width={20} />
-            </button>}
-
-            {/* //TODO handle error */}
-            {!item.loading && !item.response && <button type="button" className="flex flex-row h-full gap-2 justify-center items-center py-2 px-5 rounded-r-lg xl:max-w-52 lg:max-w-52 md:max-w-52 w-1/2 bg-slate-100">
-                ERROR
-            </button>}
+                <Image src="/icons/chevron-down.svg" alt="" height={10} width={10} /></>}
+                {loading && <Image src="/icons/spinner.svg" className="animate-spin opacity-50" alt="" height={20} width={20} />}
+            </button>
         </InputContainer>
     )
 }

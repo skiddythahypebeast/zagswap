@@ -2,8 +2,7 @@
 
 import { type ChangeEvent, useCallback, useEffect, useState } from "react";
 import { chain_suffixes } from "../models";
-import type { RequestError, GetCurrencyResponse, UseCurrencyState, UseRangeState, CurrentPairState, GetRangeResponse } from "../models";
-import { RequestType } from "../models/request";
+import type { GetCurrencyResponse } from "../models";
 
 export const useTrimSuffix = () => {
     return useCallback((symbol: string | undefined) => {
@@ -15,132 +14,6 @@ export const useTrimSuffix = () => {
         }
         return updated_name
     }, []);
-}
-
-export const useRange = (currentPair: CurrentPairState, fixed: boolean) => {
-    const [state, setState] = useState<UseRangeState>({
-        error: undefined,
-        loading: true,
-        response: undefined
-    });
-
-    useEffect(() => {
-        setState({ loading: true, error: undefined, response: undefined });
-
-        if (!currentPair.loading && currentPair.isActive) {
-            void (async () => {
-                await fetch(`/api/${RequestType.GET_RANGE}?fixed=${fixed}&currency_from=${currentPair.inputCurrency}&currency_to=${currentPair.outputCurrency}`, { 
-                    method: "GET", 
-                    headers: { "Content-Type": "application/json" }
-                })
-                .then((result: Response) => result.json() as Promise<GetRangeResponse>)
-                .catch((result: Response) => result.json() as Promise<RequestError>)
-                .then(async response => {
-                    if ("error" in response) {
-                        console.error(response);
-                        setState(prev => ({ ...prev, error: response, loading: false }));
-                    } else {
-                        setState(prev => ({ ...prev, response, loading: false }));
-                    }
-                })
-            })()
-        }
-    }, [currentPair, fixed]);
-
-    return { state }
-}
-
-export const useCurrency = (currency: string, currencies: GetCurrencyResponse[] | undefined) => {
-    const [state, setState] = useState<UseCurrencyState>({ 
-        response: undefined, 
-        loading: true, 
-        error: undefined,
-    });
-
-    const load = useCallback(async (currency: string) => {
-        if(currencies) {
-            const cached = [...currencies]?.find(x => x.symbol === currency);
-            if(cached){
-                setTimeout(() => {
-                    setState(prev => ({ ...prev, response: cached, loading: false }));
-                }, 200);
-
-                return;
-            }
-        }
-
-        await fetch(`/api/${RequestType.GET_CURRENCY}?symbol=${currency}`, { 
-            method: "GET", 
-            headers: { "Content-Type": "application/json" }
-        })
-        .then((result: Response) => result.json() as Promise<GetCurrencyResponse>)
-        .catch((result: Response) => result.json() as Promise<RequestError>)
-        .then(async response => {
-            if ("error" in response) {
-                console.error(response);
-                setState(prev => ({ ...prev, error: response, loading: false }));
-            } else {
-                setState(prev => ({ ...prev, response, loading: false }));
-            }
-        })
-    }, [currencies]);
-
-    useEffect(() => {
-        void load(currency);
-    }, [currency, load]);
-
-    return { state }
-}
-
-interface UseAllCurrenciesState {
-    loading: boolean,
-    error: RequestError | undefined,
-    response: GetCurrencyResponse[] | undefined
-}
-export const useAllCurrencies = () => {
-    const [state, setState] = useState<UseAllCurrenciesState>({ 
-        response: undefined, 
-        loading: true, 
-        error: undefined
-    });
-    
-    useEffect(() => {
-        void (async () => {
-            await fetch(`/api/${RequestType.GET_ALL_CURRENCIES}?`, { 
-                method: "GET", 
-                headers: { "Content-Type": "application/json" }
-            })
-            .then((result: Response) => result.json() as Promise<GetCurrencyResponse[]>)
-            .catch((result: Response) => result.json() as Promise<RequestError>)
-            .then(async response => {
-                if ("error" in response) {
-                    console.error(response);
-                    setState(prev => ({ ...prev, error: response, loading: false }));
-                } else {
-                    const filtered = response.filter(x => !x.isFiat);
-                    setState(prev => ({ 
-                        ...prev, 
-                        response: filtered, 
-                        currencies: filtered, 
-                        loading: false 
-                    }));
-                }
-            })
-        })()
-    }, []);
-
-    useEffect(() => {
-        if(state.response){
-            const chains: string[] = [];
-            for (const result of state.response) {
-                if (!chains.some(x => x == result.network)) {
-                    chains.push(result.network);
-                }
-            }
-        }
-    }, [state.response]);
-
-    return { loading: state.loading, currencies: state.response }
 }
 
 export const useTokenLookup = (items: GetCurrencyResponse[] | undefined) => {
@@ -194,7 +67,7 @@ export const useTokenLookup = (items: GetCurrencyResponse[] | undefined) => {
 
     useEffect(() => {
         if(all){
-            setState(all.slice(0, position * 50))
+            setState(all.slice(0, position * 30))
         }
     }, [position, all]);
 

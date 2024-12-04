@@ -1,15 +1,16 @@
 "use client"
 
-import { useCurrency, useTrimSuffix } from "../hooks";
+import { useTrimSuffix } from "../hooks";
 import { chainColors, type GetCurrencyResponse } from "../models";
 import { InputContainer } from "./input_container";
 import Image from "next/image";
 import { TokenSearch } from "./token_search";
 import { ExtraId, Receiver } from "./receiver";
 import { type ValidatedString } from "../hooks/input";
+import { useEffect, useState } from "react";
 
 interface AmountOutProps {
-    outputCurrency: string,
+    outputCurrency: GetCurrencyResponse,
     loadingRate: boolean,
     amount: number,
     amountIn: number | undefined,
@@ -21,54 +22,60 @@ interface AmountOutProps {
     onToggleList: (toggle: boolean) => void,
 }
 export const AmountOut = ({ outputCurrency, onReceiverChanged, onExtraIdChanged, amountIn, loadingRate, onSelect: select, amount, onToggleList, showList, items }: AmountOutProps) =>  {
-    const { state: currency } = useCurrency(outputCurrency, items);
-
+    const [loading, setLoading] = useState(false);
     const onSelect = (item: string) => select(item);
     const onOpen = () => onToggleList(true);
     const onClose = () => onToggleList(false);
     const trim = useTrimSuffix();
 
+    useEffect(() => {
+        setLoading(false);
+    }, [outputCurrency]);
+
     return (
         <div className="flex flex-col w-full gap-2">
             <div className="relative h-14 w-full">
                 <TokenInput
-                    item={currency.response}
+                    outputCurrency={outputCurrency}
                     loadingRate={loadingRate} 
-                    loadingCurrency={currency.loading} 
                     showList={onOpen}
+                    loading={loading}
                     amountIn={amountIn}
                     amount={amount} 
                 />
                 {showList && <div className="absolute inset-0 z-10">
                     <TokenSearch
-                        current={trim(currency?.response?.symbol)}
+                        current={trim(outputCurrency.symbol)}
                         close={onClose} 
                         items={items}
-                        onSelect={onSelect} 
+                        onSelect={(item) => {
+                            setLoading(true);
+                            onSelect(item);
+                        }} 
                     />
                 </div>}
             </div>
             <Receiver 
-                currency={currency}
-                validator={currency.response?.validation_address}
+                currency={outputCurrency}
+                validator={outputCurrency.validation_address}
                 onChange={onReceiverChanged}/>
-            {currency.response?.has_extra_id && <ExtraId
-                validator={currency.response.validation_extra}
-                currency={currency}
+            {outputCurrency.has_extra_id && <ExtraId
+                validator={outputCurrency.validation_extra}
+                currency={outputCurrency}
                 onChange={onExtraIdChanged}/>}
         </div>
     )
 }
 
 interface TokenInputProps {
-    item: GetCurrencyResponse | undefined,
+    outputCurrency: GetCurrencyResponse,
     amount: number,
     loadingRate: boolean,
+    loading: boolean,
     amountIn: number | undefined,
-    loadingCurrency: boolean,
     showList: () => void,
 }
-export const TokenInput = ({ item, loadingCurrency, loadingRate, amount, amountIn, showList }: TokenInputProps) => {
+export const TokenInput = ({ outputCurrency, loading, loadingRate, amount, amountIn, showList }: TokenInputProps) => {
     const trim = useTrimSuffix();
     return (
         <InputContainer position="center">
@@ -90,33 +97,31 @@ export const TokenInput = ({ item, loadingCurrency, loadingRate, amount, amountI
                 </div>}
             </div>
 
-            {!loadingCurrency && item && <button type="button" className="xl:flex lg:flex md:flex hidden flex-row h-full gap-2 items-center justify-between py-2 px-5 rounded-r-lg xl:max-w-52 lg:max-w-52 md:max-w-52 w-1/2 bg-slate-100" onClick={showList}>
-                <Image src={item.image} alt="" height={20} width={20} />
-                <p className="font-bold">{trim(item.symbol)?.toUpperCase()}</p>
-                    <div className="rounded-full flex items-center justify-center" style={{ 
-                            backgroundColor: chainColors[item.network], 
-                            color: chainColors[item.network] 
+            <button type="button" className="xl:flex lg:flex md:flex hidden flex-row h-full gap-2 items-center justify-between py-2 px-5 rounded-r-lg xl:max-w-52 lg:max-w-52 md:max-w-52 w-1/2 bg-slate-100" onClick={showList}>
+                {!loading && <><Image src={outputCurrency.image} alt="" height={20} width={20} />
+                <p className="font-bold">{trim(outputCurrency.symbol)?.toUpperCase()}</p>
+                    <div className="rounded-full flex outputCurrencys-center justify-center" style={{ 
+                            backgroundColor: chainColors[outputCurrency.network], 
+                            color: chainColors[outputCurrency.network] 
                     }}>
-                    <p className="text-xs text-white px-2 font-bold">{item.network.toUpperCase()}</p>
+                    <p className="text-xs text-white px-2 font-bold">{outputCurrency.network.toUpperCase()}</p>
                 </div>
-                <Image src="/icons/chevron-down.svg" alt="" height={15} width={15} />
-            </button>}
+                <Image src="/icons/chevron-down.svg" alt="" height={15} width={15} /></>}
+                {loading && <Image src="/icons/spinner.svg" className="animate-spin opacity-50" alt="" height={20} width={20} />}
+            </button>
 
-            {!loadingCurrency && item && <button type="button" className="xl:hidden lg:hidden md:hidden flex flex-row h-full gap-1 items-center justify-between py-2 px-5 rounded-r-lg xl:max-w-52 lg:max-w-52 md:max-w-52 w-1/2 bg-slate-100" onClick={showList}>
-                <Image src={item.image} alt="" height={15} width={15} />
-                <p className="font-bold text-sm">{trim(item.symbol)?.toUpperCase()}</p>
-                    <div className="rounded-full flex items-center justify-center" style={{ 
-                            backgroundColor: chainColors[item.network], 
-                            color: chainColors[item.network] 
-                    }}>
-                    <p className="text-xs text-white px-2 font-bold">{item.network.toUpperCase()}</p>
+            <button type="button" className="xl:hidden lg:hidden md:hidden flex flex-row h-full gap-1 items-center justify-between py-2 px-5 rounded-r-lg xl:max-w-52 lg:max-w-52 md:max-w-52 w-1/2 bg-slate-100" onClick={showList}>
+                {<><Image src={outputCurrency.image} alt="" height={15} width={15} />
+                <p className="font-bold text-sm">{trim(outputCurrency.symbol)?.toUpperCase()}</p>
+                <div className="rounded-full flex items-center justify-center" style={{ 
+                    backgroundColor: chainColors[outputCurrency.network], 
+                    color: chainColors[outputCurrency.network] 
+                }}>
+                    <p className="text-xs text-white px-2 font-bold">{outputCurrency.network.toUpperCase()}</p>
                 </div>
-                <Image src="/icons/chevron-down.svg" alt="" height={10} width={10} />
-            </button>}
-
-            {loadingCurrency && <button type="button" className="flex flex-row h-full gap-2 justify-center items-center py-2 px-5 rounded-r-lg xl:max-w-52 lg:max-w-52 md:max-w-52 w-1/2 bg-slate-100">
-                <Image src="/icons/spinner.svg" className="animate-spin opacity-50" alt="" height={20} width={20} />
-            </button>}
+                <Image src="/icons/chevron-down.svg" alt="" height={10} width={10} /></>}
+                {loading && <Image src="/icons/spinner.svg" className="animate-spin opacity-50" alt="" height={20} width={20} />}
+            </button>
         </InputContainer>
     )
 }

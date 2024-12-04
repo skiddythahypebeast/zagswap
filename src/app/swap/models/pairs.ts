@@ -1,3 +1,4 @@
+import { type GetCurrencyResponse } from "./currency";
 import { type RequestError } from "./request";
 
 export type GetPairsResponse = Record<Exclude<string, "error">, string[]>;
@@ -10,7 +11,7 @@ export interface PairState {
 
 export interface CurrentPairState {
     isActive: boolean | undefined,
-    inputCurrency: string,
-    outputCurrency: string,
+    inputCurrency: GetCurrencyResponse,
+    outputCurrency: GetCurrencyResponse,
     loading: boolean
 }

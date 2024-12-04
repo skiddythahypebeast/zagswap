@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { type CurrentPairState, type RequestError, RequestType, type UseRangeState } from "../models";
+import { type GetCurrencyResponse, type GetRangeResponse, type RequestError, RequestType } from "../models";
 
 interface UseExchangeState {
     response: string | undefined,
@@ -7,7 +7,7 @@ interface UseExchangeState {
     amountOut: number,
     loading: boolean
 }
-export const useExchange = (amountIn: number | undefined, range: UseRangeState, pair: CurrentPairState, fixed: boolean) => {
+export const useExchange = (amountIn: number | undefined, range: GetRangeResponse, inputCurrency: GetCurrencyResponse, outputCurrency: GetCurrencyResponse, fixed: boolean, isActivePair: boolean) => {
     const [state, setState] = useState<UseExchangeState>({
         response: undefined,
         error: undefined,
@@ -18,7 +18,7 @@ export const useExchange = (amountIn: number | undefined, range: UseRangeState, 
     const timerRef = useRef<number | null>(null);
 
     const handleRequest = useCallback(async () => {
-        await fetch(`/api/${RequestType.GET_ESTIMATED}?amount=${amountIn}&currency_from=${pair.inputCurrency}&currency_to=${pair.outputCurrency}&fixed=${fixed}`, { 
+        await fetch(`/api/${RequestType.GET_ESTIMATED}?amount=${amountIn}&currency_from=${inputCurrency.symbol}&currency_to=${outputCurrency.symbol}&fixed=${fixed}`, { 
             method: "GET", 
             headers: { "Content-Type": "application/json" }
         })
@@ -37,26 +37,24 @@ export const useExchange = (amountIn: number | undefined, range: UseRangeState, 
                 }));
             }
         })
-    }, [amountIn, pair.inputCurrency, pair.outputCurrency, fixed]);
+    }, [amountIn, inputCurrency.symbol, outputCurrency.symbol, fixed]);
 
     useEffect(() => {
         setState({ loading: true, error: undefined, response: undefined, amountOut: 0 });
-        if (!range.loading && range.response) {
-            if (!pair.loading && pair.isActive) {
-                if (amountIn !== undefined) {
-                    if (range.response.min === null || amountIn >= range.response.min) {
-                        if (range.response.max === null || amountIn <= range.response.max) {
-                            if (timerRef.current) { clearTimeout(timerRef.current); }
-    
-                            timerRef.current = window.setTimeout(() => {
-                                void handleRequest();
-                            }, 500);
-                        }
+        if (isActivePair) {
+            if (amountIn !== undefined) {
+                if (range.min === null || amountIn >= range.min) {
+                    if (range.max === null || amountIn <= range.max) {
+                        if (timerRef.current) { clearTimeout(timerRef.current); }
+
+                        timerRef.current = window.setTimeout(() => {
+                            void handleRequest();
+                        }, 500);
                     }
                 }
             }
         }
-    }, [range, pair, amountIn, handleRequest]);
+    }, [range, isActivePair, amountIn, handleRequest]);
 
     useEffect(() => {
         return () => {

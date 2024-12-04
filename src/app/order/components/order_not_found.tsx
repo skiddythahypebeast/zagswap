@@ -1,6 +1,6 @@
 "use client"
 
-import { useRouter } from "next/navigation"
+import { useRouter } from "next/navigation";
 
 export const OrderNotFound = () => {
     const router = useRouter();
