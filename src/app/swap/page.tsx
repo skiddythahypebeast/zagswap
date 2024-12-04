@@ -2,6 +2,8 @@ import { env } from "~/env";
 import { SwapForm } from "./components/form";
 import { Currencies, type GetCurrencyResponse, type GetRangeResponse, RequestType } from "./models";
 
+export const dynamic = 'force-dynamic';
+
 export default async function Swap(props: { searchParams: Promise<{ inputCurrency?: string, outputCurrency?: string }>}) {
   try {
     const { inputCurrency = Currencies.ETH, outputCurrency = Currencies.USDC_ETH } = await props.searchParams;
@@ -58,5 +60,3 @@ export default async function Swap(props: { searchParams: Promise<{ inputCurrenc
     throw new Error("Internal server error");
   }
 }
-
-export const dynamic = "force-dynamic";
