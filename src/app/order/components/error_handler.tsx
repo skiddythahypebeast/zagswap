@@ -1,9 +1,9 @@
 import Image from "next/image"
 
-export const OrderErrorHandler = ({ error, reset, back }: { error: Error & { digest?: string }, reset: () => void, back: () => void }) => {
+export const OrderErrorHandler = ({ reset, back }: { error: Error & { digest?: string }, reset: () => void, back: () => void }) => {
     return (
         <div className="w-[600px] max-w-[95%] h-[600px] px-20 flex flex-col gap-5 items-center justify-center text-stone-800">
-            <h2 className='text-4xl font-bold text-center'>{error.message}</h2>
+            <h2 className='text-4xl font-bold text-center'>Internal server error</h2>
             <p className="text-sm">There is a technical issue on our server. Please try again later.</p>
             <div className="py-5">
                 <Image src="/icons/error.svg" className="opacity-10" alt="" height={200} width={200} />
