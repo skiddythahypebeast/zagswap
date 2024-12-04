@@ -5,7 +5,8 @@ import { chainColors, type GetCurrencyResponse } from "../models";
 import { InputContainer } from "./input_container";
 import Image from "next/image";
 import { TokenSearch } from "./token_search";
-import { Receiver } from "./receiver";
+import { ExtraId, Receiver } from "./receiver";
+import { type ValidatedString } from "../hooks/input";
 
 interface AmountOutProps {
     outputCurrency: string,
@@ -14,11 +15,12 @@ interface AmountOutProps {
     amountIn: number | undefined,
     showList: boolean,
     items: GetCurrencyResponse[] | undefined,
-    onReceiverChanged: (address: string) => void,
+    onReceiverChanged: (value: ValidatedString) => void,
+    onExtraIdChanged: (value: ValidatedString | undefined) => void,
     onSelect: (symbol: string) => void,
     onToggleList: (toggle: boolean) => void,
 }
-export const AmountOut = ({ outputCurrency, onReceiverChanged, amountIn, loadingRate, onSelect: select, amount, onToggleList, showList, items }: AmountOutProps) =>  {
+export const AmountOut = ({ outputCurrency, onReceiverChanged, onExtraIdChanged, amountIn, loadingRate, onSelect: select, amount, onToggleList, showList, items }: AmountOutProps) =>  {
     const { state: currency } = useCurrency(outputCurrency, items);
 
     const onSelect = (item: string) => select(item);
@@ -48,8 +50,12 @@ export const AmountOut = ({ outputCurrency, onReceiverChanged, amountIn, loading
             </div>
             <Receiver 
                 currency={currency}
-                loadingRate={loadingRate} 
+                validator={currency.response?.validation_address}
                 onChange={onReceiverChanged}/>
+            {currency.response?.has_extra_id && <ExtraId
+                validator={currency.response.validation_extra}
+                currency={currency}
+                onChange={onExtraIdChanged}/>}
         </div>
     )
 }

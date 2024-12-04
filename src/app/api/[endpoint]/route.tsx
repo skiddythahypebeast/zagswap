@@ -48,7 +48,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
 
   if (!response.ok) {
     console.error(response);
-    return NextResponse.error();
+    return NextResponse.json({ error: "Something went wrong on the server." }, { status: 500 });
   }
 
   const data = await response.json() as object;

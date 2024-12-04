@@ -6,9 +6,9 @@ export interface CreateExchangePayload {
     currency_to: string,
     amount: number,
     address_to: string,
-    extra_id_to: string,
-    user_refund_address: string,
-    user_refund_extra_id: string
+    extra_id_to: string | undefined,
+    user_refund_address: string | undefined,
+    user_refund_extra_id: string | undefined
 }
 
 export interface CreateExchangeResponse {

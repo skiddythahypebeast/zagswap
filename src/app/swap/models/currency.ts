@@ -75,7 +75,7 @@ export const chain_suffixes = [
     "xlm",
     "poly",
     "op",
-    "-bsc",
+    "bsc",
     "dot",
     "near",
     "kcc",

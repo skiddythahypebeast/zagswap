@@ -3,35 +3,59 @@ import { RequestType } from "../models";
 import type { CreateExchangePayload, CreateExchangeResponse, CurrentPairState, RequestError, SimpleSwapFormState, UseRangeState } from "../models";
 import { useExchange } from "./exchange";
 import { useRouter } from "next/navigation";
+import { type ValidatedString } from "./input";
 
-export const useSimpleSwapForm = (currentPair: CurrentPairState, range: UseRangeState, fixed: boolean, addressValidator: string | undefined) => {
-    const router = useRouter();
+export const useSimpleSwapForm = (currentPair: CurrentPairState, range: UseRangeState, fixed: boolean, hasExtraId: boolean | undefined) => {
     const [state, setState] = useState<SimpleSwapFormState>({
         amountIn: undefined,
-        receiver: undefined,
+        receiver: { valid: true, value: '' },
+        extraId: undefined,
         submitting: false,
         valid: true
     });
 
+    const router = useRouter();
     const { exchange } = useExchange(state.amountIn, range, currentPair, fixed);
 
     useEffect(() => {
-        if (state.amountIn === undefined || state.receiver === undefined || state.receiver === '' || !addressValidator) {
+        if (state.amountIn === undefined) {
             setState(prev => ({ ...prev, valid: false }));
-        } else if (range.loading || !range.response) {
-            setState(prev => ({ ...prev, valid: false }));
-        } else if (currentPair.loading || state.submitting || exchange.loading || !exchange.response) {
-            setState(prev => ({ ...prev, valid: false }));
-        } else if ((range.response.min === null || state.amountIn > range.response.min) && (range.response.max === null || state.amountIn < range.response.max)) {
-            if (new RegExp(addressValidator).test(state.receiver)) {
-                setState(prev => ({ ...prev, valid: true }));
-            } else {
-                setState(prev => ({ ...prev, valid: false }));
-            }
-        } else {
-            setState(prev => ({ ...prev, valid: false }));
+            return;
         }
-    }, [state.amountIn, state.receiver, state.submitting, range, currentPair, addressValidator, exchange]);
+        if (!state.receiver.valid || state.receiver.value == '') {
+            setState(prev => ({ ...prev, valid: false }));
+            return;
+        }
+        if (hasExtraId && !state.extraId?.valid) {
+            setState(prev => ({ ...prev, valid: false }));
+            return;
+        }
+        if (!hasExtraId && state.extraId) {
+            setState(prev => ({ ...prev, valid: false }));
+            return;
+        }
+        if (range.loading || !range.response) {
+            setState(prev => ({ ...prev, valid: false }));
+            return;
+        }
+        if (currentPair.loading || !currentPair.isActive) {
+            setState(prev => ({ ...prev, valid: false }));
+            return;
+        }
+        if (exchange.loading || !exchange.response) {
+            setState(prev => ({ ...prev, valid: false }));
+            return;
+        }
+        if (range.response.min != null && state.amountIn < range.response.min) {
+            setState(prev => ({ ...prev, valid: false }));
+            return;
+        }
+        if (range.response.max != null && state.amountIn > range.response.max) {
+            setState(prev => ({ ...prev, valid: false }));
+            return;
+        }
+        setState(prev => ({ ...prev, valid: true }));
+    }, [state.amountIn, state.receiver, state.submitting, hasExtraId, range, currentPair, state.extraId, exchange]);
 
     const handleAmountInChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
@@ -50,31 +74,13 @@ export const useSimpleSwapForm = (currentPair: CurrentPairState, range: UseRange
         }
     }, []);
 
-    const handleReceiverChange = useCallback((address: string) => {
-        // Address is validated at the component level
-        setState((prevState) => ({
-            ...prevState,
-            receiver: address,
-        }));
+    const handleReceiverChange = useCallback((value: ValidatedString) => {
+        setState((prev): SimpleSwapFormState => ({ ...prev, receiver: value }))
     }, []);
 
-    const updateAmount = useCallback((amount: number) => {
-        setState((prevState) => ({
-            ...prevState,
-            amountIn: amount,
-        }));
-    }, [])
-
-    const toggleFixed = useCallback((fixed: boolean) => {
-        setState(prev => ({
-            ...prev,
-            fixed,
-        }));
+    const handleExtraIdChange = useCallback((value: ValidatedString | undefined) => {
+        setState((prev): SimpleSwapFormState => ({...prev, extraId: value }))
     }, []);
-
-    const handleResponse = (response: CreateExchangeResponse) => {
-        router.push(`/order/${response.id}`);
-    }
 
     const submit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -82,11 +88,11 @@ export const useSimpleSwapForm = (currentPair: CurrentPairState, range: UseRange
             setState(prev => ({ ...prev, submitting: true }));
             const request: CreateExchangePayload = {
                 fixed,
-                address_to: state.receiver,
+                address_to: state.receiver.value,
                 amount: state.amountIn,
                 currency_from: currentPair.inputCurrency,
                 currency_to: currentPair.outputCurrency,
-                extra_id_to: "",
+                extra_id_to: state.extraId?.value ?? "",
                 // TODO - use system refund addresses
                 user_refund_address: "",
                 user_refund_extra_id: ""
@@ -104,11 +110,11 @@ export const useSimpleSwapForm = (currentPair: CurrentPairState, range: UseRange
                     console.error(response);
                 } else {
                     setState(prev => ({ ...prev, submitting: false }));
-                    handleResponse(response);
+                    router.push(`/order/${response.id}`);
                 }
             })
         }
     };
 
-    return { form: state, exchange, handleAmountInChange, handleReceiverChange, updateAmount, toggleFixed, submit }
+    return { form: state, exchange, handleAmountInChange, handleExtraIdChange, handleReceiverChange, submit }
 }

@@ -18,7 +18,12 @@ export const SwapForm = ({ outputCurrency, inputCurrency }: { outputCurrency: st
     const { state: range } = useRange(currentPair, fixed);
     const { state: item } = useCurrency(currentPair.inputCurrency, currencies);
     const { state: itemB } = useCurrency(currentPair.outputCurrency, currencies);
-    const { form, exchange, handleAmountInChange, handleReceiverChange, submit } = useSimpleSwapForm(currentPair, range, fixed, itemB.response?.validation_address);
+    const { form, exchange, handleAmountInChange, handleExtraIdChange, handleReceiverChange, submit } = useSimpleSwapForm(
+      currentPair, 
+      range, 
+      fixed, 
+      itemB.response?.has_extra_id
+    );
 
     return (
         <form onSubmit={submit} className="w-full flex flex-col items-center justify-start gap-1">
@@ -44,7 +49,7 @@ export const SwapForm = ({ outputCurrency, inputCurrency }: { outputCurrency: st
                 <Image src="/icons/refresh.svg" className="opacity-70" alt="" height={15} width={20} />
             </button>}
           </div>
-          <AmountOut 
+          <AmountOut
             showList={list == 2}
             amount={exchange.amountOut}
             outputCurrency={currentPair.outputCurrency}
@@ -53,6 +58,7 @@ export const SwapForm = ({ outputCurrency, inputCurrency }: { outputCurrency: st
               updateOutputCurrency(symbol);
               toggleList(0);
             }}
+            onExtraIdChanged={handleExtraIdChange}
             onReceiverChanged={handleReceiverChange}
             onToggleList={(toggle) => toggleList(toggle ? 2 : 0)}
             loadingRate={exchange.loading} 
