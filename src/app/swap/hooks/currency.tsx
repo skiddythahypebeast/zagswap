@@ -1,6 +1,6 @@
 "use client";
 
-import { type ChangeEvent, useCallback, useEffect, useState } from "react";
+import { type ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import { Networks, type GetCurrencyResponse } from "../models";
 
 export const useTrimSuffix = () => {
@@ -57,12 +57,21 @@ export const useTokenLookup = (items: GetCurrencyResponse[]) => {
     const [state, setState] = useState<GetCurrencyResponse[]>();
     const [position, setPosition] = useState(1);
     const trim = useTrimSuffix();
+    const timerRef = useRef<number | null>(null);
 
     useEffect(() => {
         if(all){
             setState(all.slice(0, position * 30))
         }
     }, [position, all]);
+
+    useEffect(() => {
+        return () => {
+            if (timerRef.current) {
+                clearTimeout(timerRef.current);
+            }
+        };
+    }, []);
 
     const next = useCallback(() => {
         setPosition(position + 1);
@@ -110,5 +119,13 @@ export const useTokenLookup = (items: GetCurrencyResponse[]) => {
         });
     }, [items, trim]);
 
-    return { currencies: state, search, next }
+    const handleSearchWithDebounce = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+        if (timerRef.current) { clearTimeout(timerRef.current); }
+
+        timerRef.current = window.setTimeout(() => {
+            search(event);
+        }, 150);
+    }, [search]);
+
+    return { currencies: state, handleSearchWithDebounce, next }
 }

@@ -12,7 +12,7 @@ interface TokenSearchProps {
 }
 export const TokenSearch = ({ close, items, current, onSelect }: TokenSearchProps) => {
     const inputRef = useRef<HTMLInputElement>(null);
-    const { currencies, search, next } = useTokenLookup(items);
+    const { currencies, handleSearchWithDebounce, next } = useTokenLookup(items);
     const [scrolling, setScrolling] = useState(false);
     const scrollable = useRef<HTMLDivElement>(null);
     const trim = useTrimSuffix();
@@ -36,7 +36,7 @@ export const TokenSearch = ({ close, items, current, onSelect }: TokenSearchProp
 
     const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
         scrollable.current?.scrollTo(0,0);
-        search(event);
+        handleSearchWithDebounce(event);
     }
 
     useEffect(() => {
