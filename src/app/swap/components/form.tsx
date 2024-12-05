@@ -36,7 +36,7 @@ export const SwapForm = ({ outputCurrency, inputCurrency, allCurrencies, isActiv
     const { exchange } = useExchange(form.amountIn, range, inputCurrency, outputCurrency, fixed, isActivePair);
 
     return (
-        <form onSubmit={submit} className="w-full flex flex-col items-center justify-start gap-1">
+        <form onSubmit={submit} className="w-full bg-white flex flex-col items-center justify-start gap-1">
           <AmountIn
             range={range}
             showList={list == 1}
@@ -81,9 +81,9 @@ export const SwapForm = ({ outputCurrency, inputCurrency, allCurrencies, isActiv
           />
           <div className="relative w-full flex items-center justify-center h-0 z-50"/>
           <InputContainer position="center">
-            <button disabled={!form.valid} type="submit" className={`${!form.valid ? "opacity-50" : "opacity-90 hover:opacity-100"} transition-all duration-300 w-full py-5 h-full bg-blue-400 flex flex-row items-center justify-center gap-5`}>
+            <button disabled={!form.valid || loading || form.submitting} type="submit" className={`${(!form.valid || loading || form.submitting) ? "opacity-50" : "opacity-90 hover:opacity-100"} transition-all duration-300 w-full py-5 h-full bg-blue-400 flex flex-row items-center justify-center gap-5`}>
               <p className="text-lg font-semibold text-white">Create exchange</p>
-              {form.submitting && <Image className="animate-spin" src="/icons/white-spinner.svg" alt="" height={15} width={15} />}
+              {(form.submitting || loading) && <Image className="animate-spin" src="/icons/white-spinner.svg" alt="" height={15} width={15} />}
             </button>
           </InputContainer>
         </form>

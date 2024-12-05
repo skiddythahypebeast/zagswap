@@ -1,6 +1,6 @@
 import { type ChangeEvent, type UIEventHandler, useEffect, useRef, useState } from "react";
 import { useTokenLookup, useTrimSuffix } from "../hooks";
-import { chainColors, type GetCurrencyResponse } from "../models";
+import { CHAIN_DETAILS, type GetCurrencyResponse } from "../models";
 import { InputContainer } from "./input_container";
 import Image from "next/image";
 
@@ -65,13 +65,13 @@ export const TokenSearch = ({ close, items, current, onSelect }: TokenSearchProp
                 className="bg-white hover:bg-slate-100 py-4 flex flex-row justify-between items-center px-5">
                     <span className="flex flex-row items-center gap-3">
                         <Image placeholder="empty" src={entry.image} alt="" height={25} width={25} />
-                        <p className="xl:text-sm lg:text-sm md:text-sm text-xs font-bold">{trim(entry.symbol)?.toUpperCase()}</p>
+                        <p className="xl:text-sm lg:text-sm md:text-sm text-xs font-bold">{trim(entry)?.toUpperCase()}</p>
                     </span>
                     <span className="flex flex-row items-center gap-3">
                         <p className="opacity-80 xl:text-sm lg:text-sm md:text-sm text-xs font-semibold">{entry.name}</p>
                         <div className="rounded-full flex items-center justify-center border-2" style={{ 
-                            borderColor: chainColors[entry.network], 
-                            color: chainColors[entry.network]
+                            borderColor: CHAIN_DETAILS[entry.network].color, 
+                            color: CHAIN_DETAILS[entry.network].color
                         }}>
                             <p className="text-xs px-2 font-bold">{entry.network.toUpperCase()}</p>
                         </div>

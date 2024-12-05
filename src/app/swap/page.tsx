@@ -6,18 +6,17 @@ export const dynamic = 'force-dynamic';
 
 export default async function Swap(props: { searchParams: Promise<{ inputCurrency?: string, outputCurrency?: string }> }) {
   try {
-    // Use default values for inputCurrency and outputCurrency if not provided
     const { inputCurrency = Currencies.ETH, outputCurrency = Currencies.USDC_ETH } = await props.searchParams;
 
-    console.time('currencies');
+    console.time('all_currencies');
     const allCurrenciesResponse = await fetch(`${env.SERVER_URL}/${RequestType.GET_ALL_CURRENCIES}?api_key=${env.API_KEY}`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
       next: { revalidate: 3600 },    
     });
-    console.timeEnd('currencies');
+    console.timeEnd('all_currencies');
     
-    console.time('fetch');
+    console.time('pairs_range');
     const [pairsResponse, rangeResponse] = await Promise.all([
       await fetch(`${env.SERVER_URL}/${RequestType.GET_PAIRS}?api_key=${env.API_KEY}&fixed=false&symbol=${inputCurrency}`, {
         method: "GET",
@@ -28,13 +27,20 @@ export default async function Swap(props: { searchParams: Promise<{ inputCurrenc
         headers: { "Content-Type": "application/json" },
       })
     ]);
-    console.timeEnd('fetch');
+    console.timeEnd('pairs_range');
 
-    if (!pairsResponse.ok) throw new Error(`Pairs fetch failed: ${pairsResponse.statusText}`);
     if (!allCurrenciesResponse.ok) throw new Error(`Currencies fetch failed: ${allCurrenciesResponse.statusText}`);
-
-    const allCurrencies = await allCurrenciesResponse.json() as GetCurrencyResponse[];
-    const pairs = (await pairsResponse.json()) as string[];
+    const allCurrencies = (await allCurrenciesResponse.json() as GetCurrencyResponse[]).filter(x => !x.isFiat);
+    
+    let pairs: string[] = [];
+    if (!pairsResponse.ok) {
+      if (pairsResponse.status !== 404) {
+        throw new Error(`Pairs fetch failed: ${pairsResponse.statusText}`);
+      }
+      pairs = [];
+    } else {
+      pairs = (await pairsResponse.json()) as string[];
+    }
     const isActivePair = pairs.includes(outputCurrency);
     let range: GetRangeResponse;
 

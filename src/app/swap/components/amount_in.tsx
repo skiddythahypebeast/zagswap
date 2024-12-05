@@ -2,7 +2,7 @@ import Image from "next/image";
 import { InputContainer } from "./input_container";
 import { type ChangeEvent, useEffect, useMemo, useState } from "react";
 import { useTrimSuffix } from "../hooks";
-import { chainColors, type GetRangeResponse, type GetCurrencyResponse } from "../models";
+import { type GetRangeResponse, type GetCurrencyResponse, CHAIN_DETAILS } from "../models";
 import { TokenSearch } from "./token_search";
 
 interface AmountInProps {
@@ -59,7 +59,7 @@ export const AmountIn = ({ onSelect, inputCurrency, range, isActivePair, amountI
                 />
                 {showList && <div className="absolute inset-0 z-10">
                     <TokenSearch
-                        current={trim(inputCurrency.symbol)} 
+                        current={trim(inputCurrency)} 
                         close={onClose}
                         items={items}
                         onSelect={(item) => {
@@ -98,10 +98,10 @@ export const TokenInput = ({ item, loading, amountIn, showList, onAmountChanged 
 
             <button type="button" className="xl:flex lg:flex md:flex hidden flex-row h-full gap-2 items-center justify-between py-2 px-5 rounded-r-lg xl:max-w-52 lg:max-w-52 md:max-w-52 w-1/2 bg-slate-100" onClick={showList}>
                 {!loading && <><Image src={item.image} alt="" height={20} width={20} />
-                <p className="font-bold">{trim(item.symbol)?.toUpperCase()}</p>
+                <p className="font-bold">{trim(item)?.toUpperCase()}</p>
                     <div className="rounded-full flex items-center justify-center" style={{ 
-                            backgroundColor: chainColors[item.network], 
-                            color: chainColors[item.network] 
+                        backgroundColor: CHAIN_DETAILS[item.network].color, 
+                        color: CHAIN_DETAILS[item.network].color 
                     }}>
                     <p className="text-xs text-white px-2 font-bold">{item.network.toUpperCase()}</p>
                 </div>
@@ -110,11 +110,11 @@ export const TokenInput = ({ item, loading, amountIn, showList, onAmountChanged 
             </button>
 
             <button type="button" className="xl:hidden lg:hidden md:hidden flex flex-row h-full gap-1 items-center justify-between py-2 px-5 rounded-r-lg xl:max-w-52 lg:max-w-52 md:max-w-52 w-1/2 bg-slate-100" onClick={showList}>
-                {<><Image src={item.image} alt="" height={15} width={15} />
-                <p className="font-bold text-sm">{trim(item.symbol)?.toUpperCase()}</p>
+                {!loading && <><Image src={item.image} alt="" height={15} width={15} />
+                <p className="font-bold text-sm">{trim(item)?.toUpperCase()}</p>
                 <div className="rounded-full flex items-center justify-center" style={{ 
-                    backgroundColor: chainColors[item.network], 
-                    color: chainColors[item.network] 
+                    backgroundColor: CHAIN_DETAILS[item.network].color, 
+                    color: CHAIN_DETAILS[item.network].color 
                 }}>
                     <p className="text-xs text-white px-2 font-bold">{item.network.toUpperCase()}</p>
                 </div>

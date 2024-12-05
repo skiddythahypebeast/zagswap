@@ -1,4 +1,4 @@
-import { OrderLoader } from "../components/loader";
+import { OrderLoader } from "../components/page-loader";
 
 export default function Loading() {
     return (<OrderLoader/>)

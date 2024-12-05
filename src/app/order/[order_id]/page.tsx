@@ -6,7 +6,10 @@ import { notFound } from "next/navigation";
 
 export default async function Order(props: { params: Promise<{ order_id: string }> }) {
   const params = await props.params;
-  const data = await fetch(`${env.SERVER_URL}/${RequestType.GET_ORDER}?api_key=${env.API_KEY}&id=${params.order_id}`);
+  const data = await fetch(`${env.SERVER_URL}/${RequestType.GET_ORDER}?api_key=${env.API_KEY}&id=${params.order_id}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" }
+  });
 
   if (data.status == 404) {
     notFound();

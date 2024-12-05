@@ -1,7 +1,7 @@
 "use client"
 
 import { useTrimSuffix } from "../hooks";
-import { chainColors, type GetCurrencyResponse } from "../models";
+import { CHAIN_DETAILS, type GetCurrencyResponse } from "../models";
 import { InputContainer } from "./input_container";
 import Image from "next/image";
 import { TokenSearch } from "./token_search";
@@ -45,7 +45,7 @@ export const AmountOut = ({ outputCurrency, onReceiverChanged, onExtraIdChanged,
                 />
                 {showList && <div className="absolute inset-0 z-10">
                     <TokenSearch
-                        current={trim(outputCurrency.symbol)}
+                        current={trim(outputCurrency)}
                         close={onClose} 
                         items={items}
                         onSelect={(item) => {
@@ -99,10 +99,10 @@ export const TokenInput = ({ outputCurrency, loading, loadingRate, amount, amoun
 
             <button type="button" className="xl:flex lg:flex md:flex hidden flex-row h-full gap-2 items-center justify-between py-2 px-5 rounded-r-lg xl:max-w-52 lg:max-w-52 md:max-w-52 w-1/2 bg-slate-100" onClick={showList}>
                 {!loading && <><Image src={outputCurrency.image} alt="" height={20} width={20} />
-                <p className="font-bold">{trim(outputCurrency.symbol)?.toUpperCase()}</p>
+                <p className="font-bold">{trim(outputCurrency)?.toUpperCase()}</p>
                     <div className="rounded-full flex outputCurrencys-center justify-center" style={{ 
-                            backgroundColor: chainColors[outputCurrency.network], 
-                            color: chainColors[outputCurrency.network] 
+                            backgroundColor: CHAIN_DETAILS[outputCurrency.network].color, 
+                            color: CHAIN_DETAILS[outputCurrency.network].color 
                     }}>
                     <p className="text-xs text-white px-2 font-bold">{outputCurrency.network.toUpperCase()}</p>
                 </div>
@@ -111,11 +111,11 @@ export const TokenInput = ({ outputCurrency, loading, loadingRate, amount, amoun
             </button>
 
             <button type="button" className="xl:hidden lg:hidden md:hidden flex flex-row h-full gap-1 items-center justify-between py-2 px-5 rounded-r-lg xl:max-w-52 lg:max-w-52 md:max-w-52 w-1/2 bg-slate-100" onClick={showList}>
-                {<><Image src={outputCurrency.image} alt="" height={15} width={15} />
-                <p className="font-bold text-sm">{trim(outputCurrency.symbol)?.toUpperCase()}</p>
+                {!loading && <><Image src={outputCurrency.image} alt="" height={15} width={15} />
+                <p className="font-bold text-sm">{trim(outputCurrency)?.toUpperCase()}</p>
                 <div className="rounded-full flex items-center justify-center" style={{ 
-                    backgroundColor: chainColors[outputCurrency.network], 
-                    color: chainColors[outputCurrency.network] 
+                    backgroundColor: CHAIN_DETAILS[outputCurrency.network].color, 
+                    color: CHAIN_DETAILS[outputCurrency.network].color 
                 }}>
                     <p className="text-xs text-white px-2 font-bold">{outputCurrency.network.toUpperCase()}</p>
                 </div>
