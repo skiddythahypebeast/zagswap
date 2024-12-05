@@ -6,25 +6,29 @@ export const dynamic = 'force-dynamic';
 
 export default async function Swap(props: { searchParams: Promise<{ inputCurrency?: string, outputCurrency?: string }> }) {
   try {
+    // Use default values for inputCurrency and outputCurrency if not provided
     const { inputCurrency = Currencies.ETH, outputCurrency = Currencies.USDC_ETH } = await props.searchParams;
 
-    const [allCurrenciesResponse, pairsResponse, rangeResponse] = await Promise.all([
-      fetch(`${env.SERVER_URL}/${RequestType.GET_ALL_CURRENCIES}?api_key=${env.API_KEY}`, {
+    console.time('currencies');
+    const allCurrenciesResponse = await fetch(`${env.SERVER_URL}/${RequestType.GET_ALL_CURRENCIES}?api_key=${env.API_KEY}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      next: { revalidate: 3600 },    
+    });
+    console.timeEnd('currencies');
+    
+    console.time('fetch');
+    const [pairsResponse, rangeResponse] = await Promise.all([
+      await fetch(`${env.SERVER_URL}/${RequestType.GET_PAIRS}?api_key=${env.API_KEY}&fixed=false&symbol=${inputCurrency}`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
-        next: { revalidate: 3600 },
       }),
-      fetch(`${env.SERVER_URL}/${RequestType.GET_PAIRS}?api_key=${env.API_KEY}&fixed=false&symbol=${inputCurrency}`, {
+      await fetch(`${env.SERVER_URL}/${RequestType.GET_RANGE}?api_key=${env.API_KEY}&fixed=false&currency_from=${inputCurrency}&currency_to=${outputCurrency}`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
-        next: { revalidate: 3600 },
-      }),
-      fetch(`${env.SERVER_URL}/${RequestType.GET_RANGE}?api_key=${env.API_KEY}&fixed=false&currency_from=${inputCurrency}&currency_to=${outputCurrency}`, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-        next: { revalidate: 3600 },
       })
     ]);
+    console.timeEnd('fetch');
 
     if (!pairsResponse.ok) throw new Error(`Pairs fetch failed: ${pairsResponse.statusText}`);
     if (!allCurrenciesResponse.ok) throw new Error(`Currencies fetch failed: ${allCurrenciesResponse.statusText}`);
@@ -50,10 +54,10 @@ export default async function Swap(props: { searchParams: Promise<{ inputCurrenc
     return (
       <SwapForm 
         range={range}
+        isActivePair={isActivePair}
         allCurrencies={allCurrencies}
         inputCurrency={inputCurrencyData} 
-        outputCurrency={outputCurrencyData}
-        isActivePair={isActivePair} />
+        outputCurrency={outputCurrencyData} />
     );
   } catch (err) { 
     console.error(err);
