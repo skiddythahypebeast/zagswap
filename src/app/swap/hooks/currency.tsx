@@ -55,16 +55,25 @@ export const useTrimSuffix = () => {
 export const useTokenLookup = (items: GetCurrencyResponse[] | undefined) => {
     const [all, setAll] = useState<GetCurrencyResponse[] | undefined>();
     const [state, setState] = useState<GetCurrencyResponse[] | undefined>();
-    const [query, setQuery] = useState<string | undefined>();
     const [position, setPosition] = useState(1);
     const trim = useTrimSuffix();
 
     useEffect(() => {
+        if(all){
+            setState(all.slice(0, position * 30))
+        }
+    }, [position, all]);
+
+    const next = useCallback(() => {
+        setPosition(position + 1);
+    }, [position]);
+
+    const search = useCallback((event: ChangeEvent<HTMLInputElement>) => {
         setPosition(1);
         setAll(() => {
-            if(items && query){
+            if(items && event.target.value){
                 const sorted = [...items].sort((a, b) => {
-                    const queryLower = query.toLowerCase();
+                    const queryLower = event.target.value.toLowerCase();
                 
                     const priorityA = computePriority(a, queryLower);
                     const priorityB = computePriority(b, queryLower);
@@ -99,21 +108,7 @@ export const useTokenLookup = (items: GetCurrencyResponse[] | undefined) => {
                 return items
             }
         });
-    }, [query, items, trim]);
-
-    useEffect(() => {
-        if(all){
-            setState(all.slice(0, position * 30))
-        }
-    }, [position, all]);
-
-    const next = useCallback(() => {
-        setPosition(position + 1);
-    }, [position]);
-
-    const search = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-        setQuery(!event.target.value ? undefined : event.target.value);
-    }, []);
+    }, [items, trim]);
 
     return { currencies: state, search, next }
 }
