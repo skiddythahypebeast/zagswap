@@ -7,7 +7,7 @@ import Image from "next/image";
 interface TokenSearchProps {
     close: () => void,
     current: string | undefined,
-    items: GetCurrencyResponse[] | undefined,
+    items: GetCurrencyResponse[],
     onSelect: (symbol: string) => void
 }
 export const TokenSearch = ({ close, items, current, onSelect }: TokenSearchProps) => {

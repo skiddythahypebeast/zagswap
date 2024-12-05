@@ -14,7 +14,7 @@ interface AmountInProps {
     isActivePair: boolean,
     amountIn: number | undefined,
     showList: boolean,
-    items: GetCurrencyResponse[] | undefined
+    items: GetCurrencyResponse[]
 }
 export const AmountIn = ({ onSelect, inputCurrency, range, isActivePair, amountIn, onToggleList, onAmountChanged, showList, items }: AmountInProps) =>  {
     const [loading, setLoading] = useState(false);

@@ -15,7 +15,7 @@ interface AmountOutProps {
     amount: number,
     amountIn: number | undefined,
     showList: boolean,
-    items: GetCurrencyResponse[] | undefined,
+    items: GetCurrencyResponse[],
     onReceiverChanged: (value: ValidatedString) => void,
     onExtraIdChanged: (value: ValidatedString | undefined) => void,
     onSelect: (symbol: string) => void,

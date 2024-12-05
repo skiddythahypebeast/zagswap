@@ -52,9 +52,9 @@ export const useTrimSuffix = () => {
     }, []);
 }
 
-export const useTokenLookup = (items: GetCurrencyResponse[] | undefined) => {
-    const [all, setAll] = useState<GetCurrencyResponse[] | undefined>();
-    const [state, setState] = useState<GetCurrencyResponse[] | undefined>();
+export const useTokenLookup = (items: GetCurrencyResponse[]) => {
+    const [all, setAll] = useState<GetCurrencyResponse[]>(items);
+    const [state, setState] = useState<GetCurrencyResponse[]>();
     const [position, setPosition] = useState(1);
     const trim = useTrimSuffix();
 
