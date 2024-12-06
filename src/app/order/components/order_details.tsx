@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { type OrderStatus, type GetOrderResponse } from "../models";
 import { CopyButton } from "./copy_button";
-import { type RequestError, RequestType, type GetCurrencyResponse, CHAIN_DETAILS } from "~/app/swap/models";
+import { type RequestError, type GetCurrencyResponse, CHAIN_DETAILS } from "~/app/swap/models";
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 
@@ -22,25 +22,26 @@ const statusIndexes: Record<OrderStatus, number> = {
     failed: 4
 }
 
-const useOrderDetailPolling = (order_details: GetOrderResponse, order_id: string) => {
+const useOrderDetailPolling = (order_details: GetOrderResponse, orderId: string) => {
     const [state, setState] = useState<GetOrderResponse>(order_details);
 
     useEffect(() => {
         const interval = window.setInterval(() => {
             // TODO - error handling
-            void fetch(`/api/${RequestType.GET_ORDER}?id=${order_id}`, { method: "GET" })
+            void fetch(`/api/order/${orderId}`, { method: "GET" })
                 .then((data: Response) => data.json() as Promise<GetOrderResponse>)
                 .catch((data: Response) => data.json() as Promise<RequestError>)
                 .then(async result => {
                     if ("error" in result) {
                         return;
                     } else {
+                        result.id = orderId;
                         setState(result);
                     }
                 });
         }, 10000);
         return () => window.clearInterval(interval); 
-    }, [order_id]);
+    }, [orderId]);
 
     return state
 }

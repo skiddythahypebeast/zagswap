@@ -1,12 +1,11 @@
-import { RequestType } from "~/app/swap/models";
 import { type GetOrderResponse } from "../models";
-import { env } from "~/env";
 import { OrderDetails } from "../components/order_details";
 import { notFound } from "next/navigation";
 
 export default async function Order(props: { params: Promise<{ order_id: string }> }) {
   const params = await props.params;
-  const data = await fetch(`${env.SERVER_URL}/${RequestType.GET_ORDER}?api_key=${env.API_KEY}&id=${params.order_id}`, {
+  const serverUrl = process.env.NEXT_PUBLIC_URL ?? 'http://localhost:3000'; 
+  const data = await fetch(`${serverUrl}/api/order/${params.order_id}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" }
   });
@@ -19,6 +18,8 @@ export default async function Order(props: { params: Promise<{ order_id: string 
   }
 
   const order_details = await data.json() as GetOrderResponse;
+  order_details.id = params.order_id;
+
   const currency_from = order_details.currencies[order_details.currency_from];
   const currency_to = order_details.currencies[order_details.currency_to];
 

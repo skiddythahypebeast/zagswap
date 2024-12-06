@@ -99,7 +99,8 @@ export const useSimpleSwapForm = (inputCurrency: GetCurrencyResponse, outputCurr
                     setState(prev => ({ ...prev, submitting: false }));
                     console.error(response);
                 } else {
-                    router.push(`/order/${response.id}`);
+                    const idBuffer = Buffer.from(response.id);
+                    router.push(`/order/${idBuffer.toString('hex')}`);
                     setState(prev => ({ ...prev, submitting: false }));
                 }
             })

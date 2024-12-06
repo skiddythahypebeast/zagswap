@@ -22,9 +22,9 @@ export default function RootLayout({
             <Image src="/icons/qr.svg" alt="" height={25} width={25} />
           </Link>
           <nav className="flex flex-row gap-5 h-full items-center">
-            <Link href="/order/emdx7mzjts48mc9c">Orders</Link>
+            <Link href="/order/6c793436363674723034776a6e776c31">Orders</Link>
             <Link href="/swap">
-              <p>swap</p>
+              <p>Swap</p>
             </Link>
           </nav>
         </header>
