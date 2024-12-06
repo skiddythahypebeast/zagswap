@@ -22,7 +22,6 @@ export const useValidatedStringInput = (validator: string | undefined | null, al
     }, [value, validator, allowEmpty]);
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-        console.log(event.target.value);
         setValue(event.target.value)
     }
 

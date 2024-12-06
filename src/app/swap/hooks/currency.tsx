@@ -12,7 +12,7 @@ export const useTrimSuffix = () => {
         if (updated_name.endsWith("-")) {
             updated_name = updated_name.replace("-", "");
         }
-        if (item.network == Networks.OPTIMISM && updated_name.endsWith("op")) {
+        if (updated_name !== "op" && item.network == Networks.OPTIMISM && updated_name.endsWith("op")) {
             updated_name = updated_name.replace("op", "");
         }
         if (updated_name !== "trc20" && updated_name.endsWith("trc20")) {

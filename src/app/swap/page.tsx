@@ -1,11 +1,11 @@
 import { env } from "~/env";
 import { SwapForm } from "./components/form";
 import { Currencies, type GetCurrencyResponse, type GetRangeResponse, RequestType } from "./models";
+import { notFound } from "next/navigation";
 
 export const dynamic = 'force-dynamic';
 
 export default async function Swap(props: { searchParams: Promise<{ inputCurrency?: string, outputCurrency?: string }> }) {
-  try {
     const { inputCurrency = Currencies.ETH, outputCurrency = Currencies.USDC_ETH } = await props.searchParams;
 
     console.time('all_currencies');
@@ -54,7 +54,8 @@ export default async function Swap(props: { searchParams: Promise<{ inputCurrenc
     const inputCurrencyData = allCurrencies.find((c) => c.symbol === inputCurrency);
     const outputCurrencyData = allCurrencies.find((c) => c.symbol === outputCurrency);
     if (!inputCurrencyData || !outputCurrencyData) {
-      throw new Error(`Currency not found: ${inputCurrency} or ${outputCurrency}`);
+      console.error(`Currency not found: ${inputCurrency} or ${outputCurrency}`);
+      notFound();
     }
   
     return (
@@ -65,8 +66,4 @@ export default async function Swap(props: { searchParams: Promise<{ inputCurrenc
         inputCurrency={inputCurrencyData} 
         outputCurrency={outputCurrencyData} />
     );
-  } catch (err) { 
-    console.error(err);
-    throw new Error("Internal server error");
-  }
 }
