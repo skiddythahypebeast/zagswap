@@ -51,19 +51,17 @@ export const OrderDetails = ({ order_details, currency_from, currency_to, order_
     const statusIndex = statusIndexes[orderDetails.status];
     return (
         <div className="w-[500px] xl:max-w-[80%] lg:max-w-[80%] md:max-w-[80%] max-w-[95%] py-20 flex flex-col gap-2">
-            <div className="border-slate-200 border-[1px] px-2 py-1 w-full rounded-md justify-between flex flex-row gap-2">
-                <p className="text-sm font-bold">Order ID:</p>
-                <CopyButton value={orderDetails.id} className="flex flex-row gap-2 items-center opacity-70 hover:opacity-100">
-                    <p className="fade-in text-sm font-semibold font-mono">{orderDetails.id}</p>
-                    <Image src="/icons/copy.svg" className="fade-in" alt="" height={10} width={10} />
-                </CopyButton>
-            </div>
+            <CopyButton value={orderDetails.id} className="border-slate-200 border-[1px] px-2 py-1  rounded-md lex justify-between w-full flex flex-row gap-2 items-center opacity-70 hover:opacity-100">
+                <p className="text-sm font-bold text-nowrap">Order ID:</p>
+                <p className="fade-in text-sm font-semibold truncate font-mono text-right w-full">{orderDetails.id}</p>
+                <Image src="/icons/copy.svg" className="fade-in" alt="" height={10} width={10} />
+            </CopyButton>
             {statusIndex >= 4 && <OrderResult 
                 currency_from={currency_from} 
                 currency_to={currency_to}
                 status={orderDetails.status}
                 orderDetails={orderDetails}/>}
-            {statusIndex < 4 && <DepositDetails
+            {statusIndex == 0 && <DepositDetails
                 amount={orderDetails.amount_from}
                 currency={currency_from}
                 from={orderDetails.address_from} />}
@@ -175,11 +173,9 @@ const RecieveDetails = ({ amount, from, title, currency, direction, extraId }: {
                 <p className="text-sm font-bold">{title}</p>
             </div>
             <CopyButton value={from} className="group flex flex-row justify-between h-12 gap-5 items-center xl:px-5 lg:px-5 md:px-5 px-3 bg-zinc-100 shadow-sm shadow-[#00000030] rounded-lg">
-                <div className="flex flex-row h-8 gap-2 items-center rounded-md py-1">
-                    <p className="opacity-60 text-xs font-medium">{direction}</p>
-                    <p className="fade-in xl:text-md lg:text-md md:text-md text-sm font-semibold text-center truncate group-hover:opacity-90 opacity-70">{from}</p>
-                </div>
-                <Image className="fade-in group-hover:opacity-90 opacity-70" src="/icons/copy.svg" alt="" height={12} width={12} />
+                <p className="opacity-60 text-xs font-medium">{direction}</p>
+                <p className="fade-in xl:text-md lg:text-md md:text-md text-sm font-semibold text-center truncate group-hover:opacity-90 opacity-70">{from}</p>
+            <Image className="fade-in group-hover:opacity-90 opacity-70" src="/icons/copy.svg" alt="" height={12} width={12} />
             </CopyButton>
             <div className="flex flex-row h-10 py-1 xl:px-5 lg:px-5 md:px-5 px-3 items-center rounded-md justify-between bg-zinc-100 shadow-sm shadow-[#00000030]">
                 <div className="flex flex-row h-8 gap-2 items-center rounded-md py-1">
