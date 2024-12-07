@@ -16,6 +16,7 @@ export default async function RootLayout({
   children
 }: Readonly<{ children: React.ReactNode }>) {
   const session = await getServerSession(authOptions);
+
   return (
     <html lang="en" className={`${GeistSans.variable}`}>
       <body className="min-h-screen w-full text-stone-800">

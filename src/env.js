@@ -11,8 +11,8 @@ export const env = createEnv({
     SERVER_URL: z.string(),
     API_KEY_WITH_FEE: z.string(),
     API_KEY_FREE: z.string(),
-    AUTH_SECRET: z.string(),
-    PROVIDER_URL: z.string()
+    PROVIDER_URL: z.string(),
+    NEXTAUTH_SECRET: z.string()
   },
 
   /**
@@ -34,7 +34,7 @@ export const env = createEnv({
     NODE_ENV: process.env.NODE_ENV,
     API_KEY_WITH_FEE: process.env.API_KEY_WITH_FEE,
     SERVER_URL: process.env.SERVER_URL,
-    AUTH_SECRET: process.env.AUTH_SECRET
+    NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET
     // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
   },
   /**
