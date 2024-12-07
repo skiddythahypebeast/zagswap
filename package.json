@@ -16,11 +16,18 @@
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,mdx}\" --cache"
   },
   "dependencies": {
+    "@rainbow-me/rainbowkit": "^2.2.1",
+    "@rainbow-me/rainbowkit-siwe-next-auth": "^0.5.0",
     "@t3-oss/env-nextjs": "^0.10.1",
+    "@tanstack/react-query": "^5.62.2",
+    "ethers": "^6.13.4",
     "geist": "^1.3.0",
     "next": "^15.0.3",
+    "next-auth": "^4.24.10",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "viem": "^2.21.54",
+    "wagmi": "^2.13.3",
     "zod": "^3.23.3"
   },
   "devDependencies": {
@@ -36,7 +43,7 @@
     "prettier": "^3.3.2",
     "prettier-plugin-tailwindcss": "^0.6.5",
     "tailwindcss": "^3.4.3",
-    "typescript": "^5.5.3"
+    "typescript": "5.0.4"
   },
   "ct3aMetadata": {
     "initVersion": "7.38.1"

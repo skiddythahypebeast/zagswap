@@ -8,12 +8,14 @@ import { useCurrentPair } from "../hooks/pairs";
 import Image from "next/image";
 import { InputContainer } from "./input_container";
 import { type GetRangeResponse, type GetCurrencyResponse } from "../models";
+import { useSession } from "next-auth/react";
+import { ExtraId, Receiver } from "./receiver";
 
 interface SwapFormProps { 
   outputCurrency: GetCurrencyResponse, 
   inputCurrency: GetCurrencyResponse, 
   allCurrencies: GetCurrencyResponse[],
-  range: GetRangeResponse, 
+  range: GetRangeResponse,
   isActivePair: boolean 
 };
 export const SwapForm = ({ outputCurrency, inputCurrency, allCurrencies, isActivePair, range }: SwapFormProps) => {
@@ -21,6 +23,7 @@ export const SwapForm = ({ outputCurrency, inputCurrency, allCurrencies, isActiv
     const [list, toggleList] = useState(0);
     const [loading, setLoading] = useState(false);
     const { updateInputCurrency, updateOutputCurrency, switchDirection } = useCurrentPair(inputCurrency, outputCurrency);
+    const { data: session } = useSession();
     const { form, handleAmountInChange, handleExtraIdChange, handleReceiverChange, submit } = useSimpleSwapForm(
       inputCurrency,
       outputCurrency,
@@ -28,12 +31,19 @@ export const SwapForm = ({ outputCurrency, inputCurrency, allCurrencies, isActiv
       fixed,
       isActivePair
     );
+    const { exchange } = useExchange(
+      form.amountIn, 
+      range, 
+      inputCurrency, 
+      outputCurrency, 
+      fixed, 
+      isActivePair, 
+      session?.user.fee
+    );
 
     useEffect(() => {
       setLoading(false);
     }, [inputCurrency, outputCurrency]);
-
-    const { exchange } = useExchange(form.amountIn, range, inputCurrency, outputCurrency, fixed, isActivePair);
 
     return (
         <form onSubmit={submit} className="w-full bg-white flex flex-col items-center justify-start gap-1">
@@ -73,19 +83,33 @@ export const SwapForm = ({ outputCurrency, inputCurrency, allCurrencies, isActiv
               updateOutputCurrency(symbol);
               toggleList(0);
             }}
-            onExtraIdChanged={handleExtraIdChange}
-            onReceiverChanged={handleReceiverChange}
             onToggleList={(toggle) => toggleList(toggle ? 2 : 0)}
             loadingRate={exchange.loading} 
             items={allCurrencies}
           />
+          <div className="h-0"/>
+          <Receiver
+            currency={outputCurrency}
+            validator={outputCurrency.validation_address}
+            onChange={handleReceiverChange}/>
+          {outputCurrency.has_extra_id && <ExtraId
+            validator={outputCurrency.validation_extra}
+            currency={outputCurrency}
+            onChange={handleExtraIdChange}/>}
           <div className="relative w-full flex items-center justify-center h-0 z-50"/>
           <InputContainer position="center">
             <button disabled={!form.valid || loading || form.submitting} type="submit" className={`${(!form.valid || loading || form.submitting) ? "opacity-50" : "opacity-90 hover:opacity-100"} transition-all duration-300 w-full py-5 h-full bg-blue-400 flex flex-row items-center justify-center gap-5`}>
-              <p className="text-lg font-semibold text-white">Create exchange</p>
+              <p className="text-lg font-semibold text-white">Create order</p>
               {(form.submitting || loading) && <Image className="animate-spin" src="/icons/white-spinner.svg" alt="" height={15} width={15} />}
             </button>
           </InputContainer>
+          <div className={`w-full rounded-lg py-1 flex flex-row items-center justify-between`}>
+            <p className={`text-stone-800 font-bold px-2 text-sm`}>Fee</p>
+            <span className="flex flex-row gap-2 items-center justify-center bg-blue-300 rounded-full p-1 px-2">
+              <p className={`text-stone-800 font-bold px-1 text-sm`}>{session?.user.fee ?? "2%"}</p>
+              <Image src="/icons/info.svg" className="opacity-50" alt="" height={17} width={17} />
+            </span>
+          </div>
         </form>
     )
 }

@@ -8,26 +8,22 @@ export const dynamic = 'force-dynamic';
 export default async function Swap(props: { searchParams: Promise<{ inputCurrency?: string, outputCurrency?: string }> }) {
     const { inputCurrency = Currencies.ETH, outputCurrency = Currencies.USDC_ETH } = await props.searchParams;
 
-    console.time('all_currencies');
-    const allCurrenciesResponse = await fetch(`${env.SERVER_URL}/${RequestType.GET_ALL_CURRENCIES}?api_key=${env.API_KEY}`, {
+    const allCurrenciesResponse = await fetch(`${env.SERVER_URL}/${RequestType.GET_ALL_CURRENCIES}?api_key=${env.API_KEY_FREE}`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
       next: { revalidate: 3600 },    
     });
-    console.timeEnd('all_currencies');
     
-    console.time('pairs_range');
     const [pairsResponse, rangeResponse] = await Promise.all([
-      await fetch(`${env.SERVER_URL}/${RequestType.GET_PAIRS}?api_key=${env.API_KEY}&fixed=false&symbol=${inputCurrency}`, {
+      await fetch(`${env.SERVER_URL}/${RequestType.GET_PAIRS}?api_key=${env.API_KEY_FREE}&fixed=false&symbol=${inputCurrency}`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       }),
-      await fetch(`${env.SERVER_URL}/${RequestType.GET_RANGE}?api_key=${env.API_KEY}&fixed=false&currency_from=${inputCurrency}&currency_to=${outputCurrency}`, {
+      await fetch(`${env.SERVER_URL}/${RequestType.GET_RANGE}?api_key=${env.API_KEY_FREE}&fixed=false&currency_from=${inputCurrency}&currency_to=${outputCurrency}`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       })
     ]);
-    console.timeEnd('pairs_range');
 
     if (!allCurrenciesResponse.ok) throw new Error(`Currencies fetch failed: ${allCurrenciesResponse.statusText}`);
     const allCurrencies = (await allCurrenciesResponse.json() as GetCurrencyResponse[]).filter(x => !x.isFiat);

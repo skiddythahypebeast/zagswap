@@ -13,7 +13,7 @@ export async function GET(_: NextRequest, props: { params: Promise<{ order_id: s
     notFound();
   }
 
-  const response = await fetch(`${env.SERVER_URL}/${RequestType.GET_ORDER}?api_key=${env.API_KEY}&id=${order_id}`, {
+  const response = await fetch(`${env.SERVER_URL}/${RequestType.GET_ORDER}?api_key=${env.API_KEY_FREE}&id=${order_id}`, {
     method: 'GET',
     headers: { "Content-Type": "application/json"},
   });

@@ -2,6 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+[data-rk] {
+    --rk-shadows-connectButton: none !important;
+}
+
+[data-rk] ._12cbo8i3:hover {
+    transform: scale(1) !important;
+    opacity: 100% !important;
+}
+
+[data-rk] ._12cbo8i3 {
+    opacity: 90% !important;
+}
+
 .gradient-loader {
     background: repeating-linear-gradient(to right, transparent, #00000020, transparent);
     background-size: 200% auto;

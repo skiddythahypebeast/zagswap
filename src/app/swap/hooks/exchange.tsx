@@ -7,7 +7,7 @@ interface UseExchangeState {
     amountOut: number,
     loading: boolean
 }
-export const useExchange = (amountIn: number | undefined, range: GetRangeResponse, inputCurrency: GetCurrencyResponse, outputCurrency: GetCurrencyResponse, fixed: boolean, isActivePair: boolean) => {
+export const useExchange = (amountIn: number | undefined, range: GetRangeResponse, inputCurrency: GetCurrencyResponse, outputCurrency: GetCurrencyResponse, fixed: boolean, isActivePair: boolean, fee: string | undefined) => {
     const [state, setState] = useState<UseExchangeState>({
         response: undefined,
         error: undefined,
@@ -54,7 +54,7 @@ export const useExchange = (amountIn: number | undefined, range: GetRangeRespons
                 }
             }
         }
-    }, [range, isActivePair, amountIn, handleRequest]);
+    }, [range, isActivePair, amountIn, handleRequest, fee]);
 
     useEffect(() => {
         return () => {

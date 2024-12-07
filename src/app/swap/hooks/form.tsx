@@ -1,5 +1,4 @@
 import { type ChangeEvent, type FormEvent, useCallback, useEffect, useState } from "react";
-import { RequestType } from "../models";
 import type { CreateExchangePayload, CreateExchangeResponse, GetCurrencyResponse, GetRangeResponse, RequestError, SimpleSwapFormState } from "../models";
 import { useRouter } from "next/navigation";
 import { type ValidatedString } from "./input";
@@ -87,7 +86,7 @@ export const useSimpleSwapForm = (inputCurrency: GetCurrencyResponse, outputCurr
                 user_refund_address: "",
                 user_refund_extra_id: ""
             }
-            void fetch(`/api/${RequestType.CREATE_EXCHANGE}`, { 
+            void fetch(`/api/create_order`, { 
                 method: "POST", 
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(request)

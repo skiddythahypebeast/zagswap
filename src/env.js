@@ -9,7 +9,10 @@ export const env = createEnv({
   server: {
     NODE_ENV: z.enum(["development", "test", "production"]),
     SERVER_URL: z.string(),
-    API_KEY: z.string()
+    API_KEY_WITH_FEE: z.string(),
+    API_KEY_FREE: z.string(),
+    AUTH_SECRET: z.string(),
+    PROVIDER_URL: z.string()
   },
 
   /**
@@ -26,9 +29,12 @@ export const env = createEnv({
    * middlewares) or client-side so we need to destruct manually.
    */
   runtimeEnv: {
+    PROVIDER_URL: process.env.PROVIDER_URL,
+    API_KEY_FREE: process.env.API_KEY_FREE,
     NODE_ENV: process.env.NODE_ENV,
-    API_KEY: process.env.API_KEY,
-    SERVER_URL: process.env.SERVER_URL
+    API_KEY_WITH_FEE: process.env.API_KEY_WITH_FEE,
+    SERVER_URL: process.env.SERVER_URL,
+    AUTH_SECRET: process.env.AUTH_SECRET
     // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
   },
   /**
