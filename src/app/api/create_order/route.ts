@@ -7,8 +7,6 @@ export async function POST(request: NextRequest) {
     const url = new URL(`${env.SERVER_URL}/create_exchange`);
     const token = await getToken({ req: request });
 
-    console.log(token);
-    
     if (token?.swap_api_key) {
         url.searchParams.append('api_key', token.swap_api_key);
     } else {

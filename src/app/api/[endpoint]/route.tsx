@@ -7,8 +7,6 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
   const token = await getToken({ req: request });
   const url = new URL(`${env.SERVER_URL}/${(await params).endpoint}`);
 
-  console.log(token);
-
   if (token?.swap_api_key) {
     url.searchParams.append('api_key', token.swap_api_key);
   } else {
