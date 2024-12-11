@@ -61,7 +61,7 @@ export const useTokenLookup = (items: GetCurrencyResponse[]) => {
 
     useEffect(() => {
         if(all){
-            setState(all.slice(0, position * 30))
+            setState(all.slice(0, position * 10))
         }
     }, [position, all]);
 

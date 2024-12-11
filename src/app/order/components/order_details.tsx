@@ -3,9 +3,10 @@
 import Image from "next/image";
 import { type OrderStatus, type GetOrderResponse } from "../models";
 import { CopyButton } from "./copy_button";
-import { type RequestError, type GetCurrencyResponse, CHAIN_DETAILS } from "~/app/swap/models";
+import { type RequestError, type GetCurrencyResponse } from "~/app/swap/models";
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import { CHAIN_COLORS } from "~/app/swap/models/colors";
 
 // in order of status change flow
 const statusIndexes: Record<OrderStatus, number> = {
@@ -157,7 +158,7 @@ const DepositDetails = ({ from, amount, currency }: { from: string, amount: stri
                 {currency && <div className="flex flex-row gap-2">
                     <Image className="fade-in" src={currency?.image ?? "/icons/coin.svg"} alt="" height={25} width={25} />
                     <p className="fade-in text-md font-medium">{currency.symbol.toUpperCase()}</p>
-                    <div className="fade-in px-2 rounded-full flex items-center justify-center" style={{ backgroundColor: CHAIN_DETAILS[currency.network].color }}>
+                    <div className="fade-in px-2 rounded-full flex items-center justify-center" style={{ backgroundColor: CHAIN_COLORS[currency.network] }}>
                         <p className="text-sm font-bold text-white">{currency.network.toUpperCase()}</p>
                     </div>
                 </div>} 
@@ -185,7 +186,7 @@ const RecieveDetails = ({ amount, from, title, currency, direction, extraId }: {
                 <div className="flex flex-row gap-2">
                     <Image className="fade-in" src={currency.image} alt="" height={20} width={20} />
                     <p className="fade-in text-sm font-medium">{currency.symbol.toUpperCase()}</p>
-                    <div className="fade-in px-2 rounded-full flex items-center justify-center" style={{ backgroundColor: CHAIN_DETAILS[currency.network].color }}>
+                    <div className="fade-in px-2 rounded-full flex items-center justify-center" style={{ backgroundColor: CHAIN_COLORS[currency.network] }}>
                         <p className="text-xs font-bold text-white">{currency.network.toUpperCase()}</p>
                     </div>
                 </div> 

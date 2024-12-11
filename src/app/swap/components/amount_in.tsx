@@ -2,8 +2,9 @@ import Image from "next/image";
 import { InputContainer } from "./input_container";
 import { type ChangeEvent, useEffect, useMemo, useState } from "react";
 import { useTrimSuffix } from "../hooks";
-import { type GetRangeResponse, type GetCurrencyResponse, CHAIN_DETAILS } from "../models";
+import { type GetRangeResponse, type GetCurrencyResponse } from "../models";
 import { TokenSearch } from "./token_search";
+import { CHAIN_COLORS } from "../models/colors";
 
 interface AmountInProps {
     onSelect: (symbol: string) => void,
@@ -100,8 +101,8 @@ export const TokenInput = ({ item, loading, amountIn, showList, onAmountChanged 
                 {!loading && <><Image src={item.image} alt="" height={20} width={20} />
                 <p className="font-bold">{trim(item)?.toUpperCase()}</p>
                     <div className="rounded-full flex items-center justify-center" style={{ 
-                        backgroundColor: CHAIN_DETAILS[item.network].color, 
-                        color: CHAIN_DETAILS[item.network].color 
+                        backgroundColor: CHAIN_COLORS[item.network], 
+                        color: CHAIN_COLORS[item.network]
                     }}>
                     <p className="text-xs text-white px-2 font-bold">{item.network.toUpperCase()}</p>
                 </div>
@@ -113,8 +114,8 @@ export const TokenInput = ({ item, loading, amountIn, showList, onAmountChanged 
                 {!loading && <><Image src={item.image} alt="" height={20} width={20} />
                 <p className="font-bold text-sm">{trim(item)?.toUpperCase()}</p>
                 <div className="rounded-full flex items-center justify-center" style={{ 
-                    backgroundColor: CHAIN_DETAILS[item.network].color, 
-                    color: CHAIN_DETAILS[item.network].color 
+                    backgroundColor: CHAIN_COLORS[item.network], 
+                    color: CHAIN_COLORS[item.network] 
                 }}>
                     <p className="text-xs text-white px-2 font-bold">{item.network.toUpperCase()}</p>
                 </div>

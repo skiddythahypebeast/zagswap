@@ -12,7 +12,9 @@ export const env = createEnv({
     API_KEY_WITH_FEE: z.string(),
     API_KEY_FREE: z.string(),
     PROVIDER_URL: z.string(),
-    NEXTAUTH_SECRET: z.string()
+    NEXTAUTH_SECRET: z.string(),
+    TREASURY_ADDRESS: z.string(),
+    REVSHARE_ADDRESS: z.string(),
   },
 
   /**
@@ -21,6 +23,8 @@ export const env = createEnv({
    * `NEXT_PUBLIC_`.
    */
   client: {
+    NEXT_PUBLIC_TREASURY_ADDRESS: z.string(),
+    NEXT_PUBLIC_REVSHARE_ADDRESS: z.string(),
     // NEXT_PUBLIC_CLIENTVAR: z.string(),
   },
 
@@ -34,8 +38,11 @@ export const env = createEnv({
     NODE_ENV: process.env.NODE_ENV,
     API_KEY_WITH_FEE: process.env.API_KEY_WITH_FEE,
     SERVER_URL: process.env.SERVER_URL,
-    NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET
-    // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
+    NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
+    TREASURY_ADDRESS: process.env.REVSHARE_ADDRESS,
+    REVSHARE_ADDRESS: process.env.REVSHARE_ADDRESS,
+    NEXT_PUBLIC_TREASURY_ADDRESS: process.env.NEXT_PUBLIC_REVSHARE_ADDRESS,
+    NEXT_PUBLIC_REVSHARE_ADDRESS: process.env.NEXT_PUBLIC_REVSHARE_ADDRESS
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

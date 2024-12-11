@@ -1,8 +1,9 @@
 import { type ChangeEvent, type UIEventHandler, useEffect, useRef, useState } from "react";
 import { useTokenLookup, useTrimSuffix } from "../hooks";
-import { CHAIN_DETAILS, type GetCurrencyResponse } from "../models";
+import { type GetCurrencyResponse } from "../models";
 import { InputContainer } from "./input_container";
 import Image from "next/image";
+import { CHAIN_COLORS } from "../models/colors";
 
 interface TokenSearchProps {
     close: () => void,
@@ -70,8 +71,8 @@ export const TokenSearch = ({ close, items, current, onSelect }: TokenSearchProp
                     <span className="flex flex-row items-center gap-3">
                         <p className="opacity-80 xl:text-sm lg:text-sm md:text-sm text-xs font-semibold">{entry.name}</p>
                         <div className="rounded-full flex items-center justify-center border-2" style={{ 
-                            borderColor: CHAIN_DETAILS[entry.network].color, 
-                            color: CHAIN_DETAILS[entry.network].color
+                            borderColor: CHAIN_COLORS[entry.network], 
+                            color: CHAIN_COLORS[entry.network]
                         }}>
                             <p className="text-xs px-2 font-bold">{entry.network.toUpperCase()}</p>
                         </div>

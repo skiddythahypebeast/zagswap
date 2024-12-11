@@ -1,13 +1,13 @@
 import { useEffect } from "react";
 import { InputContainer } from "./input_container"
-import { CHAIN_DETAILS, type GetCurrencyResponse } from "../models";
+import { type OutputCurrency, type GetCurrencyResponse } from "../models";
 import Image from "next/image";
 import Link from "next/link";
 import { useValidatedStringInput, type ValidatedString } from "../hooks/input";
 
 interface RecieverProps {
     onChange: (value: ValidatedString) => void,
-    currency: GetCurrencyResponse,
+    currency: OutputCurrency,
     validator: string | null | undefined
 }
 export const Receiver = ({ currency, onChange, validator }: RecieverProps) => {
@@ -27,7 +27,7 @@ export const Receiver = ({ currency, onChange, validator }: RecieverProps) => {
             <InputContainer position="center">
                 <input 
                     onChange={handleChange}
-                    placeholder={CHAIN_DETAILS[currency.network].placeholder}
+                    placeholder={currency.placeholder}
                     className="h-full w-full text-stone-800 xl:text-lg lg:text-lg md:text-lg text-md outline-none py-2 px-5 bg-transparent rounded-md" 
                 />
             </InputContainer>

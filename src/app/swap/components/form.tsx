@@ -7,12 +7,12 @@ import { AmountIn } from "./amount_in";
 import { useCurrentPair } from "../hooks/pairs";
 import Image from "next/image";
 import { InputContainer } from "./input_container";
-import { type GetRangeResponse, type GetCurrencyResponse } from "../models";
+import { type GetRangeResponse, type GetCurrencyResponse, type OutputCurrency } from "../models";
 import { useSession } from "next-auth/react";
 import { ExtraId, Receiver } from "./receiver";
 
 interface SwapFormProps { 
-  outputCurrency: GetCurrencyResponse, 
+  outputCurrency: OutputCurrency, 
   inputCurrency: GetCurrencyResponse, 
   allCurrencies: GetCurrencyResponse[],
   range: GetRangeResponse,

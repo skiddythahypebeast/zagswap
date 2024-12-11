@@ -1,6 +1,6 @@
 import { env } from "~/env";
 import { SwapForm } from "./components/form";
-import { Currencies, type GetCurrencyResponse, type GetRangeResponse, RequestType } from "./models";
+import { CHAIN_PLACEHOLDERS, Currencies, type GetCurrencyResponse, type GetRangeResponse, RequestType } from "./models";
 import { notFound } from "next/navigation";
 
 export const dynamic = 'force-dynamic';
@@ -49,6 +49,7 @@ export default async function Swap(props: { searchParams: Promise<{ inputCurrenc
 
     const inputCurrencyData = allCurrencies.find((c) => c.symbol === inputCurrency);
     const outputCurrencyData = allCurrencies.find((c) => c.symbol === outputCurrency);
+
     if (!inputCurrencyData || !outputCurrencyData) {
       console.error(`Currency not found: ${inputCurrency} or ${outputCurrency}`);
       notFound();
@@ -60,6 +61,9 @@ export default async function Swap(props: { searchParams: Promise<{ inputCurrenc
         isActivePair={isActivePair}
         allCurrencies={allCurrencies}
         inputCurrency={inputCurrencyData} 
-        outputCurrency={outputCurrencyData} />
+        outputCurrency={{ 
+          ...outputCurrencyData, 
+          placeholder: CHAIN_PLACEHOLDERS[outputCurrencyData.network] 
+        }} />
     );
 }

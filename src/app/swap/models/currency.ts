@@ -18,6 +18,10 @@ export interface GetCurrencyResponse {
     isFiat: boolean
 }
 
+export interface OutputCurrency extends GetCurrencyResponse {
+    placeholder: string
+}
+
 export interface Currency extends GetCurrencyResponse {
     isPair: boolean
 }

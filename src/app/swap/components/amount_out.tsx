@@ -1,11 +1,12 @@
 "use client"
 
 import { useTrimSuffix } from "../hooks";
-import { CHAIN_DETAILS, type GetCurrencyResponse } from "../models";
+import { type GetCurrencyResponse } from "../models";
 import { InputContainer } from "./input_container";
 import Image from "next/image";
 import { TokenSearch } from "./token_search";
 import { useEffect, useState } from "react";
+import { CHAIN_COLORS } from "../models/colors";
 
 interface AmountOutProps {
     outputCurrency: GetCurrencyResponse,
@@ -87,8 +88,8 @@ export const TokenInput = ({ outputCurrency, loading, loadingRate, amount, amoun
                 {!loading && <><Image src={outputCurrency.image} alt="" height={20} width={20} />
                 <p className="font-bold">{trim(outputCurrency)?.toUpperCase()}</p>
                     <div className="rounded-full flex outputCurrencys-center justify-center" style={{ 
-                            backgroundColor: CHAIN_DETAILS[outputCurrency.network].color, 
-                            color: CHAIN_DETAILS[outputCurrency.network].color 
+                        backgroundColor: CHAIN_COLORS[outputCurrency.network], 
+                        color: CHAIN_COLORS[outputCurrency.network]
                     }}>
                     <p className="text-xs text-white px-2 font-bold">{outputCurrency.network.toUpperCase()}</p>
                 </div>
@@ -100,8 +101,8 @@ export const TokenInput = ({ outputCurrency, loading, loadingRate, amount, amoun
                 {!loading && <><Image src={outputCurrency.image} alt="" height={20} width={20} />
                 <p className="font-bold text-sm">{trim(outputCurrency)?.toUpperCase()}</p>
                 <div className="rounded-full flex items-center justify-center" style={{ 
-                    backgroundColor: CHAIN_DETAILS[outputCurrency.network].color, 
-                    color: CHAIN_DETAILS[outputCurrency.network].color 
+                    backgroundColor: CHAIN_COLORS[outputCurrency.network], 
+                    color: CHAIN_COLORS[outputCurrency.network]
                 }}>
                     <p className="text-xs text-white px-2 font-bold">{outputCurrency.network.toUpperCase()}</p>
                 </div>
