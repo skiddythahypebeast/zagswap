@@ -51,8 +51,8 @@ export const OrderDetails = ({ order_details, currency_from, currency_to, order_
     const orderDetails = useOrderDetailPolling(order_details, order_id);
     const statusIndex = statusIndexes[orderDetails.status];
     return (
-        <div className="w-[500px] xl:max-w-[80%] lg:max-w-[80%] md:max-w-[80%] max-w-[95%] py-20 flex flex-col gap-2">
-            <CopyButton value={orderDetails.id} className="border-slate-200 border-[1px] px-2 py-1  rounded-md lex justify-between w-full flex flex-row gap-2 items-center opacity-70 hover:opacity-100">
+        <div className="w-[500px] xl:max-w-[80%] lg:max-w-[80%] md:max-w-[80%] max-w-[95%] gap-2 flex flex-col bg-slate-100 shadow-inner shadow-[#00000020] rounded-xl p-5">
+            <CopyButton value={orderDetails.id} className="border-slate-300 border-[1px] px-2 py-1  rounded-md lex justify-between w-full flex flex-row gap-2 items-center opacity-70 hover:opacity-100">
                 <p className="text-sm font-bold text-nowrap">Order ID:</p>
                 <p className="fade-in text-sm font-semibold truncate font-mono text-right w-full">{orderDetails.id}</p>
                 <Image src="/icons/copy.svg" className="fade-in" alt="" height={10} width={10} />
@@ -91,7 +91,7 @@ export const OrderDetails = ({ order_details, currency_from, currency_to, order_
 const OrderResult = ({ orderDetails, currency_from, currency_to, status }: { orderDetails: GetOrderResponse, status: OrderStatus, currency_from: GetCurrencyResponse, currency_to: GetCurrencyResponse }) => {
     const [showDetails, toggleDetails] = useState(false);
     return (
-        <div className="flex flex-col gap-5 items-center bg-white shadow-md shadow-[#00000020] rounded-lg p-5">
+        <div className="flex flex-col gap-2 items-center rounded-lg p-5">
             <div className="flex flex-col items-center gap-2">
                 <h2 className={`${status === "finished" ? "text-green-500" : "text-stone-800"} text-2xl font-medium text-center`}>Order {status === "refunded" ? "failed" : status}</h2>
                 <div className="h-40 flex items-center justify-center">
@@ -113,7 +113,7 @@ const OrderResult = ({ orderDetails, currency_from, currency_to, status }: { ord
                 </button>
                 <Link 
                     href={`/swap?inputCurrency=${currency_from.symbol}&ouputCurrency=${currency_to.symbol}`} 
-                    className="px-5 py-2 bg-blue-500 w-fit rounded-lg text-white flex items-center justify-center">
+                    className="px-5 py-2 primary-button w-fit text-white flex items-center justify-center">
                     <Image src="/icons/white-refresh.svg" alt="" height={20} width={20} />
                 </Link>
             </div>}
@@ -139,7 +139,7 @@ const OrderResult = ({ orderDetails, currency_from, currency_to, status }: { ord
 
 const DepositDetails = ({ from, amount, currency }: { from: string, amount: string, currency: GetCurrencyResponse }) => {
     return (
-        <div className="p-2 gap-2 flex flex-col mt-5 bg-blue-100 rounded-lg">
+        <div className="p-2 gap-2 flex flex-col bg-blue-100 rounded-lg">
             <div className="bg-blue-300 px-2 py-1 rounded-md justify-between flex flex-row gap-2">
                 <p className="text-sm font-bold">Deposit</p>
                 <button className="opacity-60 hover:opacity-80">
@@ -169,16 +169,16 @@ const DepositDetails = ({ from, amount, currency }: { from: string, amount: stri
 
 const RecieveDetails = ({ amount, from, title, currency, direction, extraId }: { currency: GetCurrencyResponse, extraId: string | null, amount: string, from: string, title: string, direction: "to" | "from" }) => {
     return (
-        <div className="flex flex-col gap-2">
-            <div className="bg-slate-100 px-2 mt-5 py-1 rounded-md justify-between flex flex-row gap-2">
+        <div className="flex flex-col gap-2 mt-5">
+            <div className="bg-slate-200 px-2 py-1 rounded-md justify-between flex flex-row gap-2">
                 <p className="text-sm font-bold">{title}</p>
             </div>
-            <CopyButton value={from} className="group flex flex-row justify-between h-12 gap-5 items-center xl:px-5 lg:px-5 md:px-5 px-3 bg-zinc-100 shadow-sm shadow-[#00000030] rounded-lg">
+            <CopyButton value={from} className="group flex flex-row justify-between h-12 gap-5 items-center xl:px-5 lg:px-5 md:px-5 px-3 bg-white shadow-sm shadow-[#00000030] rounded-lg">
                 <p className="opacity-60 text-xs font-medium">{direction}</p>
                 <p className="fade-in xl:text-md lg:text-md md:text-md text-sm font-semibold text-center truncate group-hover:opacity-90 opacity-70">{from}</p>
             <Image className="fade-in group-hover:opacity-90 opacity-70" src="/icons/copy.svg" alt="" height={12} width={12} />
             </CopyButton>
-            <div className="flex flex-row h-10 py-1 xl:px-5 lg:px-5 md:px-5 px-3 items-center rounded-md justify-between bg-zinc-100 shadow-sm shadow-[#00000030]">
+            <div className="flex flex-row h-10 py-1 xl:px-5 lg:px-5 md:px-5 px-3 items-center rounded-md justify-between bg-white shadow-sm shadow-[#00000030]">
                 <div className="flex flex-row h-8 gap-2 items-center rounded-md py-1">
                     <p className="opacity-60 text-xs font-medium">amount</p>
                     <p className="fade-in text-md font-mono truncate">{amount}</p>
@@ -191,7 +191,7 @@ const RecieveDetails = ({ amount, from, title, currency, direction, extraId }: {
                     </div>
                 </div> 
             </div>
-            {currency.has_extra_id && !!extraId && <CopyButton value={extraId} className="group flex flex-row justify-between h-10 gap-5 items-center xl:px-5 lg:px-5 md:px-5 px-3 bg-zinc-100 shadow-sm shadow-[#00000030] rounded-lg">
+            {currency.has_extra_id && !!extraId && <CopyButton value={extraId} className="group flex flex-row justify-between h-10 gap-5 items-center xl:px-5 lg:px-5 md:px-5 px-3 bg-white shadow-sm shadow-[#00000030] rounded-lg">
                 <div className="flex flex-row h-8 gap-2 items-center w-1/2 rounded-md py-1">
                     <p className="opacity-60 text-xs font-medium">{currency.extra_id}:</p>
                     <p className="fade-in text-md font-mono truncate">{extraId}</p>
@@ -208,7 +208,7 @@ const OrderProgress = ({ status }: { status: OrderStatus }) => {
     }, [status]);
     return (
         <div className="flex flex-col gap-2">
-            <div className="bg-slate-100 mt-5 px-2 py-1 rounded-md justify-between flex flex-row gap-2">
+            <div className="bg-slate-100 px-2 py-1 rounded-md justify-between flex flex-row gap-2">
                 <p className="text-sm font-bold">Progress</p>
             </div>
             <div className="flex flex-row w-full gap-2 px-5">

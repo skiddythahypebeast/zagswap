@@ -42,7 +42,7 @@ export const AmountIn = ({ onSelect, inputCurrency, range, isActivePair, amountI
 
     return (
         <div className="flex flex-col gap-2 w-full">
-            <div className={`pointer-events-none w-full bg-slate-100 rounded-lg py-1 flex flex-row justify-between relative`}>
+            <div className={`pointer-events-none w-full bg-slate-200 rounded-lg py-1 flex flex-row justify-between relative`}>
                 <div className={`${!!valid ? "opacity-100" : "opacity-0"} text-red-500 px-2 font-bold text-sm absolute flex flex-row justify-between items-center w-full`}>
                     <p>{valid?.[0]}</p> 
                     <p>{valid?.[1]}</p>
@@ -91,15 +91,15 @@ export const TokenInput = ({ item, loading, amountIn, showList, onAmountChanged 
                     type="number"
                     onChange={onAmountChanged}
                     value={amountIn === 0 ? amountIn : amountIn ?? ""}
-                    className={`text-stone-800 font-mono h-full lg:text-xl md:text-xl text-lg w-full outline-none py-2 bg-transparent rounded-md`}
+                    className={`text-stone-800 font-mono h-full lg:text-xl md:text-xl text-lg w-full outline-none py-2 bg-transparent rounded-md truncate`}
                     placeholder={"Enter amount"} 
                     aria-label="Enter amount"
                 />
             </div>
 
-            <button type="button" className="xl:flex lg:flex md:flex hidden flex-row h-full gap-2 items-center justify-between py-2 px-5 rounded-r-lg xl:max-w-52 lg:max-w-52 md:max-w-52 w-1/2 bg-slate-100" onClick={showList}>
+            <button type="button" className="xl:flex lg:flex md:flex hidden flex-row h-full gap-2 items-center justify-between py-2 px-5 rounded-r-lg xl:max-w-52 lg:max-w-52 md:max-w-52 w-1/2 bg-slate-50" onClick={showList}>
                 {!loading && <><Image src={item.image} alt="" height={20} width={20} />
-                <p className="font-bold">{trim(item)?.toUpperCase()}</p>
+                <p className="font-bold truncate">{trim(item)?.toUpperCase()}</p>
                     <div className="rounded-full flex items-center justify-center" style={{ 
                         backgroundColor: CHAIN_COLORS[item.network], 
                         color: CHAIN_COLORS[item.network]
@@ -110,9 +110,9 @@ export const TokenInput = ({ item, loading, amountIn, showList, onAmountChanged 
                 {loading && <Image src="/icons/spinner.svg" className="animate-spin opacity-50" alt="" height={20} width={20} />}
             </button>
 
-            <button type="button" className="xl:hidden lg:hidden md:hidden flex flex-row h-full gap-1 items-center justify-between py-2 px-5 rounded-r-lg xl:max-w-52 lg:max-w-52 md:max-w-52 w-1/2 bg-slate-100" onClick={showList}>
+            <button type="button" className="xl:hidden lg:hidden md:hidden flex flex-row h-full gap-1 items-center justify-between py-2 px-5 rounded-r-lg xl:max-w-52 lg:max-w-52 md:max-w-52 w-1/2 bg-slate-50" onClick={showList}>
                 {!loading && <><Image src={item.image} alt="" height={20} width={20} />
-                <p className="font-bold text-sm">{trim(item)?.toUpperCase()}</p>
+                <p className="font-bold text-sm truncate">{trim(item)?.toUpperCase()}</p>
                 <div className="rounded-full flex items-center justify-center" style={{ 
                     backgroundColor: CHAIN_COLORS[item.network], 
                     color: CHAIN_COLORS[item.network] 

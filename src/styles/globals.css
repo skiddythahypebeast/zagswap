@@ -15,8 +15,24 @@
     opacity: 90% !important;
 }
 
+.primary-button {
+    background-image: url("/primary-button.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: transparent !important;
+    @apply rounded-xl shadow-md shadow-[#00000020]
+}
+
+.secondary-button {
+    @apply shadow-md shadow-[#00000020] rounded-lg bg-slate-600 text-white
+}
+
+.nft-container {
+    background-image: linear-gradient(to bottom right, theme("colors.slate.50") 10%, theme("colors.slate.300"), theme("colors.slate.50") 90%);
+}
+
 .gradient-loader {
-    background: repeating-linear-gradient(to right, transparent, #00000020, transparent);
+    background: repeating-linear-gradient(to right, theme("colors.slate.50"), theme("colors.slate.200"), theme("colors.slate.50"));
     background-size: 200% auto;
     background-position: 0 100%;
     animation: gradient 2s infinite;

@@ -25,7 +25,7 @@ export const env = createEnv({
   client: {
     NEXT_PUBLIC_TREASURY_ADDRESS: z.string(),
     NEXT_PUBLIC_REVSHARE_ADDRESS: z.string(),
-    // NEXT_PUBLIC_CLIENTVAR: z.string(),
+    NEXT_PUBLIC_PROVIDER_URL: z.string()
   },
 
   /**
@@ -34,14 +34,15 @@ export const env = createEnv({
    */
   runtimeEnv: {
     PROVIDER_URL: process.env.PROVIDER_URL,
+    NEXT_PUBLIC_PROVIDER_URL: process.env.NEXT_PUBLIC_PROVIDER_URL,
     API_KEY_FREE: process.env.API_KEY_FREE,
     NODE_ENV: process.env.NODE_ENV,
     API_KEY_WITH_FEE: process.env.API_KEY_WITH_FEE,
     SERVER_URL: process.env.SERVER_URL,
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
-    TREASURY_ADDRESS: process.env.REVSHARE_ADDRESS,
+    TREASURY_ADDRESS: process.env.TREASURY_ADDRESS,
     REVSHARE_ADDRESS: process.env.REVSHARE_ADDRESS,
-    NEXT_PUBLIC_TREASURY_ADDRESS: process.env.NEXT_PUBLIC_REVSHARE_ADDRESS,
+    NEXT_PUBLIC_TREASURY_ADDRESS: process.env.NEXT_PUBLIC_TREASURY_ADDRESS,
     NEXT_PUBLIC_REVSHARE_ADDRESS: process.env.NEXT_PUBLIC_REVSHARE_ADDRESS
   },
   /**

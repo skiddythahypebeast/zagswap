@@ -6,10 +6,10 @@ import { AmountOut } from "./amount_out";
 import { AmountIn } from "./amount_in";
 import { useCurrentPair } from "../hooks/pairs";
 import Image from "next/image";
-import { InputContainer } from "./input_container";
 import { type GetRangeResponse, type GetCurrencyResponse, type OutputCurrency } from "../models";
 import { useSession } from "next-auth/react";
 import { ExtraId, Receiver } from "./receiver";
+import { ButtonContainer } from "~/app/components/button-container";
 
 interface SwapFormProps { 
   outputCurrency: OutputCurrency, 
@@ -46,7 +46,7 @@ export const SwapForm = ({ outputCurrency, inputCurrency, allCurrencies, isActiv
     }, [inputCurrency, outputCurrency]);
 
     return (
-        <form onSubmit={submit} className="w-full bg-white flex flex-col items-center justify-start gap-1">
+        <form onSubmit={submit} className="w-full bg-slate-100 shadow-inner p-5 rounded-xl shadow-[#00000020] flex flex-col items-center justify-start gap-1">
           <AmountIn
             range={range}
             showList={list == 1}
@@ -97,13 +97,13 @@ export const SwapForm = ({ outputCurrency, inputCurrency, allCurrencies, isActiv
             currency={outputCurrency}
             onChange={handleExtraIdChange}/>}
           <div className="relative w-full flex items-center justify-center h-0 z-50"/>
-          <InputContainer position="center">
-            <button disabled={!form.valid || loading || form.submitting} type="submit" className={`${(!form.valid || loading || form.submitting) ? "opacity-50" : "opacity-90 hover:opacity-100"} transition-all duration-300 w-full py-5 h-full bg-blue-400 flex flex-row items-center justify-center gap-5`}>
+          <ButtonContainer>
+            <button disabled={!form.valid || loading || form.submitting} type="submit" className={`${(!form.valid || loading || form.submitting) ? "opacity-50" : "opacity-90 hover:opacity-100"} transition-all duration-300 w-full py-5 h-full primary-button flex flex-row items-center justify-center gap-5`}>
               <p className="text-lg font-semibold text-white">Create order</p>
               {(form.submitting || loading) && <Image className="animate-spin" src="/icons/white-spinner.svg" alt="" height={15} width={15} />}
             </button>
-          </InputContainer>
-          <div className={`w-full rounded-lg py-1 flex flex-row items-center justify-between`}>
+          </ButtonContainer>
+          <div className={`w-full rounded-lg pt-2 flex flex-row items-center justify-between`}>
             <p className={`text-stone-800 font-bold px-2 text-sm`}>Fee</p>
             <span className="flex flex-row gap-2 items-center justify-center bg-blue-300 rounded-full p-1 px-2">
               <p className={`text-stone-800 font-bold px-1 text-sm`}>{session?.user.fee ?? "2%"}</p>

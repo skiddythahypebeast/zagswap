@@ -19,7 +19,7 @@ export const Receiver = ({ currency, onChange, validator }: RecieverProps) => {
 
     return (
         <div className="flex flex-col gap-2 w-full">
-            <div className={`w-full bg-slate-100 rounded-lg py-1 px-2 flex flex-row justify-between relative`}>
+            <div className={`w-full bg-slate-200 rounded-lg py-1 px-2 flex flex-row justify-between relative`}>
                 <p className={`${!valid ? "opacity-100" : "opacity-0"} text-red-500 font-bold text-sm absolute`}>Invalid receiver address</p>
                 <p className={`${valid ? "opacity-100" : "opacity-0"} text-stone-800 font-bold text-sm absolute`}>Receiver address</p>
                 <p className="pointer-events-none text-sm opacity-0">hidden</p>
@@ -28,7 +28,7 @@ export const Receiver = ({ currency, onChange, validator }: RecieverProps) => {
                 <input 
                     onChange={handleChange}
                     placeholder={currency.placeholder}
-                    className="h-full w-full text-stone-800 xl:text-lg lg:text-lg md:text-lg text-md outline-none py-2 px-5 bg-transparent rounded-md" 
+                    className="h-full w-full text-stone-800 xl:text-lg lg:text-lg md:text-lg text-md outline-none py-2 px-5 bg-transparent rounded-md truncate" 
                 />
             </InputContainer>
         </div>
@@ -69,7 +69,7 @@ export const ExtraId = ({ currency, onChange, validator }: ExtraIdProps) => {
                 <input 
                     onChange={handleChange}
                     placeholder={`${currency.extra_id} (optional)`}
-                    className={`w-full text-stone-800 xl:text-md lg:text-md md:text-md text-md outline-none py-2 px-5 bg-transparent rounded-md`} 
+                    className={`w-full text-stone-800 xl:text-md lg:text-md md:text-md text-md outline-none py-2 px-5 bg-transparent rounded-md truncate`} 
                 />
             </InputContainer>
         </div>

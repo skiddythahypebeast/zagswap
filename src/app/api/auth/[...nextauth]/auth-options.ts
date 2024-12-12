@@ -7,7 +7,8 @@ import { Contract } from "ethers";
 import { erc20Abi } from "viem";
 import { env } from "~/env";
 
-const USDC_TOKEN_ADDRESS = "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48";
+// TODO - switch to MAINNET
+const USDC_TOKEN_ADDRESS = "0xf08A50178dfcDe18524640EA6618a1f965821715";
 
 type EthereumCredentials = "message" | "signature" | "csfrToken" | "redirect" | "callbackUrl" | "json";
 
@@ -29,7 +30,7 @@ export const authOptions: NextAuthOptions = {
                 const address = recoverAddressFromSignature(message, signature);
                 
                 if (address) {
-                    const provider = new JsonRpcProvider(env.PROVIDER_URL, "mainnet");
+                    const provider = new JsonRpcProvider(env.PROVIDER_URL, "sepolia");
                     const token_contract = new Contract(USDC_TOKEN_ADDRESS, new Interface(erc20Abi), provider);
                     if(token_contract.balanceOf){
                         const token_balance = await token_contract.balanceOf(address) as bigint;
@@ -40,7 +41,7 @@ export const authOptions: NextAuthOptions = {
                         };
                     } else {
                       throw new Error(`Invalid ABI for contract address: ${USDC_TOKEN_ADDRESS}`)
-                    }
+                    };
                 } else {
                     return null;
                 }

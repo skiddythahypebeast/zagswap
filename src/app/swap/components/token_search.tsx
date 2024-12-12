@@ -47,17 +47,17 @@ export const TokenSearch = ({ close, items, current, onSelect }: TokenSearchProp
     return (
     <div className="w-full flex flex-col h-[600px]">
         <InputContainer position="top">
-        <div className="py-2 pl-5 h-full flex items-center justify-center">
-            <Image src="/icons/search.svg" alt="" height={15} width={15} />
-        </div>
-        <div className="flex-1 py-2 px-5 h-full">
-            <input ref={inputRef} onChange={handleSearch} className="h-full w-full lg:text-xl md:text-xl text-lg text-stone-800 outline-none py-2 bg-transparent rounded-md" placeholder="Type currency or ticker" />
-        </div>
-        <button onClick={close} className="py-2 h-full flex items-center justify-center rounded-tr-lg px-5">
-            <span className="pr-2">
-                <Image src="/icons/x-mark.svg" className="" alt="" height={15} width={15} />
-            </span>
-        </button>
+            <div className="py-2 pl-5 h-full flex items-center justify-center">
+                <Image src="/icons/search.svg" alt="" height={15} width={15} />
+            </div>
+            <div className="flex-1 py-2 px-5 h-full">
+                <input ref={inputRef} onChange={handleSearch} className="h-full w-full lg:text-xl md:text-xl text-lg text-stone-800 outline-none py-2 bg-transparent rounded-md" placeholder="Type currency or ticker" />
+            </div>
+            <button onClick={close} className="py-2 h-full flex items-center justify-center rounded-tr-lg px-5">
+                <span className="pr-2">
+                    <Image src="/icons/x-mark.svg" className="" alt="" height={15} width={15} />
+                </span>
+            </button>
         </InputContainer>
         <div ref={scrollable} onScroll={handleScroll} className="bg-white shadow-sm shadow-[#00000020] w-full flex-1 flex flex-col overflow-y-scroll">
             {currencies?.map(entry => (entry.symbol !== current && <button onClick={() => 

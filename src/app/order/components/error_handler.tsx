@@ -12,7 +12,7 @@ export const OrderErrorHandler = ({ reset, back }: { error: Error & { digest?: s
                 <button onClick={back} className="border-blue-500 bg-blue-100 border-2 flex-1 rounded-md py-2 px-20">
                     <p className="font-medium text-blue-500">Back</p>
                 </button>
-                <button onClick={reset} className="bg-blue-500 rounded-md py-2 px-3">
+                <button onClick={reset} className="primary-button py-2 px-3">
                     <Image src="/icons/white-refresh.svg" alt="" height={20} width={20} />
                 </button>
             </div>

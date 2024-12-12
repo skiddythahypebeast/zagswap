@@ -14,7 +14,7 @@ const config = {
                 permanent: true,
             }
         ]
-    },
+    }
 };
 
 export default config;

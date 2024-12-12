@@ -37,15 +37,15 @@ export const ConnectButton = () => {
     return <Rainbowconnect 
       chainStatus={{
         smallScreen: "icon",
-        largeScreen: "icon"
+        largeScreen: "name"
       }}
       label={label}
       accountStatus={{
-        smallScreen: "address",
+        smallScreen: "avatar",
         largeScreen: "address"
       }} />;
   } else {
-    return <div className="bg-blue-500 h-10 aspect-square rounded-md flex items-center justify-center">
+    return <div className="primary-button h-10 aspect-square flex items-center justify-center">
       <Image src="/icons/white-spinner.svg" className="animate-spin opacity-50" alt="" width={20} height={20} />
     </div>
   }

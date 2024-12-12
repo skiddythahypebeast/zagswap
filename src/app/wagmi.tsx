@@ -6,7 +6,7 @@ import { type Session } from 'next-auth';
 import { SessionProvider, signOut, useSession } from 'next-auth/react';
 import { useEffect, type ReactNode } from 'react';
 import { createStorage, cookieStorage, WagmiProvider, useAccount } from 'wagmi'
-import { mainnet } from 'wagmi/chains'
+import { sepolia } from 'wagmi/chains'
 import { RainbowKitSiweNextAuthProvider } from '@rainbow-me/rainbowkit-siwe-next-auth';
 
 declare module 'wagmi' {
@@ -21,7 +21,7 @@ const config = getDefaultConfig({
   storage: createStorage({
     storage: cookieStorage,
   }),
-  chains: [mainnet],
+  chains: [sepolia],
   ssr: true,
 });
 
