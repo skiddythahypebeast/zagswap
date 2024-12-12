@@ -13,7 +13,6 @@ export const Nav = () => {
     const items = (
         <>
             <Link href="/swap"><p className='font-medium text-md'>Swap</p></Link>
-            <Link href="/order/6c793436363674723034776a6e776c31"><p className='font-medium text-md'>Orders</p></Link>
             <Link href="/revshare/mint"><p className='font-medium text-md'>Revshare</p></Link>
         </>
     );
