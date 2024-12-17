@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useClaimRevenue } from "../hooks/revshare";
 import { type NFTData, type FetchNftResponse } from "../models";
@@ -41,21 +42,21 @@ export const NFTCarousel = ({ data }: { data: FetchNftResponse }) => {
 
     return (
         <div ref={nftHolder} className="w-full relative flex-1 flex items-center">
-            <button onClick={() => moveSlide("left")} disabled={active == 0} className={`${active === 0 ? "opacity-50" : "opacity-100"} bg-slate-400 pr-[1px] py-[1px] h-10 w-10 absolute top-1/2 -translate-y-1/2 shadow-md shadow-[#00000020] left-0 z-50`}>
-                <div className="h-full w-full flex items-center justify-center bg-gradient-to-bl from-slate-200 to-white">
-                    <Image src="/icons/chevron-down.svg" className="rotate-90 opacity-80" alt="" height={15} width={15}/>
+            <button onClick={() => moveSlide("left")} disabled={active == 0} className={`${active === 0 ? "opacity-50" : "opacity-100"} bg-bg5 dark:bg-dark-bg5 pr-[1px] py-[1px] h-10 w-10 absolute top-1/2 -translate-y-1/2 shadow-md shadow-shadow dark:shadow-dark-shadow left-0 z-50`}>
+                <div className="h-full w-full flex items-center justify-center bg-gradient-to-bl from-bg4 to-bg1 dark:from-dark-bg4 dark:to-dark-bg1">
+                    <img src="/icons/chevron-down.svg" className="w-4 h-4 dark:filter dark:invert rotate-90" alt="Icon"/>
                 </div>
             </button>
-            <div ref={scroller} className="overflow-x-hidden shadow-md shadow-[#00000020] rounded-xl scroll-smooth grid grid-flow-col">
+            <div ref={scroller} className="overflow-x-hidden shadow-md shadow-shadow dark:shadow-dark-shadow rounded-xl scroll-smooth grid grid-flow-col">
                 {data.assets.map((data, index) => <NFTCarouselItem 
                     width={holderWidth}
                     data={data} 
                     index={index} 
                     key={data.collectionTokenId} />)}
             </div>
-            <button onClick={() => moveSlide("right")} disabled={active >= data.assets.length - 1} className={`${active >= data.assets.length - 1 ? "opacity-50" : "opacity-100"} bg-slate-400 pl-[1px] py-[1px] h-10 w-10 absolute top-1/2 -translate-y-1/2 shadow-md shadow-[#00000020] right-0 z-50`}>
-                <div className="h-full w-full flex justify-center bg-gradient-to-br from-slate-200 to-white items-center">
-                    <Image src="/icons/chevron-down.svg" className="-rotate-90 opacity-80" alt="" height={15} width={15}/>
+            <button onClick={() => moveSlide("right")} disabled={active >= data.assets.length - 1} className={`${active >= data.assets.length - 1 ? "opacity-50" : "opacity-100"} bg-bg5 dark:bg-dark-bg5 pl-[1px] py-[1px] h-10 w-10 absolute top-1/2 -translate-y-1/2 shadow-md shadow-shadow dark:shadow-dark-shadow right-0 z-50`}>
+                <div className="h-full w-full flex justify-center bg-gradient-to-br from-bg4 to-bg1 dark:from-dark-bg4 dark:to-dark-bg1 items-center">
+                    <img src="/icons/chevron-down.svg" className="w-4 h-4 dark:filter dark:invert -rotate-90" alt="Icon"/>
                 </div>
             </button>
         </div>

@@ -16,7 +16,7 @@ export default function HomePage() {
 
 const Card = ({ title, href, info }: { title: string, href: string, info: string }) => {
   return (
-    <Link href={href} className="bg-blue-400 shadow-sm shadow-[#00000050] grid-item rounded-lg p-5 text-white">
+    <Link href={href} className="primary-button shadow-sm shadow-shadow dark:shadow-dark-shadow grid-item rounded-lg p-5">
       <h2 className="font-bold">{title}</h2>
       <p className="text-sm opacity-80">{info}</p>
     </Link>

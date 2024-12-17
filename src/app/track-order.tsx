@@ -1,6 +1,6 @@
+/* eslint-disable @next/next/no-img-element */
 "use client"
 
-import Image from "next/image"
 import { InputContainer } from "./components/input-container"
 import { type ChangeEvent, type FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -24,13 +24,13 @@ export const TrackOrder = () => {
     const form = (<form onSubmit={handleSubmit} className='w-full'>
         <InputContainer size='small' position='center'>
             <div className="pl-5">
-                <Image src="/icons/search.svg" className="opacity-50" alt="" height={15} width={15}/>
+                <img src="/icons/search.svg" className="w-5 h-5 dark:filter dark:invert opacity-50" alt="Icon"/>
             </div>
             <input
                 onChange={handleChange}
                 value={value}
                 placeholder="Track order"
-                className="h-full w-full text-stone-800 font-medium text-md outline-none py-2 px-5 bg-transparent rounded-md truncate"
+                className="h-full w-full text-text dark:text-dark-text font-medium text-md outline-none py-2 px-5 bg-transparent rounded-md truncate"
             />
         </InputContainer>
     </form>);
@@ -42,13 +42,13 @@ export const TrackOrder = () => {
             </div>
             <div className="xl:hidden lg:hidden flex w-full justify-end items-center">
                 <button onClick={openSearch} className="">
-                    <Image src="/icons/search.svg" className="opacity-80" alt="" height={15} width={15} />
+                    <img src="/icons/search.svg" className="w-5 h-5 dark:filter dark:invert opacity-80" alt="Icon"/>
                 </button>
             </div>
-            {showSearch && <div className="xl:hidden lg:hidden flex absolute inset-0 bg-white z-[100] flex-row items-center justify-between pl-2">
+            {showSearch && <div className="xl:hidden lg:hidden flex absolute inset-0 bg-bg1 dark:bg-dark-bg1 z-[100] flex-row items-center justify-between pl-2">
                 {form}
                 <button className="w-12 flex items-center justify-center" onClick={closeSearch}>
-                    <Image src="/icons/x-mark.svg" alt="" height={15} width={15} />
+                    <img src="/icons/x-mark.svg" className="w-6 h-6 dark:filter dark:invert" alt="Icon"/>
                 </button>
             </div>}
         </>

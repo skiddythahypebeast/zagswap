@@ -1,5 +1,5 @@
-import Image from "next/image"
+/* eslint-disable @next/next/no-img-element */
 
 export const SwapLoader = () => {
-    return (<Image src="/icons/spinner.svg" alt="" height={40} width={40} className="animate-spin opacity-20" />)
+    return (<img src="/icons/spinner.svg" className="w-10 h-10 dark:filter dark:invert opacity-20 animate-spin" alt="Icon"/>)
 }

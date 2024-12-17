@@ -20,25 +20,49 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-color: transparent !important;
-    @apply rounded-xl shadow-md shadow-[#00000020]
+    @apply rounded-xl shadow-md shadow-shadow dark:shadow-dark-shadow text-white dark:text-white
 }
 
 .secondary-button {
-    @apply shadow-md shadow-[#00000020] rounded-lg bg-slate-600 text-white
+    @apply shadow-md shadow-shadow dark:shadow-dark-shadow rounded-lg bg-secondary dark:bg-dark-secondary text-text-two dark:text-text-two
 }
 
 .nft-container {
-    background-image: linear-gradient(to bottom right, theme("colors.slate.50") 10%, theme("colors.slate.300"), theme("colors.slate.50") 90%);
+    background-image: linear-gradient(to bottom right, theme("colors.bg2") 10%, theme("colors.bg4"), theme("colors.bg2") 90%);
 }
 
 .gradient-loader {
-    background: repeating-linear-gradient(to right, theme("colors.slate.50"), theme("colors.slate.200"), theme("colors.slate.50"));
+    background: repeating-linear-gradient(to right, theme("colors.bg2"), theme("colors.bg3"), theme("colors.bg2"));
     background-size: 200% auto;
     background-position: 0 100%;
     animation: gradient 2s infinite;
     animation-fill-mode: forwards;
     animation-timing-function: linear;
-  }
+}
+
+/* Dark Mode Styling */
+@media (prefers-color-scheme: dark) {
+    .nft-container {
+        background-image: linear-gradient(to bottom right, theme("colors.dark.bg2") 10%, theme("colors.dark.bg4"), theme("colors.dark.bg2") 90%);
+    }
+
+    .gradient-loader {
+        background: repeating-linear-gradient(to right, theme("colors.dark.bg2"), theme("colors.dark.bg3"), theme("colors.dark.bg2"));
+        background-size: 200% auto;
+        background-position: 0 100%;
+        animation: gradient 2s infinite;
+        animation-fill-mode: forwards;
+        animation-timing-function: linear;
+    }
+
+    .primary-button {
+        background-image: url("/primary-button-dark.png");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-color: transparent !important;
+        @apply rounded-xl shadow-md shadow-shadow dark:shadow-dark-shadow text-white dark:text-white
+    }
+}
   
   @keyframes gradient { 
     0%   { background-position: 0 0; }

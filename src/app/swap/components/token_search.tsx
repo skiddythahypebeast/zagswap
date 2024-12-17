@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { type ChangeEvent, type UIEventHandler, useEffect, useRef, useState } from "react";
 import { useTokenLookup, useTrimSuffix } from "../hooks";
 import { type GetCurrencyResponse } from "../models";
@@ -48,22 +49,22 @@ export const TokenSearch = ({ close, items, current, onSelect }: TokenSearchProp
     <div className="w-full flex flex-col h-[600px]">
         <InputContainer position="top">
             <div className="py-2 pl-5 h-full flex items-center justify-center">
-                <Image src="/icons/search.svg" alt="" height={15} width={15} />
+                <img src="/icons/search.svg" className="w-4 h-4 dark:filter dark:invert opacity-50" alt="Icon"/>
             </div>
             <div className="flex-1 py-2 px-5 h-full">
-                <input ref={inputRef} onChange={handleSearch} className="h-full w-full lg:text-xl md:text-xl text-lg text-stone-800 outline-none py-2 bg-transparent rounded-md" placeholder="Type currency or ticker" />
+                <input ref={inputRef} onChange={handleSearch} className="h-full w-full lg:text-xl md:text-xl text-lg text-text dark:text-dark-text outline-none py-2 bg-transparent rounded-md" placeholder="Type currency or ticker" />
             </div>
             <button onClick={close} className="py-2 h-full flex items-center justify-center rounded-tr-lg px-5">
                 <span className="pr-2">
-                    <Image src="/icons/x-mark.svg" className="" alt="" height={15} width={15} />
+                    <img src="/icons/x-mark.svg" className="w-5 h-5 dark:filter dark:invert" alt="Icon"/>
                 </span>
             </button>
         </InputContainer>
-        <div ref={scrollable} onScroll={handleScroll} className="bg-white shadow-sm shadow-[#00000020] w-full flex-1 flex flex-col overflow-y-scroll">
+        <div ref={scrollable} onScroll={handleScroll} className="bg-bg1 dark:bg-dark-bg1 shadow-sm shadow-shadow dark:shadow-dark-shadow w-full flex-1 flex flex-col overflow-y-scroll">
             {currencies?.map(entry => (entry.symbol !== current && <button onClick={() => 
                 onSelect(entry.symbol)} 
                 key={entry.symbol} 
-                className="bg-white hover:bg-slate-100 py-4 flex flex-row justify-between items-center px-5">
+                className="bg-bg1 dark:bg-dark-bg1 hover:bg-bg3 dark:hover:bg-dark-bg3 py-4 flex flex-row justify-between items-center px-5">
                     <span className="flex flex-row items-center gap-3">
                         <Image placeholder="empty" src={entry.image} alt="" height={25} width={25} />
                         <p className="xl:text-sm lg:text-sm md:text-sm text-xs font-bold">{trim(entry)?.toUpperCase()}</p>

@@ -21,9 +21,9 @@ export default async function RootLayout({
   const session = await getServerSession(authOptions);
   return (
     <html lang="en" className={`${GeistSans.variable}`}>
-      <body className="min-h-screen w-full text-stone-800">
+      <body className="min-h-screen w-full text-text bg-bg1 dark:bg-dark-bg1 dark:text-dark-text">
         <Web3Provider session={session}>
-          <header className="fixed w-full gap-2 xl:px-5 lg:px-5 px-2 h-14 p-2 flex flex-row justify-between items-center bg-white z-50">
+          <header className="fixed w-full gap-2 xl:px-5 lg:px-5 px-2 h-14 p-2 flex flex-row justify-between items-center bg-bg1 dark:bg-dark-bg1 z-50">
             <div className='flex-1'>
               <Nav />
             </div>

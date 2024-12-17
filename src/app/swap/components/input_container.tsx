@@ -26,7 +26,7 @@ export const InputContainer = ({ children, position, size }: InputContainerProps
         }, [size]);
 
     return (
-        <div className={`${borderRadius} ${height} w-full bg-gray-200 shadow-sm shadow-[#00000020] rounded-t-lg flex flex-row items-center justify-between overflow-clip`}>
+        <div className={`${borderRadius} ${height} w-full bg-input dark:bg-dark-input shadow-sm shadow-shadow dark:shadow-dark-shadow rounded-t-lg flex flex-row items-center justify-between overflow-clip`}>
             {children}
         </div>
     )

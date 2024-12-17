@@ -1,13 +1,16 @@
 "use client"
 
-import { getDefaultConfig, lightTheme, RainbowKitProvider } from '@rainbow-me/rainbowkit';
+import { darkTheme, getDefaultConfig, lightTheme, RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { type Session } from 'next-auth';
 import { SessionProvider, signOut, useSession } from 'next-auth/react';
-import { useEffect, type ReactNode } from 'react';
+import { type FC, useEffect, type ReactNode } from 'react';
 import { createStorage, cookieStorage, WagmiProvider, useAccount } from 'wagmi'
 import { sepolia } from 'wagmi/chains'
 import { RainbowKitSiweNextAuthProvider } from '@rainbow-me/rainbowkit-siwe-next-auth';
+import { type AvatarComponentProps } from 'node_modules/@rainbow-me/rainbowkit/dist/components/RainbowKitProvider/AvatarContext';
+import Image from 'next/image';
+import Blockies from 'react-blockies';
 
 declare module 'wagmi' {
     interface Register {
@@ -27,21 +30,47 @@ const config = getDefaultConfig({
 
 const queryClient = new QueryClient();
 
+const Avatar: FC<AvatarComponentProps> = ({ address, size = 40, ensImage }) => {
+
+  if (ensImage) {
+    return (
+      <div style={{ width: size, height: size }}>
+        <Image src={ensImage} alt="Avatar" width={size} height={size} style={{ borderRadius: '50%' }} />
+      </div>
+    );
+  }
+
+  return (
+    <Blockies seed={address} size={100}/>
+  );
+};
+
 export const Web3Provider = ({ children, session }: { children: ReactNode, session: Session | null}) => {
+  const darkMode = darkTheme({
+    borderRadius: "medium",
+    accentColor: "#fb923c",
+    fontStack: "system",
+    overlayBlur: "small",
+    accentColorForeground: "white"
+  });
+  const lightMode = lightTheme({
+    borderRadius: "medium",
+    accentColor: "#3b82f6",
+    fontStack: "system",
+    overlayBlur: "small",
+    accentColorForeground: "white"
+  });
   return (
     <SessionProvider refetchInterval={0} session={session}>
       <WagmiProvider config={config}>
         <QueryClientProvider client={queryClient}>
           <RainbowKitSiweNextAuthProvider>
             <RainbowKitProvider 
+              avatar={Avatar}
+              showRecentTransactions
+              appInfo={{ appName: "Private Swap Dex" }}
               modalSize="compact" 
-              theme={lightTheme({
-                borderRadius: "medium",
-                accentColor: "#3b82f6",
-                fontStack: "system",
-                overlayBlur: "small",
-                accentColorForeground: "white"
-            })}>
+              theme={{ darkMode, lightMode }}>
               <AccountChangeProvider>
                 {children}
               </AccountChangeProvider>

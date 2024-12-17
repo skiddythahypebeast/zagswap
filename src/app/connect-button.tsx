@@ -1,8 +1,8 @@
+/* eslint-disable @next/next/no-img-element */
 "use client"
 
 import { ConnectButton as Rainbowconnect } from '@rainbow-me/rainbowkit';
 import { useSession } from 'next-auth/react';
-import Image from 'next/image';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useAccount } from 'wagmi';
 
@@ -46,7 +46,7 @@ export const ConnectButton = () => {
       }} />;
   } else {
     return <div className="primary-button h-10 aspect-square flex items-center justify-center">
-      <Image src="/icons/white-spinner.svg" className="animate-spin opacity-50" alt="" width={20} height={20} />
+      <img src="/icons/spinner.svg" className="w-5 h-5 dark:filter dark:invert animate-spin opacity-50" alt="Icon"/>
     </div>
   }
 };
