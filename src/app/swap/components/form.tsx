@@ -46,7 +46,7 @@ export const SwapForm = ({ outputCurrency, inputCurrency, allCurrencies, isActiv
     }, [inputCurrency, outputCurrency]);
 
     return (
-      <form onSubmit={submit} className="w-full bg-bg3 dark:bg-dark-bg3 shadow-inner p-5 rounded-xl shadow-shadow dark:shadow-dark-shadow flex flex-col items-center justify-start gap-1">
+      <form onSubmit={submit} className="w-full bg-bg3 dark:bg-dark-bg5 shadow-inner p-4 rounded-xl shadow-shadow dark:shadow-dark-shadow flex flex-col items-center justify-start gap-1">
         <AmountIn
           range={range}
           showList={list == 1}
@@ -98,8 +98,8 @@ export const SwapForm = ({ outputCurrency, inputCurrency, allCurrencies, isActiv
           onChange={handleExtraIdChange}/>}
         <div className="relative w-full flex items-center justify-center h-0 z-50"/>
         <ButtonContainer>
-          <button disabled={!form.valid || loading || form.submitting} type="submit" className={`${(!form.valid || loading || form.submitting) ? "opacity-50" : "opacity-90 hover:opacity-100"} transition-all duration-300 w-full py-5 h-full primary-button flex flex-row items-center justify-center gap-5`}>
-            <p className="text-lg font-semibold">Create order</p>
+          <button disabled={!form.valid || loading || form.submitting} type="submit" className={`${(!form.valid || loading || form.submitting) ? "opacity-50 grayscale" : "opacity-90 hover:opacity-100"} transition-all duration-300 w-full py-5 h-full primary-button flex flex-row items-center justify-center gap-5`}>
+            <p className="text-lg font-semibold text-white">Create order</p>
             {(form.submitting || loading) && <img src="/icons/spinner.svg" className="w-5 h-5 dark:filter dark:invert animate-spin" alt="Icon"/>}
           </button>
         </ButtonContainer>

@@ -7,6 +7,9 @@ export default {
     extend: {
       fontFamily: {
         sans: ["var(--font-geist-sans)", ...fontFamily.sans],
+        sofia: ["Sofia Sans"],
+        share_sans: ["Share Tech"],
+        share_mono: ["Share Tech Mono"],
       },
       colors: {
         text: "#171717", // neutral-900
@@ -19,19 +22,21 @@ export default {
         bg4: "#e2e8f0", // slate-200
         bg5: "#cbd5e1", // slate-300
         input: "#e5e7eb", // zinc-200
-        shadow: "#00000020",
+        border: "transparent",
+        shadow: "transparent",
         dark: {
-          text: "#d1d5db",
+          text: "#ffffff",
           "text-two": "#d1d5db",
-          primary: "#fb923c",
+          primary: "#3CD2FB",
           secondary: "black",
           bg1: "#18181b",
           bg2: "#09090b",
-          bg3: "#27272a",
-          shadow: "#00000099",
-          bg4: "#171717",
-          bg5: "#1c1917",
-          input: "#3f3f46",
+          bg3: "#2E2E35",
+          bg4: "#43434f",
+          bg5: "#202026",
+          border: "#2F3D46",
+          input: "#373740",
+          shadow: "transparent",
         }
       }
     },

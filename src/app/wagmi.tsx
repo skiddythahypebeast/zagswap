@@ -1,6 +1,6 @@
 "use client"
 
-import { darkTheme, getDefaultConfig, lightTheme, RainbowKitProvider } from '@rainbow-me/rainbowkit';
+import { darkTheme, getDefaultConfig, lightTheme, RainbowKitProvider, type Theme } from '@rainbow-me/rainbowkit';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { type Session } from 'next-auth';
 import { SessionProvider, signOut, useSession } from 'next-auth/react';
@@ -13,13 +13,13 @@ import Image from 'next/image';
 import Blockies from 'react-blockies';
 
 declare module 'wagmi' {
-    interface Register {
-        config: typeof config
-    }
+  interface Register {
+    config: typeof config
+  }
 }
 
 const config = getDefaultConfig({
-  appName: 'token-swap',
+  appName: 'Zagreus',
   projectId: 'YOUR_PROJECT_ID',
   storage: createStorage({
     storage: cookieStorage,
@@ -48,11 +48,12 @@ const Avatar: FC<AvatarComponentProps> = ({ address, size = 40, ensImage }) => {
 export const Web3Provider = ({ children, session }: { children: ReactNode, session: Session | null}) => {
   const darkMode = darkTheme({
     borderRadius: "medium",
-    accentColor: "#fb923c",
+    accentColor: "#3CD2FB",
     fontStack: "system",
     overlayBlur: "small",
-    accentColorForeground: "white"
+    accentColorForeground: "white",
   });
+  
   const lightMode = lightTheme({
     borderRadius: "medium",
     accentColor: "#3b82f6",
@@ -60,6 +61,34 @@ export const Web3Provider = ({ children, session }: { children: ReactNode, sessi
     overlayBlur: "small",
     accentColorForeground: "white"
   });
+
+  const customTheme: Theme = {
+    darkMode: {
+      ...darkMode,
+      colors: {
+        ...darkMode.colors,
+        accentColor: "#3CD2FB70",
+        accentColorForeground: "#ffffff",
+        actionButtonBorder: "transparent",
+        actionButtonBorderMobile: "transparent",
+        actionButtonSecondaryBackground: "#3CD2FB70",
+        menuItemBackground: "#18181b", // chain select item
+        modalBackdrop: "#00000050",
+        modalBackground: "#09090b",
+        
+        connectButtonText: "#cfd8dc",
+        connectButtonBackground: "#0F0F11",
+        connectButtonInnerBackground: "#09090b",
+        // connectionIndicator: "",
+
+        modalText: "#cfd8dc",
+        modalTextSecondary: "#cfd8dc70",
+        // modalBorder: "#cfd8dc",
+        // modalTextDim: "",
+      }
+    },
+    lightMode
+  }
   return (
     <SessionProvider refetchInterval={0} session={session}>
       <WagmiProvider config={config}>
@@ -68,9 +97,9 @@ export const Web3Provider = ({ children, session }: { children: ReactNode, sessi
             <RainbowKitProvider 
               avatar={Avatar}
               showRecentTransactions
-              appInfo={{ appName: "Private Swap Dex" }}
-              modalSize="compact" 
-              theme={{ darkMode, lightMode }}>
+              appInfo={{ appName: "Zagreus" }}
+              modalSize="compact"
+              theme={customTheme}>
               <AccountChangeProvider>
                 {children}
               </AccountChangeProvider>

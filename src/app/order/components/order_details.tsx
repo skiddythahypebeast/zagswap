@@ -52,8 +52,8 @@ export const OrderDetails = ({ order_details, currency_from, currency_to, order_
     const orderDetails = useOrderDetailPolling(order_details, order_id);
     const statusIndex = statusIndexes[orderDetails.status];
     return (
-        <div className="w-[500px] xl:max-w-[80%] lg:max-w-[80%] md:max-w-[80%] max-w-[95%] gap-2 flex flex-col bg-bg3 dark:bg-dark-bg3 shadow-inner shadow-shadow dark:shadow-dark-shadow rounded-xl p-5 text-text dark:text-dark-text">
-            <CopyButton value={orderDetails.id} className="border-bg5 dark:border-dark-bg5 border-[1px] px-2 py-1  rounded-md lex justify-between w-full flex flex-row gap-2 items-center opacity-70 hover:opacity-100">
+        <div className="w-[500px] xl:max-w-[80%] lg:max-w-[80%] md:max-w-[80%] max-w-[95%] gap-2 flex flex-col bg-bg3 dark:bg-dark-bg3 dark:shadow-dark-shadow rounded-xl p-5 text-text dark:text-dark-text">
+            <CopyButton value={orderDetails.id} className="dark:border-dark-border dark:border-[1px] px-2 py-1 rounded-md lex justify-between w-full flex flex-row gap-2 items-center opacity-70 hover:opacity-100">
                 <p className="text-sm font-bold text-nowrap">Order ID:</p>
                 <p className="fade-in text-sm font-semibold truncate font-mono text-right w-full">{orderDetails.id}</p>
                 <img src="/icons/copy.svg" className="w-3 h-3 dark:filter dark:invert" alt="Icon"/>
@@ -67,6 +67,7 @@ export const OrderDetails = ({ order_details, currency_from, currency_to, order_
                 amount={orderDetails.amount_from}
                 currency={currency_from}
                 from={orderDetails.address_from} />}
+            {statusIndex > 0 && statusIndex < 4 && <p className="text-center font-sofia font-bold text-primary mt-5 text-2xl border-2 border-primary opacity-80 rounded-xl">Order in progress</p>}
             {currency_from.has_extra_id && orderDetails.extra_id_from && statusIndex < 4 && <CopyButton 
                 value={orderDetails.extra_id_from} 
                 className="flex flex-row rounded-lg items-center justify-between px-5 bg-amber-500 bg-opacity-30 border-b-2 border-b-amber-500 py-2">
@@ -140,18 +141,18 @@ const OrderResult = ({ orderDetails, currency_from, currency_to, status }: { ord
 
 const DepositDetails = ({ from, amount, currency }: { from: string, amount: string, currency: GetCurrencyResponse }) => {
     return (
-        <div className="p-2 gap-2 flex flex-col bg-primary dark:bg-dark-primary dark:bg-opacity-20 bg-opacity-20 rounded-lg">
-            <div className="bg-primary dark:bg-dark-primary dark:bg-opacity-60 bg-opacity-60 px-2 py-1 rounded-md justify-between flex flex-row gap-2">
+        <div className="p-2 gap-2 flex flex-col dark:border-dark-primary border-primary border-2 rounded-lg">
+            <div className="px-2 py-1 rounded-md justify-between flex flex-row gap-2">
                 <p className="text-sm font-bold">Deposit</p>
                 <button className="opacity-60 hover:opacity-80">
                     <img src="/icons/info.svg" className="w-4 h-4 dark:filter dark:invert" alt="Icon"/>
                 </button>
             </div>
-            <CopyButton value={from} className="hover:opacity-90 opacity-70 flex flex-row justify-between h-16 gap-5 items-center xl:px-5 lg:px-5 md:px-5 px-3 bg-primary dark:bg-dark-primary dark:bg-opacity-60 bg-opacity-60 rounded-lg ">
+            <CopyButton value={from} className="hover:opacity-90 opacity-70 flex flex-row justify-between h-16 gap-5 items-center xl:px-5 lg:px-5 md:px-5 px-3 rounded-lg ">
                 <p className="fade-in xl:text-lg lg:text-lg md:text-lg text-md font-semibold text-center truncate">{from}</p>
                 <img src="/icons/copy.svg" className="w-4 h-4 dark:filter dark:invert" alt="Icon"/>
             </CopyButton>
-            <div className="flex flex-row h-10 py-1 xl:px-5 lg:px-5 md:px-5 px-3 items-center rounded-md justify-between bg-primary dark:bg-dark-primary dark:bg-opacity-60 bg-opacity-60">
+            <div className="flex flex-row h-10 py-1 xl:px-5 lg:px-5 md:px-5 px-3 items-center rounded-md justify-between">
                 <div className="flex flex-row h-8 gap-2 items-center w-1/2 rounded-md py-1">
                     <p className="opacity-60 text-xs font-medium">send</p>
                     <p className="fade-in text-md font-mono truncate">{amount}</p>
@@ -160,7 +161,7 @@ const DepositDetails = ({ from, amount, currency }: { from: string, amount: stri
                     <Image className="fade-in" src={currency?.image ?? "/icons/coin.svg"} alt="" height={25} width={25} />
                     <p className="fade-in text-md font-medium">{currency.symbol.toUpperCase()}</p>
                     <div className="fade-in px-2 rounded-full flex items-center justify-center" style={{ backgroundColor: CHAIN_COLORS[currency.network] }}>
-                        <p className="text-sm font-bold">{currency.network.toUpperCase()}</p>
+                        <p className="text-sm font-bold text-white">{currency.network.toUpperCase()}</p>
                     </div>
                 </div>} 
             </div>
@@ -174,12 +175,12 @@ const RecieveDetails = ({ amount, from, title, currency, direction, extraId }: {
             <div className="bg-bg4 dark:bg-dark-bg4 px-2 py-1 rounded-md justify-between flex flex-row gap-2">
                 <p className="text-sm font-bold">{title}</p>
             </div>
-            <CopyButton value={from} className="group flex flex-row justify-between h-12 gap-5 items-center xl:px-5 lg:px-5 md:px-5 px-3 bg-bg1 dark:bg-dark-bg1 shadow-sm shadow-shadow dark:shadow-dark-shadow rounded-lg">
+            <CopyButton value={from} className="group flex flex-row justify-between h-12 gap-5 items-center xl:px-5 lg:px-5 md:px-5 px-3 bg-bg1 dark:bg-dark-input shadow-sm shadow-shadow dark:shadow-dark-shadow rounded-lg">
                 <p className="opacity-60 text-xs font-medium">{direction}</p>
                 <p className="fade-in xl:text-md lg:text-md md:text-md text-sm font-semibold text-center truncate group-hover:opacity-90 opacity-70">{from}</p>
                 <img src="/icons/copy.svg" className="w-3 h-3 dark:filter dark:invert" alt="Icon"/>
             </CopyButton>
-            <div className="flex flex-row h-10 py-1 xl:px-5 lg:px-5 md:px-5 px-3 items-center rounded-md justify-between bg-bg1 dark:bg-dark-bg1 shadow-sm shadow-shadow dark:shadow-dark-shadow">
+            <div className="flex flex-row h-10 py-1 xl:px-5 lg:px-5 md:px-5 px-3 items-center rounded-md justify-between bg-bg1 dark:bg-dark-input shadow-sm shadow-shadow dark:shadow-dark-shadow">
                 <div className="flex flex-row h-8 gap-2 items-center rounded-md py-1">
                     <p className="opacity-60 text-xs font-medium">amount</p>
                     <p className="fade-in text-md font-mono truncate">{amount}</p>
@@ -192,7 +193,7 @@ const RecieveDetails = ({ amount, from, title, currency, direction, extraId }: {
                     </div>
                 </div> 
             </div>
-            {currency.has_extra_id && !!extraId && <CopyButton value={extraId} className="group flex flex-row justify-between h-10 gap-5 items-center xl:px-5 lg:px-5 md:px-5 px-3 bg-bg1 dark:bg-dark-bg1 shadow-sm shadow-shadow dark:shadow-dark-shadow rounded-lg">
+            {currency.has_extra_id && !!extraId && <CopyButton value={extraId} className="group flex flex-row justify-between h-10 gap-5 items-center xl:px-5 lg:px-5 md:px-5 px-3 bg-bg1 dark:bg-dark-input shadow-sm shadow-shadow dark:shadow-dark-shadow rounded-lg">
                 <div className="flex flex-row h-8 gap-2 items-center w-1/2 rounded-md py-1">
                     <p className="opacity-60 text-xs font-medium">{currency.extra_id}:</p>
                     <p className="fade-in text-md font-mono truncate">{extraId}</p>
@@ -214,19 +215,19 @@ const OrderProgress = ({ status }: { status: OrderStatus }) => {
             </div>
             <div className="flex flex-row w-full gap-2 px-5">
                 <div className="flex-1">
-                    <div className={`${statusIndex == 0 ? "bg-primary dark:bg-dark-primary animate-pulse" : statusIndex > 0 ? "bg-primary dark:bg-dark-primary" : "bg-bg5 dark:bg-dark-bg5"} h-3 rounded-full`}/>
+                    <div className={`${statusIndex == 0 ? "bg-primary dark:bg-dark-primary animate-pulse" : statusIndex > 0 ? "bg-primary dark:bg-dark-primary" : "bg-bg5 dark:bg-dark-input"} h-3 rounded-full`}/>
                     <p className="text-xs text-center">pending deposit</p>
                 </div>
                 <div className="flex-1">
-                    <div className={`${statusIndex == 1 ? "bg-primary dark:bg-dark-primary animate-pulse" : statusIndex > 1 ? "bg-primary dark:bg-dark-primary" : "bg-bg5 dark:bg-dark-bg5"} h-3 rounded-full`}/>
+                    <div className={`${statusIndex == 1 ? "bg-primary dark:bg-dark-primary animate-pulse" : statusIndex > 1 ? "bg-primary dark:bg-dark-primary" : "bg-bg5 dark:bg-dark-input"} h-3 rounded-full`}/>
                     <p className="text-xs text-center">funds received</p>
                 </div>
                 <div className="flex-1">
-                    <div className={`${statusIndex == 2 ? "bg-primary dark:bg-dark-primary animate-pulse" : statusIndex > 2 ? "bg-primary dark:bg-dark-primary" : "bg-bg5 dark:bg-dark-bg5"} h-3 rounded-full`}/>
+                    <div className={`${statusIndex == 2 ? "bg-primary dark:bg-dark-primary animate-pulse" : statusIndex > 2 ? "bg-primary dark:bg-dark-primary" : "bg-bg5 dark:bg-dark-input"} h-3 rounded-full`}/>
                     <p className="text-xs text-center">exchanging</p>
                 </div>
                 <div className="flex-1">
-                    <div className={`${statusIndex == 3 ? "bg-primary dark:bg-dark-primary animate-pulse" : statusIndex > 3 ? "bg-primary dark:bg-dark-primary" : "bg-bg5 dark:bg-dark-bg5"} h-3 rounded-full`}/>
+                    <div className={`${statusIndex == 3 ? "bg-primary dark:bg-dark-primary animate-pulse" : statusIndex > 3 ? "bg-primary dark:bg-dark-primary" : "bg-bg5 dark:bg-dark-input"} h-3 rounded-full`}/>
                     <p className="text-xs text-center">sending</p>
                 </div>
             </div>

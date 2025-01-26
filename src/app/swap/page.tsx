@@ -2,6 +2,8 @@ import { env } from "~/env";
 import { SwapForm } from "./components/form";
 import { CHAIN_PLACEHOLDERS, Currencies, type GetCurrencyResponse, type GetRangeResponse, RequestType } from "./models";
 import { notFound } from "next/navigation";
+import Image from "next/image";
+import Link from "next/link";
 
 export const dynamic = 'force-dynamic';
 
@@ -56,14 +58,19 @@ export default async function Swap(props: { searchParams: Promise<{ inputCurrenc
     }
   
     return (
-      <SwapForm 
-        range={range}
-        isActivePair={isActivePair}
-        allCurrencies={allCurrencies}
-        inputCurrency={inputCurrencyData} 
-        outputCurrency={{ 
-          ...outputCurrencyData, 
-          placeholder: CHAIN_PLACEHOLDERS[outputCurrencyData.network] 
-        }} />
+      <div className="flex flex-col gap-2 w-full">
+        <Link href="" target="_blank" className="rounded-xl w-full aspect-[3/1] overflow-clip">
+          <Image src="/ad-banner-one.png" alt="" height={500} width={1500} />
+        </Link>
+        <SwapForm 
+          range={range}
+          isActivePair={isActivePair}
+          allCurrencies={allCurrencies}
+          inputCurrency={inputCurrencyData} 
+          outputCurrency={{ 
+            ...outputCurrencyData, 
+            placeholder: CHAIN_PLACEHOLDERS[outputCurrencyData.network] 
+          }} />
+      </div>
     );
 }

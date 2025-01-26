@@ -12,6 +12,11 @@ const config = {
                 source: '/order',
                 destination: '/',
                 permanent: true,
+            },
+            {
+                source: '/',
+                destination: '/swap',
+                permanent: true,
             }
         ]
     }

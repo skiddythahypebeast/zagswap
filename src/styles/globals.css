@@ -16,7 +16,7 @@
 }
 
 .primary-button {
-    background-image: url("/primary-button.png");
+    background-image: linear-gradient(#4BD29C, #3CD2FB);
     background-size: cover;
     background-repeat: no-repeat;
     background-color: transparent !important;
@@ -29,6 +29,16 @@
 
 .nft-container {
     background-image: linear-gradient(to bottom right, theme("colors.bg2") 10%, theme("colors.bg4"), theme("colors.bg2") 90%);
+}
+
+.swap-button-container {
+    box-shadow: 0 0 20rem 3rem #3CD2FB;
+    background-image: linear-gradient(to right, #3CD2FB, #183435, #3CD2FB);
+    @apply transition-all duration-300;
+}
+
+.swap-button {
+    background-image: radial-gradient(#3d98c5, #1A292C);
 }
 
 .gradient-loader {
@@ -56,11 +66,12 @@
     }
 
     .primary-button {
-        background-image: url("/primary-button-dark.png");
+        background-image: linear-gradient(#4BD29C, #3CD2FB);
+        border: solid 2px theme("colors.dark.primary");
         background-size: cover;
         background-repeat: no-repeat;
         background-color: transparent !important;
-        @apply rounded-xl shadow-md shadow-shadow dark:shadow-dark-shadow text-white dark:text-white
+        @apply rounded-xl shadow-md shadow-shadow dark:shadow-dark-shadow text-black dark:text-black
     }
 }
   

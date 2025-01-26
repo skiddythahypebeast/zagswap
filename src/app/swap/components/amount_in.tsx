@@ -92,7 +92,7 @@ export const TokenInput = ({ item, loading, amountIn, showList, onAmountChanged 
                 />
             </div>
 
-            <button type="button" className="xl:flex lg:flex md:flex hidden flex-row h-full gap-2 items-center justify-between py-2 px-5 rounded-r-lg xl:max-w-52 lg:max-w-52 md:max-w-52 w-1/2 bg-bg1 dark:bg-dark-bg1" onClick={showList}>
+            <button type="button" className="xl:flex lg:flex md:flex hidden flex-row h-full gap-2 items-center justify-between py-2 px-5 rounded-r-lg xl:max-w-52 lg:max-w-52 md:max-w-52 w-1/2 bg-bg1 dark:bg-dark-bg3" onClick={showList}>
                 {!loading && <><Image src={item.image} alt="" height={20} width={20} />
                 <p className="font-bold truncate">{trim(item)?.toUpperCase()}</p>
                     <div className="rounded-full flex items-center justify-center" style={{ 
@@ -105,7 +105,7 @@ export const TokenInput = ({ item, loading, amountIn, showList, onAmountChanged 
                 {loading && <img src="/icons/spinner.svg" className="w-5 h-5 dark:filter dark:invert animate-spin opacity-50" alt="Icon"/>}
             </button>
 
-            <button type="button" className="xl:hidden lg:hidden md:hidden flex flex-row h-full gap-1 items-center justify-between py-2 px-5 rounded-r-lg xl:max-w-52 lg:max-w-52 md:max-w-52 w-1/2 bg-bg1 dark:bg-dark-bg1" onClick={showList}>
+            <button type="button" className="xl:hidden lg:hidden md:hidden flex flex-row h-full gap-1 items-center justify-between py-2 px-5 rounded-r-lg xl:max-w-52 lg:max-w-52 md:max-w-52 w-1/2 bg-bg1 dark:bg-dark-bg3" onClick={showList}>
                 {!loading && <><Image src={item.image} alt="" height={20} width={20} />
                 <p className="font-bold text-sm truncate">{trim(item)?.toUpperCase()}</p>
                 <div className="rounded-full flex items-center justify-center" style={{ 
