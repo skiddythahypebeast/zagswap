@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import Image from "next/image";
 import { InputContainer } from "./input_container";
 import { type ChangeEvent, useEffect, useMemo, useState } from "react";
@@ -86,36 +85,30 @@ export const TokenInput = ({ item, loading, amountIn, showList, onAmountChanged 
                     type="number"
                     onChange={onAmountChanged}
                     value={amountIn === 0 ? amountIn : amountIn ?? ""}
-                    className={`text-text dark:text-dark-text font-mono h-full lg:text-xl md:text-xl text-lg w-full outline-none py-2 bg-transparent rounded-md truncate`}
+                    className={`font-share-mono h-full lg:text-xl md:text-xl text-lg w-full outline-none py-2 bg-transparent rounded-md truncate`}
                     placeholder={"Enter amount"} 
                     aria-label="Enter amount"
                 />
             </div>
 
-            <button type="button" className="xl:flex lg:flex md:flex hidden flex-row h-full gap-2 items-center justify-between py-2 px-5 rounded-r-lg xl:max-w-52 lg:max-w-52 md:max-w-52 w-1/2 bg-bg1 dark:bg-dark-bg3" onClick={showList}>
+            <button type="button" className="xl:flex lg:flex md:flex hidden flex-row h-full gap-2 items-center justify-between py-2 px-5 rounded-r-lg xl:max-w-52 lg:max-w-52 md:max-w-52 w-1/2 bg-one dark:bg-three-dark" onClick={showList}>
                 {!loading && <><Image src={item.image} alt="" height={20} width={20} />
                 <p className="font-bold truncate">{trim(item)?.toUpperCase()}</p>
-                    <div className="rounded-full flex items-center justify-center" style={{ 
-                        backgroundColor: CHAIN_COLORS[item.network], 
-                        color: CHAIN_COLORS[item.network]
-                    }}>
-                    <p className="text-xs text-bg1 dark:text-dark-bg1 px-2 font-bold">{item.network.toUpperCase()}</p>
+                    <div className="rounded-full flex items-center justify-center" style={{ backgroundColor: CHAIN_COLORS[item.network] }}>
+                    <p className="text-xs px-2 font-bold">{item.network.toUpperCase()}</p>
                 </div>
-                <img src="/icons/chevron-down.svg" className="w-4 h-4 dark:filter dark:invert" alt="Icon"/></>}
-                {loading && <img src="/icons/spinner.svg" className="w-5 h-5 dark:filter dark:invert animate-spin opacity-50" alt="Icon"/>}
+                <Image src="/icons/chevron-down.svg" className="dark:filter dark:invert" height={15} width={15} alt="Icon"/></>}
+                {loading && <Image src="/icons/spinner.svg" className="dark:filter dark:invert animate-spin opacity-50" height={15} width={15} alt="Icon"/>}
             </button>
 
-            <button type="button" className="xl:hidden lg:hidden md:hidden flex flex-row h-full gap-1 items-center justify-between py-2 px-5 rounded-r-lg xl:max-w-52 lg:max-w-52 md:max-w-52 w-1/2 bg-bg1 dark:bg-dark-bg3" onClick={showList}>
+            <button type="button" className="xl:hidden lg:hidden md:hidden flex flex-row h-full gap-1 items-center justify-between py-2 px-5 rounded-r-lg xl:max-w-52 lg:max-w-52 md:max-w-52 w-1/2 bg-one dark:bg-three-dark" onClick={showList}>
                 {!loading && <><Image src={item.image} alt="" height={20} width={20} />
                 <p className="font-bold text-sm truncate">{trim(item)?.toUpperCase()}</p>
-                <div className="rounded-full flex items-center justify-center" style={{ 
-                    backgroundColor: CHAIN_COLORS[item.network], 
-                    color: CHAIN_COLORS[item.network] 
-                }}>
-                    <p className="text-xs text-bg1 dark:text-dark-bg1 px-2 font-bold">{item.network.toUpperCase()}</p>
+                <div className="rounded-full flex items-center justify-center" style={{ backgroundColor: CHAIN_COLORS[item.network] }}>
+                    <p className="text-xs px-2 font-bold">{item.network.toUpperCase()}</p>
                 </div>
-                <img src="/icons/chevron-down.svg" className="w-4 h-4 dark:filter dark:invert" alt="Icon"/></>}
-                {loading && <img src="/icons/spinner.svg" className="w-5 h-5 dark:filter dark:invert animate-spin opacity-50" alt="Icon"/>}
+                <Image src="/icons/chevron-down.svg" className="dark:filter dark:invert" height={15} width={15} alt="Icon"/></>}
+                {loading && <Image src="/icons/spinner.svg" className="dark:filter dark:invert animate-spin opacity-50" height={15} width={15} alt="Icon"/>}
             </button>
         </InputContainer>
     )

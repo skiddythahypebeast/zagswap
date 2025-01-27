@@ -1,4 +1,5 @@
-/* eslint-disable @next/next/no-img-element */
+import Image from "next/image"
+
 export const OrderLoader = () => {
-    return (<img src="/icons/spinner.svg" className="w-12 h-12 dark:filter dark:invert animate-spin opacity-30" alt="Icon"/>)
+    return (<Image src="/icons/spinner.svg" className="dark:filter dark:invert animate-spin opacity-30" height={30} width={30} alt="Icon"/>)
 }

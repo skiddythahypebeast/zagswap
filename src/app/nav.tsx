@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 "use client"
 
 import Image from "next/image";
@@ -31,10 +30,10 @@ export const Nav = () => {
                     <Image src="/icons/bars.svg" className="dark:filter dark:invert opacity-50" height={15} width={15} alt="Icon"/>
                 </button>
             </nav>
-            <div className={`${showMenu ? "" : "translate-y-[100vh]" } transition-transform duration-200 fixed bottom-0 left-0 right-0 p-2 min-h-[80vh] z-50 bg-bg1 dark:bg-dark-bg1 dark:border-t-dark-bg5 border-t-bg5 border-t-2`}>
+            <div className={`${showMenu ? "" : "translate-y-[100vh]" } transition-transform duration-200 fixed bottom-0 left-0 right-0 p-2 min-h-[80vh] z-50 bg-one dark:bg-one-dark dark:border-t-five-dark border-t-five border-t-2`}>
                 <div className="w-full h-full flex flex-row items-center justify-end">
                     <button onClick={closeMenu}>
-                        <img src="/icons/x-mark.svg" className="w-6 h-6 dark:filter dark:invert" alt="Icon"/>
+                        <Image src="/icons/x-mark.svg" className="dark:filter dark:invert" alt="Icon" height={15} width={15}/>
                     </button>
                 </div>
                 <div className="flex flex-col gap-5">

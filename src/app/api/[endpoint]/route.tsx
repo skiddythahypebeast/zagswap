@@ -10,7 +10,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
   if (token?.swap_api_key) {
     url.searchParams.append('api_key', token.swap_api_key);
   } else {
-    url.searchParams.append('api_key', env.API_KEY_WITH_FEE);
+    url.searchParams.append('api_key', env.API_KEY_FREE);
   }
   
   const localSearchParams = request.nextUrl.searchParams;

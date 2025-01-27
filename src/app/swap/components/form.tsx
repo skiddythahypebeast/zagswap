@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { useExchange, useSimpleSwapForm } from "../hooks";
@@ -46,7 +45,7 @@ export const SwapForm = ({ outputCurrency, inputCurrency, allCurrencies, isActiv
     }, [inputCurrency, outputCurrency]);
 
     return (
-      <form onSubmit={submit} className="w-full bg-bg3 dark:bg-dark-bg5 shadow-inner p-4 rounded-xl shadow-shadow dark:shadow-dark-shadow flex flex-col items-center justify-start gap-1">
+      <form onSubmit={submit} className="w-full bg-three dark:bg-five-dark shadow-inner p-4 rounded-xl shadow-shade dark:shadow-shade-dark flex flex-col items-center justify-start gap-1">
         <AmountIn
           range={range}
           showList={list == 1}
@@ -69,7 +68,7 @@ export const SwapForm = ({ outputCurrency, inputCurrency, allCurrencies, isActiv
             }} 
             type="button" 
             disabled={loading}
-            className="absolute h-8 w-8 top-[50%] -translate-y-[50%] bg-bg3 dark:bg-dark-bg3 shadow-sm shadow-shadow dark:shadow-dark-shadow flex items-center justify-center p-1 rounded-lg">
+            className="absolute h-8 w-8 top-[50%] -translate-y-[50%] bg-three dark:bg-three-dark shadow-sm shadow-shade dark:shadow-shade-dark flex items-center justify-center p-1 rounded-lg">
               {!loading && <img src="/icons/refresh.svg" className="w-5 h-5 dark:filter dark:invert opacity-70" alt="Icon"/>}
               {loading  && <img src="/icons/spinner.svg" className="w-5 h-5 dark:filter dark:invert opacity-50 animate-spin" alt="Icon"/>}
           </button>}
@@ -104,9 +103,9 @@ export const SwapForm = ({ outputCurrency, inputCurrency, allCurrencies, isActiv
           </button>
         </ButtonContainer>
         <div className={`w-full rounded-lg pt-2 flex flex-row items-center justify-between`}>
-          <p className={`text-text dark:text-dark-text font-bold px-2 text-sm`}>Fee</p>
-          <span className="flex flex-row gap-2 items-center justify-center bg-primary dark:bg-dark-primary bg-opacity-50 dark:bg-opacity-50 rounded-full p-1 px-2">
-            <p className={`text-black dark:text-dark-text font-bold px-1 text-sm`}>{session?.user.fee ?? "2%"}</p>
+          <p className={`font-bold px-2 text-sm`}>Fee</p>
+          <span className="flex flex-row gap-2 items-center justify-center bg-primary/50 dark:bg-primary-dark/50 rounded-full p-1 px-2">
+            <p className={`font-bold px-1 text-sm`}>{session?.user.fee ?? "2%"}</p>
             <img src="/icons/info.svg" className="w-5 h-5 dark:filter dark:invert opacity-50" alt="Icon"/>
           </span>
         </div>

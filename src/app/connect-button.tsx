@@ -1,10 +1,10 @@
-/* eslint-disable @next/next/no-img-element */
 "use client"
 
 import { useSession } from 'next-auth/react';
 import { useEffect, useRef, useState } from 'react';
 import { useAccount } from 'wagmi';
 import { CustomConnect } from './custom-connect';
+import Image from 'next/image';
 
 export const ConnectButton = () => {
   const [loading, setLoading] = useState(true);
@@ -26,8 +26,8 @@ export const ConnectButton = () => {
   if(!loading){
     return <CustomConnect />;
   } else {
-    return <div className="dark:bg-dark-bg3 dark:border-[1px] dark:border-dark-border rounded-md h-8 aspect-square flex items-center justify-center">
-      <img src="/icons/spinner.svg" className="w-5 h-5 dark:filter dark:invert animate-spin opacity-50" alt="Icon"/>
+    return <div className="dark:bg-three-dark dark:border-[1px] dark:border-border-dark rounded-md h-8 aspect-square flex items-center justify-center">
+      <Image src="/icons/spinner.svg" className="dark:filter dark:invert animate-spin opacity-50" height={15} width={15} alt="Icon"/>
     </div>
   }
 };

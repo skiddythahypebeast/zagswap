@@ -1,105 +1,152 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  /* font */
+  --font-sofia-sans: "Sofia Sans";
+  --font-share-mono: "Share Tech Mono";
+  --font-share: "Share Tech";
+
+  /* light */
+  --color-text: #171717;
+  --color-primary: #3b82f6;
+  --color-one: white;
+  --color-two: #e2e8f0;
+  --color-three: #f1f5f9;
+  --color-four: #e2e8f0;
+  --color-five: #cbd5e1;
+  --color-input: #e5e7eb;
+  --color-border: transparent;
+  --color-shade: transparent;
+
+  /* dark */
+  --color-text-dark: #ffffff;
+  --color-primary-dark: #3CD2FB;
+  --color-one-dark: #18181b;
+  --color-two-dark: #09090b;
+  --color-three-dark: #2E2E35;
+  --color-four-dark: #43434f;
+  --color-five-dark: #202026;
+  --color-input-dark: #373740;
+  --color-border-dark: #2F3D46;
+  --color-shade-dark: transparent;
+}
 
 [data-rk] {
-    --rk-shadows-connectButton: none !important;
+  --rk-shadows-connectButton: none !important;
 }
 
 [data-rk] ._12cbo8i3:hover {
-    transform: scale(1) !important;
-    opacity: 100% !important;
+  transform: scale(1) !important;
+  opacity: 100% !important;
 }
 
 [data-rk] ._12cbo8i3 {
-    opacity: 90% !important;
+  opacity: 90% !important;
+}
+
+button:not(:disabled),
+a:not(:disabled) {
+  cursor: pointer;
 }
 
 .primary-button {
-    background-image: linear-gradient(#4BD29C, #3CD2FB);
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-color: transparent !important;
-    @apply rounded-xl shadow-md shadow-shadow dark:shadow-dark-shadow text-white dark:text-white
+  background-image: linear-gradient(#4BD29C, #3CD2FB);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: transparent !important;
+  @apply rounded-xl shadow-md shadow-shade dark:shadow-shade-dark text-white dark:text-white;
 }
 
 .secondary-button {
-    @apply shadow-md shadow-shadow dark:shadow-dark-shadow rounded-lg bg-secondary dark:bg-dark-secondary text-text-two dark:text-text-two
+  @apply shadow-md shadow-shade dark:shadow-shade-dark rounded-lg bg-(--color-secondary) dark:bg-(--color-secondary-dark) text-(--color-text-two) dark:text-(--color-text-two);
 }
 
 .nft-container {
-    background-image: linear-gradient(to bottom right, theme("colors.bg2") 10%, theme("colors.bg4"), theme("colors.bg2") 90%);
+  background-image: linear-gradient(
+    to bottom right,
+    var(--color-two) 10%,
+    var(--color-four),
+    var(--color-two) 90%
+  );
 }
 
 .swap-button-container {
-    box-shadow: 0 0 20rem 3rem #3CD2FB;
-    background-image: linear-gradient(to right, #3CD2FB, #183435, #3CD2FB);
-    @apply transition-all duration-300;
+  box-shadow: 0 0 20rem 3rem #3CD2FB;
+  background-image: linear-gradient(to right, #3CD2FB, #183435, #3CD2FB);
+  @apply transition-all duration-300;
 }
 
 .swap-button {
-    background-image: radial-gradient(#3d98c5, #1A292C);
+  background-image: radial-gradient(#3d98c5, #1A292C);
 }
 
 .gradient-loader {
-    background: repeating-linear-gradient(to right, theme("colors.bg2"), theme("colors.bg3"), theme("colors.bg2"));
+  background: repeating-linear-gradient(
+    to right,
+    var(--color-two),
+    var(--color-three),
+    var(--color-two)
+  );
+  background-size: 200% auto;
+  background-position: 0 100%;
+  animation: gradient 2s infinite;
+  animation-fill-mode: forwards;
+  animation-timing-function: linear;
+}
+
+/* Dark Mode Styling */
+@media (prefers-color-scheme: dark) {
+  .nft-container {
+    background-image: linear-gradient(
+      to bottom right,
+      var(--color-two-dark) 10%,
+      var(--color-four-dark),
+      var(--color-two-dark) 90%
+    );
+  }
+
+  .gradient-loader {
+    background: repeating-linear-gradient(
+      to right,
+      var(--color-two-dark),
+      var(--color-three-dark),
+      var(--color-two-dark)
+    );
     background-size: 200% auto;
     background-position: 0 100%;
     animation: gradient 2s infinite;
     animation-fill-mode: forwards;
     animation-timing-function: linear;
-}
-
-/* Dark Mode Styling */
-@media (prefers-color-scheme: dark) {
-    .nft-container {
-        background-image: linear-gradient(to bottom right, theme("colors.dark.bg2") 10%, theme("colors.dark.bg4"), theme("colors.dark.bg2") 90%);
-    }
-
-    .gradient-loader {
-        background: repeating-linear-gradient(to right, theme("colors.dark.bg2"), theme("colors.dark.bg3"), theme("colors.dark.bg2"));
-        background-size: 200% auto;
-        background-position: 0 100%;
-        animation: gradient 2s infinite;
-        animation-fill-mode: forwards;
-        animation-timing-function: linear;
-    }
-
-    .primary-button {
-        background-image: linear-gradient(#4BD29C, #3CD2FB);
-        border: solid 2px theme("colors.dark.primary");
-        background-size: cover;
-        background-repeat: no-repeat;
-        background-color: transparent !important;
-        @apply rounded-xl shadow-md shadow-shadow dark:shadow-dark-shadow text-black dark:text-black
-    }
-}
-  
-  @keyframes gradient { 
-    0%   { background-position: 0 0; }
-    100% { background-position: -200% 0; }
   }
 
-/* .gradient-loader {
-    background: linear-gradient(90deg, transparent, #00000020, transparent);
-    background-size: 200%;
-    animation: gradient 1s linear infinite;
+  .primary-button {
+    background-image: linear-gradient(#4BD29C, #3CD2FB);
+    border: solid 2px var(--color-primary-dark);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: transparent !important;
+    @apply rounded-xl shadow-md shadow-shade dark:shadow-shade-dark text-black dark:text-black;
+  }
 }
 
 @keyframes gradient {
-    0% {
-        background-position: 0%;
-    }
-    100% {
-        background-position: 100%;
-    }
-} */
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
 
 .fade-in {
-    animation: fade_in 0.5s; 
+  animation: fade_in 0.5s;
 }
 
 @keyframes fade_in {
-    from { opacity: 0 }
-    to { opacity: 100 }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 100;
+  }
 }

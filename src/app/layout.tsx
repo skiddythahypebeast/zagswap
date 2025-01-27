@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-page-custom-font */
-import '@rainbow-me/rainbowkit/styles.css';
 import "~/styles/globals.css";
-import { GeistSans } from "geist/font/sans";
+import '@rainbow-me/rainbowkit/styles.css';
 import { type Metadata } from "next";
 import { Web3Provider } from "./wagmi";
 import { getServerSession } from "next-auth";
@@ -21,15 +20,15 @@ export default async function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   const session = await getServerSession(authOptions);
   return (
-    <html lang="en" className={`${GeistSans.variable} font-sofia bg-bg1 dark:bg-dark-bg1`}>
+    <html lang="en" className={`font-sofia-sans bg-one dark:bg-one-dark`}>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com"/>
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous"/>
         <link href="https://fonts.googleapis.com/css2?family=Share+Tech&family=Share+Tech+Mono&family=Sofia+Sans:ital,wght@0,1..1000;1,1..1000&display=swap" rel="stylesheet"/>
       </head>
-      <body className="h-screen w-full text-text dark:text-dark-text overflow-clip">
+      <body className="h-screen w-full text-text dark:text-text-dark overflow-clip">
         <Web3Provider session={session}>
-          <header className="fixed w-full gap-2 px-2 h-12 p-2 flex flex-row justify-between items-center bg-bg1 dark:bg-dark-bg1 z-50">
+          <header className="fixed w-full gap-2 px-2 h-12 p-2 flex flex-row justify-between items-center bg-one dark:bg-one-dark z-50">
             <div className='flex-1 h-full'>
               <Nav />
             </div>

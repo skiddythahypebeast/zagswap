@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 "use client"
 
 import { InputContainer } from "./components/input-container"
@@ -23,7 +22,7 @@ export const TrackOrder = () => {
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => setValue(event.target.value);
 
-    const Form = () => (<form onSubmit={handleSubmit} className='w-full dark:border-[1px] dark:border-dark-border rounded-lg'>
+    const Form = () => (<form onSubmit={handleSubmit} className='w-full dark:border-[1px] dark:border-border-dark rounded-lg'>
         <InputContainer size='small' position='center'>
             <div className="pl-5">
                 <img src="/icons/search.svg" className="w-5 h-5 dark:filter dark:invert opacity-50" alt="Icon"/>
@@ -33,8 +32,8 @@ export const TrackOrder = () => {
                 onChange={handleChange}
                 value={value}
                 placeholder="Track order"
-                className="h-full w-full text-text text-sm dark:text-dark-text font-medium text-md outline-none py-2 px-5 bg-transparent rounded-md truncate"/>
-            <button type="submit" disabled={!value || value === ""} className="h-full aspect-square dark:bg-dark-text/20 bg-bg5 flex items-center justify-center">
+                className="h-full w-full text-text text-sm dark:text-text-dark font-medium text-md outline-none py-2 px-5 bg-transparent rounded-md truncate"/>
+            <button type="submit" disabled={!value || value === ""} className="h-full aspect-square dark:bg-text-dark/20 bg-five border-4 border-input dark:border-input-dark rounded-lg flex items-center justify-center">
                 <Image src="/icons/chevron-down.svg" className="-rotate-90 dark:filter dark:invert opacity-100 dark:opacity-50" alt="" height={10} width={10} />
             </button>
         </InputContainer>
@@ -50,7 +49,7 @@ export const TrackOrder = () => {
                     <Image src="/icons/search.svg" className="dark:filter dark:invert opacity-50" height={15} width={15} alt="Icon"/>
                 </button>
             </div>
-            {showSearch && <div className="xl:hidden lg:hidden flex absolute inset-0 bg-bg1 dark:bg-dark-bg1 z-[100] flex-row items-center justify-between pl-2">
+            {showSearch && <div className="xl:hidden lg:hidden flex absolute inset-0 bg-one dark:bg-one-dark z-[100] flex-row items-center justify-between pl-2">
                 <Form/>
                 <button className="w-12 flex items-center justify-center" onClick={closeSearch}>
                     <Image src="/icons/x-mark.svg" className="dark:filter dark:invert opacity-50" height={15} width={15} alt="Icon"/>

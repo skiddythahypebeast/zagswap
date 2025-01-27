@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 "use client"
 
 import { useTrimSuffix } from "../hooks";
@@ -74,41 +73,35 @@ export const TokenInput = ({ outputCurrency, loading, loadingRate, amount, amoun
                     value={amount > 0 ? amount : ""}
                     disabled
                     readOnly
-                    className={`font-mono truncate h-full w-full text-text dark:text-dark-text outline-none xl:text-xl lg:text-xl md:text-xl text-lg py-2 bg-transparent rounded-md`}
+                    className={`font-share-mono truncate h-full w-full outline-none xl:text-xl lg:text-xl md:text-xl text-lg py-2 bg-transparent rounded-md`}
                     placeholder={"0.0"}
                     min="0.0"
                     pattern="\d\.\d{2}"
                     step="0.01"
                 />
                 {amountIn && amountIn > 0 && loadingRate && <div className="absolute opacity-50 right-5 h-full flex items-center justify-center">
-                    <img src="/icons/spinner.svg" className="w-5 h-5 dark:filter dark:invert animate-spin opacity-50" alt="Icon"/>
+                    <Image src="/icons/spinner.svg" className="dark:filter dark:invert animate-spin opacity-50" height={15} width={15} alt="Icon"/>
                 </div>}
             </div>
 
-            <button type="button" className="xl:flex lg:flex md:flex hidden flex-row h-full gap-2 items-center justify-between py-2 px-5 rounded-r-lg xl:max-w-52 lg:max-w-52 md:max-w-52 w-1/2 bg-bg1 dark:bg-dark-bg3" onClick={showList}>
+            <button type="button" className="xl:flex lg:flex md:flex hidden flex-row h-full gap-2 items-center justify-between py-2 px-5 rounded-r-lg xl:max-w-52 lg:max-w-52 md:max-w-52 w-1/2 bg-one dark:bg-three-dark" onClick={showList}>
                 {!loading && <><Image src={outputCurrency.image} alt="" height={20} width={20} />
                 <p className="font-bold truncate">{trim(outputCurrency)?.toUpperCase()}</p>
-                    <div className="rounded-full flex outputCurrencys-center justify-center" style={{ 
-                        backgroundColor: CHAIN_COLORS[outputCurrency.network], 
-                        color: CHAIN_COLORS[outputCurrency.network]
-                    }}>
-                    <p className="text-xs text-bg1 dark:text-dark-bg1 px-2 font-bold">{outputCurrency.network.toUpperCase()}</p>
+                    <div className="rounded-full flex items-center justify-center" style={{ backgroundColor: CHAIN_COLORS[outputCurrency.network] }}>
+                    <p className="text-xs px-2 font-bold">{outputCurrency.network.toUpperCase()}</p>
                 </div>
-                <img src="/icons/chevron-down.svg" className="w-4 h-4 dark:filter dark:invert" alt="Icon"/></>}
-                {loading && <img src="/icons/spinner.svg" className="w-5 h-5 dark:filter dark:invert animate-spin opacity-50" alt="Icon"/>}
+                <Image src="/icons/chevron-down.svg" className="dark:filter dark:invert" height={15} width={15} alt="Icon"/></>}
+                {loading && <Image src="/icons/spinner.svg" className="dark:filter dark:invert animate-spin opacity-50" height={15} width={15} alt="Icon"/>}
             </button>
 
-            <button type="button" className="xl:hidden lg:hidden md:hidden flex flex-row h-full gap-1 items-center justify-between py-2 px-5 rounded-r-lg xl:max-w-52 lg:max-w-52 md:max-w-52 w-1/2 bg-bg1 dark:bg-dark-bg3" onClick={showList}>
+            <button type="button" className="xl:hidden lg:hidden md:hidden flex flex-row h-full gap-1 items-center justify-between py-2 px-5 rounded-r-lg xl:max-w-52 lg:max-w-52 md:max-w-52 w-1/2 bg-one dark:bg-three-dark" onClick={showList}>
                 {!loading && <><Image src={outputCurrency.image} alt="" height={20} width={20} />
                 <p className="font-bold text-sm truncate">{trim(outputCurrency)?.toUpperCase()}</p>
-                <div className="rounded-full flex items-center justify-center" style={{ 
-                    backgroundColor: CHAIN_COLORS[outputCurrency.network], 
-                    color: CHAIN_COLORS[outputCurrency.network]
-                }}>
-                    <p className="text-xs text-bg1 dark:text-dark-bg1 px-2 font-bold">{outputCurrency.network.toUpperCase()}</p>
+                <div className="rounded-full flex items-center justify-center" style={{ backgroundColor: CHAIN_COLORS[outputCurrency.network] }}>
+                    <p className="text-xs px-2 font-bold">{outputCurrency.network.toUpperCase()}</p>
                 </div>
-                <img src="/icons/chevron-down.svg" className="w-4 h-4 dark:filter dark:invert" alt="Icon"/></>}
-                {loading && <img src="/icons/spinner.svg" className="w-5 h-5 dark:filter dark:invert animate-spin opacity-50" alt="Icon"/>}
+                <Image src="/icons/chevron-down.svg" className="dark:filter dark:invert" height={15} width={15} alt="Icon"/></>}
+                {loading && <Image src="/icons/spinner.svg" className="dark:filter dark:invert animate-spin opacity-50" height={15} width={15} alt="Icon"/>}
             </button>
         </InputContainer>
     )
